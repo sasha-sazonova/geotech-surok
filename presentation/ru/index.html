@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Surok — Геотехнический агент · 2026</title>
+<style>
+:root{--paper:#F3F1EB;--ink:#0A0A0B;--muted:#6D6D6D;--line:rgba(10,10,11,.16);--accent:#002FA7;--font:"Helvetica Neue","Helvetica","Segoe UI",Arial,sans-serif;--mono:"SF Mono","Roboto Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--paper);color:var(--ink);font-family:var(--font)}
+.deck{position:relative;height:100vh;overflow:hidden}
+.slide{position:absolute;inset:0;padding:7vh 7vw;display:none;flex-direction:column;justify-content:center}
+.slide.active{display:flex}
+.slide.dark{background:var(--ink);color:var(--paper)}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0 0 20px}
+.dark .kicker{color:#8FA8FF}
+h1{font-size:clamp(54px,10vw,150px);line-height:.82;letter-spacing:-.045em;margin:0 0 26px;font-weight:600}
+h2{font-size:clamp(30px,4.6vw,58px);line-height:1;letter-spacing:-.035em;margin:0 0 26px;font-weight:600}
+.lead{font-size:clamp(19px,2.4vw,30px);line-height:1.25;margin:0 0 16px;max-width:24em}
+.sub{font-size:clamp(14px,1.5vw,18px);line-height:1.55;color:var(--muted);max-width:40em;margin:0}
+.dark .sub,.dark .lead{color:#C9C9CF}
+ul.big{margin:14px 0 0;padding:0;list-style:none;max-width:52em}
+ul.big li{position:relative;padding:10px 0 10px 26px;font-size:clamp(15px,1.7vw,20px);line-height:1.5;border-bottom:1px solid var(--line)}
+ul.big li:before{content:"";position:absolute;left:0;top:1.15em;width:10px;height:1px;background:var(--accent)}
+.dark ul.big li{border-color:rgba(243,241,235,.14)}
+.note{margin-top:22px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.dark .note{color:#9A9AA5}
+.nav{position:fixed;right:26px;bottom:22px;display:flex;gap:10px;align-items:center;z-index:10;font-family:var(--mono);font-size:11px;letter-spacing:.12em}
+.nav button{border:1px solid var(--line);background:transparent;color:inherit;padding:8px 12px;cursor:pointer;font-family:inherit;font-size:inherit}
+.slide.dark~.nav button{color:var(--ink)}
+.progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:11;transition:width .25s}
+.counter{position:fixed;left:26px;bottom:22px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--muted);z-index:10}
+.index{margin-top:30px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:#C9C9CF;max-width:30em}
+.index div{display:flex;gap:16px;padding:6px 0;border-bottom:1px solid rgba(243,241,235,.12)}
+.index span.n{color:#8FA8FF;width:2em}
+</style></head><body>
+<div class="progress" id="pf"></div>
+<div class="deck" id="deck"><section class="slide dark cover active"><p class="kicker">Геотехника · нормативный слой · человек-в-контуре</p><h1>Сурок</h1><p class="lead">Прослеживаемый геотехнический расчёт.</p><p class="sub">Не ещё один интерфейс к решателю. Инженерный сопилот с честным статусом каждой проверки.</p><div class="index"><div><span class="n">02</span><span>Задача</span></div><div><span class="n">03</span><span>Что это</span></div><div><span class="n">04</span><span>У каждого числа есть родословная</span></div><div><span class="n">05</span><span>Архитектура</span></div><div><span class="n">06</span><span>Воспроизводимость по контракту</span></div><div><span class="n">07</span><span>Дисциплина: четыре уровня, не смешивать</span></div></div></section><section class="slide"><h2>Задача</h2><p class="lead">Превратить геотехнический расчёт в прослеживаемый артефакт.</p><ul class="big"><li>Расчёты живут в проприетарных силосах; протокол перепечатывают руками.</li><li>Экспертиза спрашивает происхождение, а не скриншоты.</li><li>Вывод ИИ бесполезен без цепочки от пункта нормы до числа.</li></ul></section><section class="slide"><h2>Что это</h2><p class="lead">Инженерный сопилот — не решатель.</p><ul class="big"><li>Готовит реестр данных и вопросы при нехватке вводных.</li><li>Выполняет расчёты на открытых решателях в замороженных контурах.</li><li>Проверяет независимыми контролями и межпрограммными сверками.</li><li>Собирает протоколы, таблицы трассируемости и архивы. Подписывает человек.</li></ul></section><section class="slide"><h2>У каждого числа есть родословная</h2><p class="lead">данные → пункт нормы → формула → реализация → тест → отчёт</p><ul class="big"><li>Статусы: выполняется / не выполняется / не определено.</li><li>Отсутствующая проверка — не зелёная галочка.</li><li>Каждый результат ссылается на пункт, редакцию и версию инструмента.</li></ul></section><section class="slide"><h2>Архитектура</h2><p class="lead">Хост агента + асинхронный вычислительный узел.</p><ul class="big"><li>Агент OpenClaw, workspace-центрично: все артефакты внутри воркспейса.</li><li>jobs/&lt;id&gt;/{in,status,out} через rsync — переживает нестабильные каналы.</li><li>venv-контуры с freeze; хост — часть контракта воспроизводимости.</li><li>Отчётный слой: pandoc + TeX для протоколов и записок.</li></ul></section><section class="slide"><h2>Воспроизводимость по контракту</h2><p class="lead">Результат без freeze не воспроизводим.</p><ul class="big"><li>Каждый контур несёт freeze полного набора зависимостей.</li><li>Хост, платформа и версии пакетов записаны в freeze.</li><li>SHA-256 и журнал задания едут с каждым прогоном.</li><li>Три повтора, затем честное «расчёта нет». Локальная подмена запрещена.</li></ul></section><section class="slide"><h2>Дисциплина: четыре уровня, не смешивать</h2><ul class="big"><li>«Метод реализован» — код существует.</li><li>«Сценарий воспроизведён и сверен» — числа совпали с независимым решением.</li><li>«Нормативный маршрут проверен» — цепочка СП/ГОСТ полна и протестирована.</li><li>«Не определено» — полноценный статус, когда данных не хватает.</li></ul></section><section class="slide"><h2>Нормативный слой</h2><p class="lead">Реестр, а не промпт.</p><ul class="big"><li>СП 22.13330.2016 (с изменениями), СП 24.13330.2021, СП 47.13330.2016.</li><li>ГОСТ 25100, ГОСТ 20522 — классификация и статобработка.</li><li>Цепочка реестра: документ → редакция → пункт → формула → реализация → тест.</li><li>Проверки применимости — код; редакции зафиксированы и датированы.</li></ul></section><section class="slide"><h2>Что уже есть</h2><p class="lead">Факты, а не планы.</p><ul class="big"><li>ТЗ v1.6 — 1200+ строк, версионируется, с журналом правок.</li><li>Контур geotech-base на Linux-узле: 105 пакетов, импорт-тест 21/21.</li><li>Асинхронный runner v2: таймауты заданий, ретеншн, контрольные суммы.</li><li>Живой агент прошёл 6/6 приёмочных проверок, включая ловушку анти-фоллбэка.</li><li>Далее: эталон D1 — фундаменты мелкого заложения, R и осадка по СП 22.13330.</li></ul></section><section class="slide"><h2>Ниша</h2><p class="lead">То, чего не делают вендоры решателей.</p><ul class="big"><li>Прямое поле: GEO5, PLAXIS, GeoStudio, Rocscience, ЛИРА/SCAD, GeoWall, SiO 2D.</li><li>Свободная ниша: нормативный протокол и ревью чужих расчётов как сервис.</li><li>Аудитория: геотехнические команды проектных институтов и бюро.</li><li>Позиция: слой трассируемости, а не ещё один решатель.</li></ul></section><section class="slide"><h2>Ссылки</h2><p class="lead">Читайте ТЗ, проверяйте доказательства.</p><ul class="big"><li>github.com/sasha-sazonova/geotech-surok</li><li>docs/ — ТЗ, анализ конкурентов, статус.</li><li>presentation/en — English version of this deck.</li><li>Человек-в-контуре. Всегда.</li></ul></section></div>
+<div class="counter" id="cnt">1 / 11</div>
+<div class="nav"><button onclick="prev()">←</button><button onclick="next()">→</button></div>
+<script>
+let i=0;const S=[...document.querySelectorAll('.slide')];
+function show(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((s,j)=>s.classList.toggle('active',j===i));document.getElementById('cnt').textContent=(i+1)+' / '+S.length;document.getElementById('pf').style.width=((i+1)/S.length*100)+'%';}
+function next(){show(i+1)}function prev(){show(i-1)}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')next();if(e.key==='ArrowLeft')prev();});
+document.getElementById('deck').addEventListener('click',e=>{if(e.clientX>window.innerWidth/2)next();else prev();});
+show(0);
+</script></body></html>

@@ -1,0 +1,10 @@
+Surok — Geotechnical Reasoning Agent
+Copyright 2026 Sasha Sazonova
+
+This repository contains documentation, agent persona files and a static
+presentation. It does not bundle third-party software. The documents
+reference open-source geotechnical packages (numpy, scipy, geoeq, pygef,
+groundhog, xslope, pyslope, OpenSeesPy, gempy, geopandas, rasterio, pyproj,
+pyvista, IfcOpenShell, geofound, geolysis, liquepy, pyStrata, python-ags4,
+ezdxf) and Russian normative documents (СП, ГОСТ); all rights remain with
+their respective authors. Normative document texts are not included.

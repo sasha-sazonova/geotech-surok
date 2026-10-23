@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Surok — Geotechnical Reasoning Agent</title>
+<style>
+:root{--paper:#F3F1EB;--ink:#0A0A0B;--muted:#6D6D6D;--line:rgba(10,10,11,.17);--line2:rgba(10,10,11,.42);--accent:#002FA7;--font:"Helvetica Neue","Helvetica","Segoe UI",Arial,sans-serif;--mono:"SF Mono","Roboto Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 5vw}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 18px;padding:26px 0;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.top b{color:var(--ink);font-weight:500}.top a{border-bottom:1px solid var(--line2);padding-bottom:2px}
+.hero{padding:11vh 0 9vh;border-bottom:1px solid var(--line)}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin:0 0 22px}
+h1{font-size:clamp(64px,12vw,180px);line-height:.8;letter-spacing:-.045em;margin:0 0 28px;font-weight:600}
+.lead{font-size:clamp(20px,2.6vw,34px);line-height:1.18;letter-spacing:-.01em;margin:0 0 18px;max-width:24em}
+.sub{font-size:clamp(15px,1.6vw,19px);line-height:1.55;color:var(--muted);max-width:44em;margin:0 0 34px}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;padding:13px 22px;border:1px solid var(--line2);font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:0 0 10vh}
+.card{background:var(--paper);padding:30px 26px;min-height:210px;display:flex;flex-direction:column;gap:12px}
+.card .n{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--accent)}
+.card h3{margin:0;font-size:19px;letter-spacing:-.01em}
+.card p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.55}
+.sec{padding:9vh 0;border-top:1px solid var(--line)}
+.sec h2{font-size:clamp(26px,4vw,44px);letter-spacing:-.03em;margin:0 0 18px}
+.sec p.big{font-size:19px;line-height:1.6;max-width:46em;color:#26262a}
+.row{display:flex;flex-wrap:wrap;gap:26px;margin-top:26px}
+.row div{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.row b{color:var(--ink);font-weight:600}
+.foot{border-top:1px solid var(--line);padding:26px 0 40px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+</style></head>
+<body>
+<div class="wrap">
+ <div class="top"><span><b>Surok</b> · Geotechnical Reasoning Agent</span>
+ <span class="lang"><a href="#ru">Русская версия</a> · <a href="presentation/ru/index.html">Presentation</a> · <a href="https://github.com/sasha-sazonova/geotech-surok">GitHub</a></span></div>
+ <header class="hero">
+  <p class="kicker">Geotechnical AI agent · OpenClaw · 2026</p>
+  <h1>Surok</h1>
+  <p class="lead">A traceable geotechnical calculation pipeline. Not another solver UI.</p>
+  <p class="sub">An engineering co-pilot that prepares, runs and verifies foundation and slope calculations over open-source solvers — with a normative layer mapped clause by clause, reproducible environments, and an honest status for every check.</p>
+  <div class="actions"><a class="btn primary" href="presentation/en/index.html">Open presentation · EN</a><a class="btn" href="presentation/ru/index.html">Презентация · RU</a><a class="btn" href="https://github.com/sasha-sazonova/geotech-surok">GitHub</a></div>
+ </header>
+ <section class="sec"><h2>What it is</h2><div class="grid"><div class="card"><span class="n">01</span><h3>The chain</h3><p>data → norm clause → formula → implementation → test → report. Every number in the protocol resolves to a source.</p></div><div class="card"><span class="n">02</span><h3>Honest statuses</h3><p>выполняется / не выполняется / не определено. A missing calculation is never a green checkmark.</p></div><div class="card"><span class="n">03</span><h3>Reproducible by contract</h3><p>every run carries a frozen environment, a host record, SHA-256 checksums and a job journal.</p></div><div class="card"><span class="n">04</span><h3>Async compute</h3><p>jobs/&lt;id&gt;/{in,status,out} over rsync; three retries, then an honest “no result”. Local substitution is forbidden.</p></div><div class="card"><span class="n">05</span><h3>Normative layer</h3><p>СП 22.13330, СП 24.13330, СП 47.13330, ГОСТ 25100, ГОСТ 20522 — editions pinned, applicability checks as code.</p></div><div class="card"><span class="n">06</span><h3>The niche</h3><p>normative protocol and review of third-party calculations as a service — what solver vendors do not do.</p></div></div></section>
+ <section class="sec"><h2>Status</h2><p class="big">Engineering spec v1.6 · contour geotech-base (105 packages, 21/21 imports) · async jobs runner v2 · live agent (6/6 acceptance) · next: D1 benchmark (shallow foundations, R and settlement by СП 22.13330).</p>
+ <div class="row"><div>GitHub · <b><a href="https://github.com/sasha-sazonova/geotech-surok">sasha-sazonova/geotech-surok</a></b></div><div>Docs · <b><a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/docs/TZ-geotech-surok.md">ТЗ</a></b></div><div><b>2026</b></div></div></section>
+ <div class="foot"><span>Surok · geotechnical reasoning agent · 2026</span><span>Human in the loop. Always.</span></div>
+</div>
+<section id="ru" style="border-top:1px solid var(--line);padding-top:6vh"><div class="wrap"><p class="kicker">Русская версия</p><h2 style="font-size:clamp(26px,4vw,44px);letter-spacing:-.03em;margin:0 0 16px">Сурок — геотехнический агент</h2>
+<p class="big" style="font-size:19px;line-height:1.6;max-width:46em;color:#26262a">Прослеживаемый геотехнический расчёт: данные → пункт нормы → формула → реализация → тест → отчёт. Подготовка, выполнение и проверка расчётов оснований и откосов на открытых решателях, с честным статусом каждой проверки и воспроизводимым окружением.</p>
+<div class="actions" style="margin-top:22px"><a class="btn primary" href="presentation/ru/index.html">Презентация · RU</a><a class="btn" href="https://github.com/sasha-sazonova/geotech-surok">GitHub</a></div></div></section>
+</body></html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Surok — Geotechnical Reasoning Agent · 2026</title>
+<style>
+:root{--paper:#F3F1EB;--ink:#0A0A0B;--muted:#6D6D6D;--line:rgba(10,10,11,.16);--accent:#002FA7;--font:"Helvetica Neue","Helvetica","Segoe UI",Arial,sans-serif;--mono:"SF Mono","Roboto Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--paper);color:var(--ink);font-family:var(--font)}
+.deck{position:relative;height:100vh;overflow:hidden}
+.slide{position:absolute;inset:0;padding:7vh 7vw;display:none;flex-direction:column;justify-content:center}
+.slide.active{display:flex}
+.slide.dark{background:var(--ink);color:var(--paper)}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0 0 20px}
+.dark .kicker{color:#8FA8FF}
+h1{font-size:clamp(54px,10vw,150px);line-height:.82;letter-spacing:-.045em;margin:0 0 26px;font-weight:600}
+h2{font-size:clamp(30px,4.6vw,58px);line-height:1;letter-spacing:-.035em;margin:0 0 26px;font-weight:600}
+.lead{font-size:clamp(19px,2.4vw,30px);line-height:1.25;margin:0 0 16px;max-width:24em}
+.sub{font-size:clamp(14px,1.5vw,18px);line-height:1.55;color:var(--muted);max-width:40em;margin:0}
+.dark .sub,.dark .lead{color:#C9C9CF}
+ul.big{margin:14px 0 0;padding:0;list-style:none;max-width:52em}
+ul.big li{position:relative;padding:10px 0 10px 26px;font-size:clamp(15px,1.7vw,20px);line-height:1.5;border-bottom:1px solid var(--line)}
+ul.big li:before{content:"";position:absolute;left:0;top:1.15em;width:10px;height:1px;background:var(--accent)}
+.dark ul.big li{border-color:rgba(243,241,235,.14)}
+.note{margin-top:22px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.dark .note{color:#9A9AA5}
+.nav{position:fixed;right:26px;bottom:22px;display:flex;gap:10px;align-items:center;z-index:10;font-family:var(--mono);font-size:11px;letter-spacing:.12em}
+.nav button{border:1px solid var(--line);background:transparent;color:inherit;padding:8px 12px;cursor:pointer;font-family:inherit;font-size:inherit}
+.slide.dark~.nav button{color:var(--ink)}
+.progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:11;transition:width .25s}
+.counter{position:fixed;left:26px;bottom:22px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--muted);z-index:10}
+.index{margin-top:30px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:#C9C9CF;max-width:30em}
+.index div{display:flex;gap:16px;padding:6px 0;border-bottom:1px solid rgba(243,241,235,.12)}
+.index span.n{color:#8FA8FF;width:2em}
+</style></head><body>
+<div class="progress" id="pf"></div>
+<div class="deck" id="deck"><section class="slide dark cover active"><p class="kicker">Geotechnical · normative layer · human-in-the-loop</p><h1>Surok</h1><p class="lead">A traceable geotechnical calculation pipeline.</p><p class="sub">Not another solver UI. An engineering co-pilot with an honest status for every check.</p><div class="index"><div><span class="n">02</span><span>Purpose</span></div><div><span class="n">03</span><span>What it is</span></div><div><span class="n">04</span><span>Every number has a lineage</span></div><div><span class="n">05</span><span>Architecture</span></div><div><span class="n">06</span><span>Reproducible by contract</span></div><div><span class="n">07</span><span>Discipline: four levels, never mixed</span></div></div></section><section class="slide"><h2>Purpose</h2><p class="lead">Turn geotechnical calculation into a traceable artifact.</p><ul class="big"><li>Calculations live in proprietary silos; the protocol is retyped by hand.</li><li>Expertise asks for provenance, not screenshots.</li><li>AI output is worthless without a chain from clause to number.</li></ul></section><section class="slide"><h2>What it is</h2><p class="lead">An engineering co-pilot — not a solver.</p><ul class="big"><li>Prepares data registers and questions for missing inputs.</li><li>Runs calculations over open-source solvers in frozen contours.</li><li>Verifies with independent checks and cross-tool comparisons.</li><li>Assembles protocols, traceability tables and archives. The human signs.</li></ul></section><section class="slide"><h2>Every number has a lineage</h2><p class="lead">data → norm clause → formula → implementation → test → report</p><ul class="big"><li>Statuses: выполняется / не выполняется / не определено.</li><li>A missing check is never a green checkmark.</li><li>Each output references its clause, edition and tool version.</li></ul></section><section class="slide"><h2>Architecture</h2><p class="lead">Agent host + async compute node.</p><ul class="big"><li>OpenClaw agent, workspace-centric: all artifacts inside the agent workspace.</li><li>jobs/&lt;id&gt;/{in,status,out} over rsync — survives unstable links.</li><li>venv contours with freeze files; the host is part of the contract.</li><li>Document layer: pandoc + TeX for reports and protocols.</li></ul></section><section class="slide"><h2>Reproducible by contract</h2><p class="lead">A result without a freeze is not reproducible.</p><ul class="big"><li>Each contour carries a freeze of its full dependency set.</li><li>Host, platform and package versions recorded in the freeze.</li><li>SHA-256 checksums and a job journal travel with every run.</li><li>Three retries, then an honest “no result”. Local substitution is forbidden.</li></ul></section><section class="slide"><h2>Discipline: four levels, never mixed</h2><ul class="big"><li>“Method implemented” — the code exists.</li><li>“Scenario reproduced and cross-checked” — numbers agree with an independent solution.</li><li>“Normative route verified” — the СП/ГОСТ chain is complete and tested.</li><li>“Not determined” — the first-class status when data is missing.</li></ul></section><section class="slide"><h2>Normative layer</h2><p class="lead">A registry, not a prompt.</p><ul class="big"><li>СП 22.13330.2016 (with amendments), СП 24.13330.2021, СП 47.13330.2016.</li><li>ГОСТ 25100, ГОСТ 20522 — classification and statistical processing.</li><li>Registry chain: document → edition → clause → formula → implementation → test.</li><li>Applicability checks are code; editions are pinned and dated.</li></ul></section><section class="slide"><h2>Evidence today</h2><p class="lead">What exists, not what is planned.</p><ul class="big"><li>Engineering specification v1.6 — 1200+ lines, versioned, with a change log.</li><li>Contour geotech-base on a Linux node: 105 packages, import test 21/21.</li><li>Async jobs runner v2: per-job timeouts, retention, checksums.</li><li>Live agent passed 6/6 acceptance checks, including the anti-fallback trap.</li><li>Next: D1 benchmark — shallow foundations, R and settlement by СП 22.13330.</li></ul></section><section class="slide"><h2>The niche</h2><p class="lead">What solver vendors do not do.</p><ul class="big"><li>Direct field: GEO5, PLAXIS, GeoStudio, Rocscience, Lira/SCAD, GeoWall, SiO 2D.</li><li>Free niche: normative protocol and review of third-party calculations as a service.</li><li>Audience: geotechnical teams in design institutes and specialized bureaus.</li><li>Position: the traceability layer, not another solver.</li></ul></section><section class="slide"><h2>Links</h2><p class="lead">Read the spec, check the evidence.</p><ul class="big"><li>github.com/sasha-sazonova/geotech-surok</li><li>docs/ — engineering specification, competitor analysis, status.</li><li>presentation/ru — русская версия этого дека.</li><li>Human in the loop. Always.</li></ul></section></div>
+<div class="counter" id="cnt">1 / 11</div>
+<div class="nav"><button onclick="prev()">←</button><button onclick="next()">→</button></div>
+<script>
+let i=0;const S=[...document.querySelectorAll('.slide')];
+function show(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((s,j)=>s.classList.toggle('active',j===i));document.getElementById('cnt').textContent=(i+1)+' / '+S.length;document.getElementById('pf').style.width=((i+1)/S.length*100)+'%';}
+function next(){show(i+1)}function prev(){show(i-1)}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')next();if(e.key==='ArrowLeft')prev();});
+document.getElementById('deck').addEventListener('click',e=>{if(e.clientX>window.innerWidth/2)next();else prev();});
+show(0);
+</script></body></html>
