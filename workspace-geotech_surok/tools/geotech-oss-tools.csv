@@ -1,0 +1,68 @@
+id,repo,url,stars,license,language,last_push,class,what_it_does,install
+1,OpenSees/OpenSees,https://github.com/OpenSees/OpenSees,839,NOASSERTION,C++,2026-10-16,МКЭ-ядро,"Нелинейный МКЭ, геотехника, динамика",сборка из исходников / conda
+2,zhuminjie/OpenSeesPy,https://github.com/zhuminjie/OpenSeesPy,282,NOASSERTION,C++/Python,2026-10-15,МКЭ-ядро,Python-API к OpenSees,pip install openseespy
+3,KratosMultiphysics/Kratos,https://github.com/KratosMultiphysics/Kratos,1387,NOASSERTION,C++,2026-10-21,МКЭ-ядро,"Мультифизика; GeoMechanicsApplication — грунт, консолидация",pip install KratosMultiphysics ( wheels )
+4,FEniCS/dolfinx,https://github.com/FEniCS/dolfinx,1231,LGPL-3.0,C++,2026-10-21,МКЭ-ядро,Платформа решения PDE,conda install -c conda-forge fenics-dolfinx
+5,dealii/dealii,https://github.com/dealii/dealii,1742,NOASSERTION,C++,2026-10-21,МКЭ-ядро,"Библиотека МКЭ, адаптивные сетки",conda install -c conda-forge dealii
+6,sfepy/sfepy,https://github.com/sfepy/sfepy,846,BSD-3-Clause,Python,2026-10-20,МКЭ-ядро,МКЭ на Python,pip install sfepy
+7,ufz/ogs,https://github.com/ufz/ogs,124,BSD-3-Clause,C++,2026-10-20,МКЭ/THM,OpenGeoSys: термо-гидро-механика (репозиторий мигрировал на GitLab),binaries с opengeosys.org / gitlab
+8,njones61/xslope,https://github.com/njones61/xslope,33,NOASSERTION,Python,2026-10-20,Устойчивость откосов,7 методов предельного равновесия + фильтрация + FEM SSR,pip install xslope
+9,samuelsl27/OGR-Slip2D,https://github.com/samuelsl27/OGR-Slip2D,12,AGPL-3.0,Python,2026-10-20,Устойчивость откосов,"2D LEM, 7 валидированных методов",git clone + pip install -e .
+10,JesseBonanno/PySlope,https://github.com/JesseBonanno/PySlope,79,MIT,Python,2025-10-18,Устойчивость откосов,"Метод Бишопа, простой API",pip install pyslope
+11,eamontoyaa/pyCSS,https://github.com/eamontoyaa/pyCSS,36,NOASSERTION,Python,2022-10-07,Устойчивость откосов,2D LEM (проект не обновлялся),git clone (не обновляется)
+12,geoeq/geoeq,https://github.com/geoeq/geoeq,84,Apache-2.0,Python,2026-07-30,Геотехника общая,"170+ функций: грунт, фундаменты, устойчивость",pip install geoeq
+13,cemsbv/pygef,https://github.com/cemsbv/pygef,35,MIT,Python,2026-10-21,CPT/изыскания,Разбор GEF/CPT,pip install pygef
+14,jpvantassel/cptpy,https://github.com/jpvantassel/cptpy,14,NOASSERTION,Python,2022-06-03,CPT/изыскания,Обработка CPT,pip install cptpy
+15,snakesonabrain/groundhog,https://github.com/snakesonabrain/groundhog,137,GPL-3.0,Jupyter/Python,2026-05-19,Изыскания,"Скважины, CPT, SPT, графики",pip install groundhog
+16,bedrock-engineer/bedrock-ge,https://github.com/bedrock-engineer/bedrock-ge,35,Apache-2.0,Python,2025-12-15,Геотехника общая,Библиотека геотехнических расчётов,pip install bedrock-ge
+17,gempy-project/gempy,https://github.com/gempy-project/gempy,1359,EUPL-1.2,Python,2026-10-14,Геология 3D,Структурное 3D-моделирование,pip install gempy
+18,Loop3D/LoopStructural,https://github.com/Loop3D/LoopStructural,298,MIT,Python,2026-10-20,Геология 3D,3D-моделирование структур,pip install LoopStructural
+19,GeoStat-Framework/GSTools,https://github.com/GeoStat-Framework/GSTools,658,LGPL-3.0,Python,2026-10-13,Геостатистика,"Вариограммы, случайные поля",pip install gstools
+20,gimli-org/pyGIMLi,https://github.com/gimli-org/pyGIMLi,515,NOASSERTION,Python,2026-10-21,Геофизика,Инверсия и моделирование,pip install pygimli
+21,geopandas/geopandas,https://github.com/geopandas/geopandas,5283,BSD-3-Clause,Python,2026-10-12,Геоданные,Векторные геоданные,pip install geopandas
+22,rasterio/rasterio,https://github.com/rasterio/rasterio,2583,NOASSERTION,Python,2026-10-13,Геоданные,Растровые геоданные,pip install rasterio
+23,pyproj4/pyproj,https://github.com/pyproj4/pyproj,1232,MIT,Python,2026-10-19,Геоданные,Проекции и координаты,pip install pyproj
+24,pyvista/pyvista,https://github.com/pyvista/pyvista,3858,MIT,Python,2026-10-21,Визуализация,3D-визуализация сеток и полей,pip install pyvista
+25,isl-org/Open3D,https://github.com/isl-org/Open3D,14110,NOASSERTION,C++,2026-09-30,Облака точек,Обработка облаков точек,pip install open3d
+26,IfcOpenShell/IfcOpenShell,https://github.com/IfcOpenShell/IfcOpenShell,2883,LGPL-3.0,C++,2026-10-21,BIM/IFC,IFC-библиотека и геометрия,pip install ifcopenshell
+27,anastruct/anaStruct,https://github.com/anastruct/anaStruct,468,LGPL-3.0,Python,2026-10-16,Строймеханика,2D расчёт стержневых систем,pip install anastruct
+28,JWock82/Pynite,https://github.com/JWock82/Pynite,763,MIT,Python,2026-10-20,Строймеханика,3D МКЭ стержневых систем,pip install Pynite
+29,kilickursat/GeoModel3D,https://github.com/kilickursat/GeoModel3D,8,Apache-2.0,TypeScript,2026-10-21,Геология 3D,3D-модель по скважинам/CPT в браузере,npm (браузерный проект)
+30,fkkarakurt/katai2d,https://github.com/fkkarakurt/katai2d,4,Apache-2.0,C++,2026-10-11,МКЭ-ядро,Геотехнический 2D МКЭ,сборка C++ (CMake)
+31,ecoslacker/gdamslib,https://github.com/ecoslacker/gdamslib,1,MIT,Python,2018-05-11,Габионы,Расчёт малых габионных дамб (не обновлялся),"git clone (2018, не обновляется)"
+32,yusong652/itasca-mcp,https://github.com/yusong652/itasca-mcp,220,MIT,Python,2026-10-20,MCP,MCP-сервер к проприетарным ITASCA (PFC/FLAC/3DEC) — не OSS-ядро,pip install (требует проприетарные ITASCA)
+33,TchilDill/openpile,https://github.com/TchilDill/openpile,39,GPL-3.0,Python,2026-10-20,Сваи,"Балочно-свайные модели, нелинейные грунтовые пружины, усилия и перемещения",pip install openpile (Python 3.8–3.10; 3.11 не поддерживается)
+34,snakesonabrain/methodedebeer,https://github.com/snakesonabrain/methodedebeer,7,NOASSERTION,Python,2020-03-15,Свая CPT,Осевая несущая способность забивных свай по методу De Beer (бельгийская практика),git clone; не обновляется с 2020
+35,eng-tools/geofound,https://github.com/eng-tools/geofound,19,MIT,Python,2024-03-28,Фундаменты,Несущая способность и осадка фундаментов; объекты грунта и фундамента через sfsimodels,pip install geofound
+36,patrickboateng/geolysis,https://github.com/patrickboateng/geolysis,27,MIT,Python,2026-01-31,Изыскания / SPT,"Классификация грунтов, SPT, несущая способность",pip install geolysis (Python 3.11+)
+37,eng-tools/liquepy,https://github.com/eng-tools/liquepy,10,MIT,Python,2026-01-12,Сейсмическая геотехника,"Разжижение по Boulanger–Idriss, боковые и объёмные деформации, осадки",pip install liquepy (Python 3.10+)
+38,arkottke/pystrata,https://github.com/arkottke/pystrata,66,MIT,Python,2026-09-10,Сейсмическая геотехника,"1D-отклик слоистой толщи, эквивалентно-линейные и частотные методы, RVT",pip install pystrata (ранее pysra)
+39,asitha-sena/python-ags4,https://github.com/asitha-sena/python-ags4,15,LGPL-3.0,Jupyter/Python,2026-03-25,Изыскания / обмен,"Чтение, запись и валидация AGS4 через DataFrame",pip install python-ags4 (upstream — GitLab)
+40,mozman/ezdxf,https://github.com/mozman/ezdxf,1488,MIT,Python,2026-10-20,Чертежи / DXF,"Создание, чтение и запись DXF",pip install ezdxf (Python 3.10+)
+41,ufz/ogstools,https://github.com/ufz/ogstools,5,BSD-3-Clause,HTML/Python,2026-10-14,OGS / пре-пост,"Пре- и постпроцессинг, автоматизация OpenGeoSys",pip install ogstools (Python 3.11+)
+42,xcfem/xc,https://github.com/xcfem/xc,384,GPL-3.0,C++,2026-10-22,МКЭ конструкций,"Линейный и нелинейный, статический и динамический анализ строительных конструкций",сборка C++
+43,xcfem/xc_examples,https://github.com/xcfem/xc_examples,15,GPL-3.0,Python,2026-10-18,МКЭ конструкций,"Примеры xc, включая каталог geotechnics",git clone
+44,thelfer/tfel,https://github.com/thelfer/tfel,115,NOASSERTION,C++,2026-10-22,Конститутивные модели,TFEL/MFront: описание определяющих соотношений и генерация C++-реализаций,сборка C++
+45,thelfer/MFrontGenericInterfaceSupport,https://github.com/thelfer/MFrontGenericInterfaceSupport,42,None,C++,2026-10-20,Конститутивные модели,MGIS: интерфейс подключения MFront-моделей к решателям,сборка C++
+46,Code_Aster,https://gitlab.com/codeaster/src,—,GPL-3.0,C++/Fortran,active,МКЭ-ядро,"Термомеханика, Mohr-Coulomb, Drucker-Prager, Cam-Clay, Hujeux, THM",официальная сборка / Salome-Meca
+47,idaholab/moose,https://github.com/idaholab/moose,2391,LGPL-2.1,C++,2026-10-22,МКЭ-ядро,"Мультифизика, porous flow, геомеханика, Cam-Clay",сборка C++ / conda
+48,gmsh,https://gitlab.onelab.info/gmsh/gmsh,—,GPL-2.0+,C++,active,Сетки,Генератор сеток 2D/3D,pip install gmsh / binary
+49,nschloe/meshio,https://github.com/nschloe/meshio,2334,MIT,Python,2024-07-23,Сетки / IO,Чтение и запись множества форматов сеток,pip install meshio
+50,nschloe/pygmsh,https://github.com/nschloe/pygmsh,971,GPL-3.0,Python,2023-10-04,Сетки,Python-интерфейс к gmsh,pip install pygmsh
+51,shapely/shapely,https://github.com/shapely/shapely,4532,BSD-3-Clause,Python,2026-10-16,Геометрия,Манипуляции и анализ геометрических объектов,pip install shapely
+52,laspy/laspy,https://github.com/laspy/laspy,510,BSD-2-Clause,Python,2026-05-30,Облака точек,Чтение и запись LAS/LAZ,pip install laspy
+53,PDAL/PDAL,https://github.com/PDAL/PDAL,1425,BSD-3-Clause,C++,2026-10-20,Облака точек,"Обработка point cloud, аналог GDAL",pip install pdal / binary
+54,Caltech-geoquake/PySeismoSoil,https://github.com/Caltech-geoquake/PySeismoSoil,93,BSD-3-Clause,Python,2026-10-16,Сейсмика 1D,"1D site response, эквивалентно-линейный анализ",pip install pyseismosoil
+55,modflowpy/flopy,https://github.com/modflowpy/flopy,640,CC0-1.0,Python,2026-10-21,Фильтрация,MODFLOW 6: насыщенная фильтрация 2D/3D,pip install flopy
+56,parflow/parflow,https://github.com/parflow/parflow,216,LGPL,C,2026-10-16,Подземный сток,"Параллельная модель водосбора, насыщенная/ненасыщенная зона",сборка / контейнер
+57,PFLOTRAN,https://bitbucket.org/pflotran/pflotran,—,LGPL,Fortran,active,Ненасыщенная зона,Подземный поток и реактивный перенос,сборка / контейнер
+58,rtrwalker/geotecha,https://github.com/rtrwalker/geotecha,40,GPL-3.0,Python,2018-08-20,Консолидация,"1D и радиальная консолидация, вертикальные дрены",pip install geotecha (legacy)
+59,joferkington/mplstereonet,https://github.com/joferkington/mplstereonet,206,MIT,Python,2026-03-04,Скальные откосы,"Стереограммы, кинематический анализ клина/сдвига/опрокидывания",pip install mplstereonet
+60,YADE,https://gitlab.com/yade-dev/trunk,—,GPL-2.0,C++,active,DEM,"Дискретно-элементное моделирование, камнепады, зернистые среды",binaries / conda
+61,agilescientific/striplog,https://github.com/agilescientific/striplog,231,Apache-2.0,Python,2023-10-13,Изыскания,Колонки скважин и стратиграфические логи,pip install striplog
+62,GeoStat-Framework/PyKrige,https://github.com/GeoStat-Framework/PyKrige,863,BSD-3-Clause,Python,2025-10-16,Геостатистика,Кригинг и интерполяция слоёв,pip install pykrige
+63,mmaelicke/scikit-gstat,https://github.com/mmaelicke/scikit-gstat,252,MIT,Python,2026-09-14,Геостатистика,Вариограммы и геостатистика,pip install scikit-gstat
+64,Kozea/WeasyPrint,https://github.com/Kozea/WeasyPrint,9724,BSD-3-Clause,Python,2026-10-22,Отчётность,HTML/CSS → PDF,pip install weasyprint
+65,python-openxml/python-docx,https://github.com/python-openxml/python-docx,5749,MIT,Python,2026-08-01,Отчётность,Создание и изменение DOCX,pip install python-docx
+66,pallets/jinja,https://github.com/pallets/jinja,11799,BSD-3-Clause,Python,2025-06-14,Отчётность,Шаблоны для отчётов и протоколов,pip install Jinja2
+67,hgrecco/pint,https://github.com/hgrecco/pint,2814,BSD-3-Clause,Python,2026-10-21,Нормативный слой / единицы,Контроль размерностей и преобразование единиц измерения,"pip install pint (Python 3.12+; GitHub SPDX не определён, PyPI — BSD-3)"

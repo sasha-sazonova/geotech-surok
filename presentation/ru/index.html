@@ -1,44 +1,270 @@
 <!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Surok — Геотехнический агент · 2026</title>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Геотехник Сурок — агент для прослеживаемых геотехнических расчётов</title>
+<meta name="description" content="Зачем нужен агент Геотехник Сурок и как им пользоваться: нормативный слой, методики, воркфлоу, воспроизводимость.">
 <style>
-:root{--paper:#F3F1EB;--ink:#0A0A0B;--muted:#6D6D6D;--line:rgba(10,10,11,.16);--accent:#002FA7;--font:"Helvetica Neue","Helvetica","Segoe UI",Arial,sans-serif;--mono:"SF Mono","Roboto Mono",Menlo,Consolas,monospace}
-*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--paper);color:var(--ink);font-family:var(--font)}
+:root{--paper:#F4F2EC;--ink:#101113;--muted:#5F6270;--line:rgba(16,17,19,.14);--accent:#1236B8;--accent2:#0B7A5A;--mono:"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--paper);color:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
 .deck{position:relative;height:100vh;overflow:hidden}
-.slide{position:absolute;inset:0;padding:7vh 7vw;display:none;flex-direction:column;justify-content:center}
+.slide{position:absolute;inset:0;padding:6vh 7vw;display:none;flex-direction:column;justify-content:center;overflow:auto}
 .slide.active{display:flex}
 .slide.dark{background:var(--ink);color:var(--paper)}
-.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0 0 20px}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin:0 0 18px}
 .dark .kicker{color:#8FA8FF}
-h1{font-size:clamp(54px,10vw,150px);line-height:.82;letter-spacing:-.045em;margin:0 0 26px;font-weight:600}
-h2{font-size:clamp(30px,4.6vw,58px);line-height:1;letter-spacing:-.035em;margin:0 0 26px;font-weight:600}
-.lead{font-size:clamp(19px,2.4vw,30px);line-height:1.25;margin:0 0 16px;max-width:24em}
-.sub{font-size:clamp(14px,1.5vw,18px);line-height:1.55;color:var(--muted);max-width:40em;margin:0}
-.dark .sub,.dark .lead{color:#C9C9CF}
-ul.big{margin:14px 0 0;padding:0;list-style:none;max-width:52em}
-ul.big li{position:relative;padding:10px 0 10px 26px;font-size:clamp(15px,1.7vw,20px);line-height:1.5;border-bottom:1px solid var(--line)}
-ul.big li:before{content:"";position:absolute;left:0;top:1.15em;width:10px;height:1px;background:var(--accent)}
-.dark ul.big li{border-color:rgba(243,241,235,.14)}
-.note{margin-top:22px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.dark .note{color:#9A9AA5}
-.nav{position:fixed;right:26px;bottom:22px;display:flex;gap:10px;align-items:center;z-index:10;font-family:var(--mono);font-size:11px;letter-spacing:.12em}
-.nav button{border:1px solid var(--line);background:transparent;color:inherit;padding:8px 12px;cursor:pointer;font-family:inherit;font-size:inherit}
-.slide.dark~.nav button{color:var(--ink)}
-.progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:11;transition:width .25s}
-.counter{position:fixed;left:26px;bottom:22px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--muted);z-index:10}
-.index{margin-top:30px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:#C9C9CF;max-width:30em}
-.index div{display:flex;gap:16px;padding:6px 0;border-bottom:1px solid rgba(243,241,235,.12)}
-.index span.n{color:#8FA8FF;width:2em}
-</style></head><body>
+h1{font-size:clamp(44px,7vw,104px);line-height:.9;letter-spacing:-.04em;margin:0 0 22px;font-weight:600}
+h2{font-size:clamp(28px,3.9vw,50px);line-height:1.02;letter-spacing:-.03em;margin:0 0 8px;font-weight:600}
+.lead{font-size:clamp(18px,2.1vw,26px);line-height:1.3;margin:0 0 18px;max-width:26em}
+.sub{font-size:clamp(14px,1.4vw,17px);line-height:1.55;color:var(--muted);max-width:46em;margin:0}
+.dark .sub,.dark .lead{color:#C9CBD6}
+ul.big{margin:12px 0 0;padding:0;list-style:none;max-width:56em}
+ul.big li{position:relative;padding:9px 0 9px 24px;font-size:clamp(14px,1.5vw,18px);line-height:1.5;border-bottom:1px solid var(--line)}
+ul.big li:before{content:"";position:absolute;left:0;top:1.1em;width:9px;height:1px;background:var(--accent)}
+.dark ul.big li{border-color:rgba(244,242,236,.14)}
+table{border-collapse:collapse;width:100%;max-width:64em;margin-top:10px;font-size:clamp(12px,1.25vw,15px)}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:400}
+.dark th,.dark td{border-color:rgba(244,242,236,.16)}
+.dark th{color:#9EA1B4}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:34px;max-width:66em}
+.cols h3{font-size:clamp(16px,1.7vw,20px);margin:0 0 8px}
+.cols ul{margin:0;padding-left:18px;font-size:clamp(13px,1.4vw,16px);line-height:1.6}
+.tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);padding:3px 7px;border-radius:2px;color:var(--muted);margin:0 6px 8px 0}
+.dark .tag{border-color:rgba(244,242,236,.24);color:#B9BCC9}
+.flow{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.flow div{border:1px solid var(--line);padding:10px 12px;font-size:13px;line-height:1.35;max-width:190px}
+.dark .flow div{border-color:rgba(244,242,236,.2)}
+.flow b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.dark .flow b{color:#8FA8FF}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(18,54,184,.35)}
+.dark a{color:#9FB4FF;border-color:rgba(159,180,255,.4)}
+a:hover{border-color:currentColor}
+.note{margin-top:16px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.nav{position:fixed;right:22px;bottom:18px;display:flex;gap:8px;align-items:center;z-index:10;font-family:var(--mono);font-size:11px}
+.nav button{border:1px solid var(--line);background:transparent;color:inherit;padding:7px 11px;cursor:pointer;font-family:inherit;font-size:inherit}
+.progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:11;transition:width .2s}
+.counter{position:fixed;left:22px;bottom:18px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--muted);z-index:10}
+</style>
+</head>
+<body>
 <div class="progress" id="pf"></div>
-<div class="deck" id="deck"><section class="slide dark cover active"><p class="kicker">Геотехника · нормативный слой · человек-в-контуре</p><h1>Сурок</h1><p class="lead">Прослеживаемый геотехнический расчёт.</p><p class="sub">Не ещё один интерфейс к решателю. Инженерный сопилот с честным статусом каждой проверки.</p><div class="index"><div><span class="n">02</span><span>Задача</span></div><div><span class="n">03</span><span>Что это</span></div><div><span class="n">04</span><span>У каждого числа есть родословная</span></div><div><span class="n">05</span><span>Архитектура</span></div><div><span class="n">06</span><span>Воспроизводимость по контракту</span></div><div><span class="n">07</span><span>Дисциплина: четыре уровня, не смешивать</span></div></div></section><section class="slide"><h2>Задача</h2><p class="lead">Превратить геотехнический расчёт в прослеживаемый артефакт.</p><ul class="big"><li>Расчёты живут в проприетарных силосах; протокол перепечатывают руками.</li><li>Экспертиза спрашивает происхождение, а не скриншоты.</li><li>Вывод ИИ бесполезен без цепочки от пункта нормы до числа.</li></ul></section><section class="slide"><h2>Что это</h2><p class="lead">Инженерный сопилот — не решатель.</p><ul class="big"><li>Готовит реестр данных и вопросы при нехватке вводных.</li><li>Выполняет расчёты на открытых решателях в замороженных контурах.</li><li>Проверяет независимыми контролями и межпрограммными сверками.</li><li>Собирает протоколы, таблицы трассируемости и архивы. Подписывает человек.</li></ul></section><section class="slide"><h2>У каждого числа есть родословная</h2><p class="lead">данные → пункт нормы → формула → реализация → тест → отчёт</p><ul class="big"><li>Статусы: выполняется / не выполняется / не определено.</li><li>Отсутствующая проверка — не зелёная галочка.</li><li>Каждый результат ссылается на пункт, редакцию и версию инструмента.</li></ul></section><section class="slide"><h2>Архитектура</h2><p class="lead">Хост агента + асинхронный вычислительный узел.</p><ul class="big"><li>Агент OpenClaw, workspace-центрично: все артефакты внутри воркспейса.</li><li>jobs/&lt;id&gt;/{in,status,out} через rsync — переживает нестабильные каналы.</li><li>venv-контуры с freeze; хост — часть контракта воспроизводимости.</li><li>Отчётный слой: pandoc + TeX для протоколов и записок.</li></ul></section><section class="slide"><h2>Воспроизводимость по контракту</h2><p class="lead">Результат без freeze не воспроизводим.</p><ul class="big"><li>Каждый контур несёт freeze полного набора зависимостей.</li><li>Хост, платформа и версии пакетов записаны в freeze.</li><li>SHA-256 и журнал задания едут с каждым прогоном.</li><li>Три повтора, затем честное «расчёта нет». Локальная подмена запрещена.</li></ul></section><section class="slide"><h2>Дисциплина: четыре уровня, не смешивать</h2><ul class="big"><li>«Метод реализован» — код существует.</li><li>«Сценарий воспроизведён и сверен» — числа совпали с независимым решением.</li><li>«Нормативный маршрут проверен» — цепочка СП/ГОСТ полна и протестирована.</li><li>«Не определено» — полноценный статус, когда данных не хватает.</li></ul></section><section class="slide"><h2>Нормативный слой</h2><p class="lead">Реестр, а не промпт.</p><ul class="big"><li>СП 22.13330.2016 (с изменениями), СП 24.13330.2021, СП 47.13330.2016.</li><li>ГОСТ 25100, ГОСТ 20522 — классификация и статобработка.</li><li>Цепочка реестра: документ → редакция → пункт → формула → реализация → тест.</li><li>Проверки применимости — код; редакции зафиксированы и датированы.</li></ul></section><section class="slide"><h2>Что уже есть</h2><p class="lead">Факты, а не планы.</p><ul class="big"><li>ТЗ v1.6 — 1200+ строк, версионируется, с журналом правок.</li><li>Контур geotech-base на Linux-узле: 105 пакетов, импорт-тест 21/21.</li><li>Асинхронный runner v2: таймауты заданий, ретеншн, контрольные суммы.</li><li>Живой агент прошёл 6/6 приёмочных проверок, включая ловушку анти-фоллбэка.</li><li>Далее: эталон D1 — фундаменты мелкого заложения, R и осадка по СП 22.13330.</li></ul></section><section class="slide"><h2>Ниша</h2><p class="lead">То, чего не делают вендоры решателей.</p><ul class="big"><li>Прямое поле: GEO5, PLAXIS, GeoStudio, Rocscience, ЛИРА/SCAD, GeoWall, SiO 2D.</li><li>Свободная ниша: нормативный протокол и ревью чужих расчётов как сервис.</li><li>Аудитория: геотехнические команды проектных институтов и бюро.</li><li>Позиция: слой трассируемости, а не ещё один решатель.</li></ul></section><section class="slide"><h2>Ссылки</h2><p class="lead">Читайте ТЗ, проверяйте доказательства.</p><ul class="big"><li>github.com/sasha-sazonova/geotech-surok</li><li>docs/ — ТЗ, анализ конкурентов, статус.</li><li>presentation/en — English version of this deck.</li><li>Человек-в-контуре. Всегда.</li></ul></section></div>
-<div class="counter" id="cnt">1 / 11</div>
+<div class="deck" id="deck">
+
+<section class="slide dark active">
+  <p class="kicker">Геотехника · нормативный слой · человек в контуре</p>
+  <h1>Геотехник Сурок</h1>
+  <p class="lead">Агент, который готовит геотехнические расчёты так, чтобы каждое число можно было проследить до пункта СП.</p>
+  <p class="sub">Не решатель и не «калькулятор одной формулы». Инженерный сопилот расчётчика: данные → норма → формула → реализация → тест → протокол.</p>
+  <p class="note">ТЗ v1.6 · 22.10.2026 · OpenClaw</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">01 · Проблема</p>
+  <h2>Расчёт есть, а обоснования нет</h2>
+  <ul class="big">
+    <li>Расчёты живут в проприетарных силосах: GEO5, PLAXIS, ЛИРА — файл есть, цепочки до пункта нормы нет.</li>
+    <li>Протокол перепечатывают руками: числа отрываются от исходных данных и версии программы.</li>
+    <li>Экспертиза спрашивает происхождение, а в ответ получает скриншот.</li>
+    <li>Вывод ИИ без трассируемости не стоит ничего — его нельзя проверить.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <p class="kicker">02 · Для чего агент</p>
+  <h2>Собрать расчёт как проверяемый артефакт</h2>
+  <p class="lead">Три задачи, ради которых он существует.</p>
+  <ul class="big">
+    <li><b>Ведёт нормативный реестр.</b> Документ → редакция → изменение → пункт → формула → реализация → тест. Только подтверждённые редакции попадают в расчёт.</li>
+    <li><b>Готовит и проверяет расчёт.</b> Открытые решатели в замороженных окружениях, сверка двумя инструментами, паспорт параметра грунта с происхождением.</li>
+    <li><b>Собирает комплект обоснований.</b> Протокол с подстановкой чисел, таблица трассируемости, честный статус каждой проверки.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <p class="kicker">03 · Границы</p>
+  <h2>Что он делает и чего не делает</h2>
+  <div class="cols">
+    <div>
+      <h3>Делает</h3>
+      <ul>
+        <li>готовит расчёты, протоколы и проекты записок;</li>
+        <li>ведёт реестр норм и журналы сверок;</li>
+        <li>проводит аудит исходных данных и формирует запросы на уточнение;</li>
+        <li>предлагает расчётный маршрут и независимую контрольную проверку;</li>
+        <li>ставит «не определено» вместо молчаливого пропуска.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Не делает</h3>
+      <ul>
+        <li>не подписывает и не выпускает документацию;</li>
+        <li>не заменяет ответственного специалиста и независимую проверку;</li>
+        <li>не выполняет незаметный пересчёт выпущенных отчётов;</li>
+        <li>не использует непроверенные редакции норм;</li>
+        <li>не публикует ничего наружу без приёмки человеком.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="kicker">04 · Как использовать</p>
+  <h2>Четыре шага</h2>
+  <div class="flow">
+    <div><b>Шаг 1</b>Постановка: задача, объект, стадия, что нужно посчитать и по какой норме.</div>
+    <div><b>Шаг 2</b>Данные: отчёт изысканий, GEF/CPT, AGS4, скважины, SPT, УГВ, нагрузки, геометрия.</div>
+    <div><b>Шаг 3</b>Расчёт: маршрут из реестра, замороженное окружение, сверка вторым инструментом.</div>
+    <div><b>Шаг 4</b>Протокол: формулы с подстановкой, статусы проверок, ограничения, таблица трассируемости.</div>
+  </div>
+  <p class="sub" style="margin-top:18px">Дальше — приёмка человеком: специалист проверяет числа и пункты, подписывает и выпускает. Агент готовит, но не подписывает.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">05 · Как использовать</p>
+  <h2>Что прислать, чтобы получить расчёт</h2>
+  <table>
+    <tr><th>Что</th><th>Формат</th><th>Зачем</th></tr>
+    <tr><td>Отчёт ИГИ</td><td>PDF / DOCX</td><td>разрез, ИГЭ, характеристики грунтов</td></tr>
+    <tr><td>Зондирование</td><td>GEF, CPT, AGS4</td><td>интерпретация, De Beer, несущая способность</td></tr>
+    <tr><td>Лаборатория</td><td>таблицы, протоколы</td><td>φ, c, E, γ и статистика по ГОСТ 20522</td></tr>
+    <tr><td>Геометрия и нагрузки</td><td>чертёж, схема, таблица</td><td>постановка задачи и сочетания</td></tr>
+    <tr><td>Требуемая норма</td><td>СП/ГОСТ, пункт</td><td>выбор маршрута и проверок</td></tr>
+  </table>
+  <p class="sub" style="margin-top:14px">Если данных не хватает, агент не додумывает: он формирует список вопросов и останавливается до ответа.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">06 · Что внутри</p>
+  <h2>Нормативный слой — реестр, а не промпт</h2>
+  <table>
+    <tr><th>Документ</th><th>Редакция</th><th>Состояние</th></tr>
+    <tr><td>СП 22.13330.2016</td><td>с Изм. 1–5 (Изм. 5 — 884/пр, с 08.01.2024)</td><td>подтверждён</td></tr>
+    <tr><td>СП 24.13330.2021</td><td>Изм. 1 (659/пр), Изм. 2 (481/пр, с 29.08.2026)</td><td>подтверждён</td></tr>
+    <tr><td>СП 542.1325800.2024</td><td>Изм. 1 (566/пр, с 26.09.2026)</td><td>подтверждён</td></tr>
+    <tr><td>СП 248.1325800.2023</td><td>приказ 2/пр, введён 10.02.2024</td><td>подтверждён</td></tr>
+    <tr><td>СП 47.13330.2016 · СП 446.1325800.2019</td><td>с Изм. 1</td><td>подтверждены</td></tr>
+    <tr><td>ГОСТ 20522-2012</td><td>Изм. 1 (с 01.01.2024)</td><td>подтверждён</td></tr>
+  </table>
+  <p class="sub" style="margin-top:12px">9 документов подтверждено, 11 в очереди. Документ из очереди в расчёт не идёт: ответ получает статус «требует проверки».</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">07 · Что внутри</p>
+  <h2>Методики: модуль с паспортом</h2>
+  <table>
+    <tr><th>Модуль</th><th>Что считает</th><th>Норма</th></tr>
+    <tr><td>Основания</td><td>R, краевое давление, осадка, крен</td><td>СП 22.13330.2016</td></tr>
+    <tr><td>Сваи</td><td>несущая способность, γk, отрицательное трение, куст</td><td>СП 24.13330.2021</td></tr>
+    <tr><td>Подпорные стены</td><td>Ренкин/Кулон, сдвиг, опрокидывание, анкеры</td><td>СП 542.1325800.2024</td></tr>
+    <tr><td>Откосы</td><td>LEM, коэффициент запаса, фильтрация</td><td>СП 22.13330.2016</td></tr>
+    <tr><td>МКЭ</td><td>SSR / φ-c редукция, этапность</td><td>СП 22, СП 248</td></tr>
+    <tr><td>Грунты</td><td>ИГЭ/РГЭ, нормативные и расчётные φ/c/E/γ</td><td>ГОСТ 20522-2012</td></tr>
+  </table>
+  <p class="sub" style="margin-top:12px">У каждого модуля: версия, зависимость от редакции, эталонные примеры, диапазон применимости, известные ограничения.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">08 · Что внутри</p>
+  <h2>Воркфлоу: четыре конвейера</h2>
+  <div class="flow">
+    <div><b>П-1</b>Изыскания → статобработка: GEF/CPT, AGS4, ГОСТ 20522 → паспорта параметров</div>
+    <div><b>П-2</b>Откосы: xslope + pyslope, сверка коэффициентов запаса</div>
+    <div><b>П-3</b>Сваи: OpenPile + De Beer, обязательное сравнение с референсом</div>
+    <div><b>П-4</b>Протокол: pint → Jinja2 → PDF/DOCX, таблица трассируемости</div>
+  </div>
+  <p class="sub" style="margin-top:16px">В каждом конвейере зафиксирована точка, где обязательна перекрёстная проверка человеком. Расхождение сверх допуска — остановка, а не усреднение.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">09 · Воспроизводимость</p>
+  <h2>Результат без freeze не воспроизводим</h2>
+  <ul class="big">
+    <li>Расчёт идёт на вычислительном узле, а не на машине агента: задание, статус, результат — через каталог задания.</li>
+    <li>Окружение фиксируется freeze: платформа, хост, версии пакетов.</li>
+    <li>Входы и выходы едут с SHA-256, журнал задания — в отчёте.</li>
+    <li>Три повтора, дальше честное «расчёта нет». Локальная подмена и «примерная оценка» запрещены.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <p class="kicker">10 · Дисциплина</p>
+  <h2>Четыре статуса, которые нельзя смешивать</h2>
+  <table>
+    <tr><th>Статус</th><th>Что означает</th></tr>
+    <tr><td>Метод реализован</td><td>код существует и запускается</td></tr>
+    <tr><td>Сценарий воспроизведён и сверен</td><td>числа совпали с независимым решением</td></tr>
+    <tr><td>Нормативный маршрут проверен</td><td>цепочка «пункт → формула → реализация → тест» полна</td></tr>
+    <tr><td>Не определено</td><td>данных или подтверждённой нормы не хватает</td></tr>
+  </table>
+  <p class="sub" style="margin-top:14px">«Метод реализован» ≠ «нормативный маршрут проверен». Отсутствующая проверка — не зелёная галочка.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">11 · Что уже есть</p>
+  <h2>Факты, а не планы</h2>
+  <ul class="big">
+    <li>ТЗ v1.6 — более 1200 строк, с журналом правок и реестром норм.</li>
+    <li>Расчётный контур на Linux-узле: 105 пакетов, импорт-тест 21/21, freeze записан.</li>
+    <li>Асинхронный runner v2: таймауты заданий, ретеншн, SHA-256.</li>
+    <li>Живой агент прошёл 6/6 приёмочных проверок, включая ловушку анти-фоллбэка.</li>
+    <li>Лицензионный аудит 105 пакетов: GPL/LGPL разобраны, блокеров для внутреннего применения нет.</li>
+  </ul>
+  <p class="sub" style="margin-top:14px">Дальше: эталон D1 — фундаменты мелкого заложения, R и осадка по СП 22.13330.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">12 · Кому</p>
+  <h2>Геотехнические команды, а не все подряд</h2>
+  <div class="cols">
+    <div>
+      <h3>Прямая аудитория</h3>
+      <ul>
+        <li>проектные институты и бюро с геотехническим отделом;</li>
+        <li>расчётчики оснований и фундаментов;</li>
+        <li>эксперты, проверяющие чужие расчёты;</li>
+        <li>команды, которым нужен протокол для экспертизы.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Не для кого</h3>
+      <ul>
+        <li>не для тех, кто ищет «калькулятор одной формулы»;</li>
+        <li>не для замены МКЭ-оболочки по широте модулей;</li>
+        <li>не для выпуска документации без специалиста.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:16px">Свободная ниша: нормативный протокол и ревью чужих расчётов как сервис. Вендоры решателей это не закрывают.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">13 · Репозиторий</p>
+  <h2>Что где лежит</h2>
+  <table>
+    <tr><th>Раздел</th><th>Содержимое</th></tr>
+    <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok">workspace-geotech_surok/</a></td><td>воркспейс агента: личность, операционный контракт, документы</td></tr>
+    <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/norms">norms/</a></td><td>реестр норм: 9 подтверждённых, 11 в очереди, CSV</td></tr>
+    <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/methods">methods/</a></td><td>модули, верификация, четыре уровня приёмки</td></tr>
+    <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/workflows">workflows/</a></td><td>П-1…П-4 и протокол заданий на расчёт</td></tr>
+    <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/tools">tools/</a></td><td>67 OSS-инструментов и карта покрытия 13 классов</td></tr>
+    <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/TZ-geotech-surok.md">docs/TZ</a></td><td>техническое задание v1.6</td></tr>
+  </table>
+  <p class="note">EN: <a href="../en/index.html">presentation/en</a> · Landing: <a href="../../index.html">index.html</a></p>
+</section>
+
+</div>
+<div class="counter" id="cnt">1 / 14</div>
 <div class="nav"><button onclick="prev()">←</button><button onclick="next()">→</button></div>
 <script>
 let i=0;const S=[...document.querySelectorAll('.slide')];
 function show(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((s,j)=>s.classList.toggle('active',j===i));document.getElementById('cnt').textContent=(i+1)+' / '+S.length;document.getElementById('pf').style.width=((i+1)/S.length*100)+'%';}
 function next(){show(i+1)}function prev(){show(i-1)}
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')next();if(e.key==='ArrowLeft')prev();});
-document.getElementById('deck').addEventListener('click',e=>{if(e.clientX>window.innerWidth/2)next();else prev();});
+document.getElementById('deck').addEventListener('click',e=>{if(e.target.closest('a'))return;if(e.clientX>window.innerWidth/2)next();else prev();});
 show(0);
-</script></body></html>
+</script>
+</body>
+</html>

@@ -1,44 +1,268 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Surok — Geotechnical Reasoning Agent · 2026</title>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Surok — a geotechnical agent with a traceable normative chain</title>
+<meta name="description" content="What the Surok geotechnical agent is for and how to use it: normative registry, methods, workflows, reproducibility.">
 <style>
-:root{--paper:#F3F1EB;--ink:#0A0A0B;--muted:#6D6D6D;--line:rgba(10,10,11,.16);--accent:#002FA7;--font:"Helvetica Neue","Helvetica","Segoe UI",Arial,sans-serif;--mono:"SF Mono","Roboto Mono",Menlo,Consolas,monospace}
-*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--paper);color:var(--ink);font-family:var(--font)}
+:root{--paper:#F4F2EC;--ink:#101113;--muted:#5F6270;--line:rgba(16,17,19,.14);--accent:#1236B8;--mono:"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--paper);color:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
 .deck{position:relative;height:100vh;overflow:hidden}
-.slide{position:absolute;inset:0;padding:7vh 7vw;display:none;flex-direction:column;justify-content:center}
+.slide{position:absolute;inset:0;padding:6vh 7vw;display:none;flex-direction:column;justify-content:center;overflow:auto}
 .slide.active{display:flex}
 .slide.dark{background:var(--ink);color:var(--paper)}
-.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0 0 20px}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin:0 0 18px}
 .dark .kicker{color:#8FA8FF}
-h1{font-size:clamp(54px,10vw,150px);line-height:.82;letter-spacing:-.045em;margin:0 0 26px;font-weight:600}
-h2{font-size:clamp(30px,4.6vw,58px);line-height:1;letter-spacing:-.035em;margin:0 0 26px;font-weight:600}
-.lead{font-size:clamp(19px,2.4vw,30px);line-height:1.25;margin:0 0 16px;max-width:24em}
-.sub{font-size:clamp(14px,1.5vw,18px);line-height:1.55;color:var(--muted);max-width:40em;margin:0}
-.dark .sub,.dark .lead{color:#C9C9CF}
-ul.big{margin:14px 0 0;padding:0;list-style:none;max-width:52em}
-ul.big li{position:relative;padding:10px 0 10px 26px;font-size:clamp(15px,1.7vw,20px);line-height:1.5;border-bottom:1px solid var(--line)}
-ul.big li:before{content:"";position:absolute;left:0;top:1.15em;width:10px;height:1px;background:var(--accent)}
-.dark ul.big li{border-color:rgba(243,241,235,.14)}
-.note{margin-top:22px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.dark .note{color:#9A9AA5}
-.nav{position:fixed;right:26px;bottom:22px;display:flex;gap:10px;align-items:center;z-index:10;font-family:var(--mono);font-size:11px;letter-spacing:.12em}
-.nav button{border:1px solid var(--line);background:transparent;color:inherit;padding:8px 12px;cursor:pointer;font-family:inherit;font-size:inherit}
-.slide.dark~.nav button{color:var(--ink)}
-.progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:11;transition:width .25s}
-.counter{position:fixed;left:26px;bottom:22px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--muted);z-index:10}
-.index{margin-top:30px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:#C9C9CF;max-width:30em}
-.index div{display:flex;gap:16px;padding:6px 0;border-bottom:1px solid rgba(243,241,235,.12)}
-.index span.n{color:#8FA8FF;width:2em}
-</style></head><body>
+h1{font-size:clamp(44px,7vw,104px);line-height:.9;letter-spacing:-.04em;margin:0 0 22px;font-weight:600}
+h2{font-size:clamp(28px,3.9vw,50px);line-height:1.02;letter-spacing:-.03em;margin:0 0 8px;font-weight:600}
+.lead{font-size:clamp(18px,2.1vw,26px);line-height:1.3;margin:0 0 18px;max-width:26em}
+.sub{font-size:clamp(14px,1.4vw,17px);line-height:1.55;color:var(--muted);max-width:46em;margin:0}
+.dark .sub,.dark .lead{color:#C9CBD6}
+ul.big{margin:12px 0 0;padding:0;list-style:none;max-width:56em}
+ul.big li{position:relative;padding:9px 0 9px 24px;font-size:clamp(14px,1.5vw,18px);line-height:1.5;border-bottom:1px solid var(--line)}
+ul.big li:before{content:"";position:absolute;left:0;top:1.1em;width:9px;height:1px;background:var(--accent)}
+.dark ul.big li{border-color:rgba(244,242,236,.14)}
+table{border-collapse:collapse;width:100%;max-width:64em;margin-top:10px;font-size:clamp(12px,1.25vw,15px)}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:400}
+.dark th,.dark td{border-color:rgba(244,242,236,.16)}
+.dark th{color:#9EA1B4}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:34px;max-width:66em}
+.cols h3{font-size:clamp(16px,1.7vw,20px);margin:0 0 8px}
+.cols ul{margin:0;padding-left:18px;font-size:clamp(13px,1.4vw,16px);line-height:1.6}
+.flow{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.flow div{border:1px solid var(--line);padding:10px 12px;font-size:13px;line-height:1.35;max-width:200px}
+.dark .flow div{border-color:rgba(244,242,236,.2)}
+.flow b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.dark .flow b{color:#8FA8FF}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(18,54,184,.35)}
+.dark a{color:#9FB4FF;border-color:rgba(159,180,255,.4)}
+a:hover{border-color:currentColor}
+.note{margin-top:16px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.nav{position:fixed;right:22px;bottom:18px;display:flex;gap:8px;align-items:center;z-index:10;font-family:var(--mono);font-size:11px}
+.nav button{border:1px solid var(--line);background:transparent;color:inherit;padding:7px 11px;cursor:pointer;font-family:inherit;font-size:inherit}
+.progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:11;transition:width .2s}
+.counter{position:fixed;left:22px;bottom:18px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--muted);z-index:10}
+</style>
+</head>
+<body>
 <div class="progress" id="pf"></div>
-<div class="deck" id="deck"><section class="slide dark cover active"><p class="kicker">Geotechnical · normative layer · human-in-the-loop</p><h1>Surok</h1><p class="lead">A traceable geotechnical calculation pipeline.</p><p class="sub">Not another solver UI. An engineering co-pilot with an honest status for every check.</p><div class="index"><div><span class="n">02</span><span>Purpose</span></div><div><span class="n">03</span><span>What it is</span></div><div><span class="n">04</span><span>Every number has a lineage</span></div><div><span class="n">05</span><span>Architecture</span></div><div><span class="n">06</span><span>Reproducible by contract</span></div><div><span class="n">07</span><span>Discipline: four levels, never mixed</span></div></div></section><section class="slide"><h2>Purpose</h2><p class="lead">Turn geotechnical calculation into a traceable artifact.</p><ul class="big"><li>Calculations live in proprietary silos; the protocol is retyped by hand.</li><li>Expertise asks for provenance, not screenshots.</li><li>AI output is worthless without a chain from clause to number.</li></ul></section><section class="slide"><h2>What it is</h2><p class="lead">An engineering co-pilot — not a solver.</p><ul class="big"><li>Prepares data registers and questions for missing inputs.</li><li>Runs calculations over open-source solvers in frozen contours.</li><li>Verifies with independent checks and cross-tool comparisons.</li><li>Assembles protocols, traceability tables and archives. The human signs.</li></ul></section><section class="slide"><h2>Every number has a lineage</h2><p class="lead">data → norm clause → formula → implementation → test → report</p><ul class="big"><li>Statuses: выполняется / не выполняется / не определено.</li><li>A missing check is never a green checkmark.</li><li>Each output references its clause, edition and tool version.</li></ul></section><section class="slide"><h2>Architecture</h2><p class="lead">Agent host + async compute node.</p><ul class="big"><li>OpenClaw agent, workspace-centric: all artifacts inside the agent workspace.</li><li>jobs/&lt;id&gt;/{in,status,out} over rsync — survives unstable links.</li><li>venv contours with freeze files; the host is part of the contract.</li><li>Document layer: pandoc + TeX for reports and protocols.</li></ul></section><section class="slide"><h2>Reproducible by contract</h2><p class="lead">A result without a freeze is not reproducible.</p><ul class="big"><li>Each contour carries a freeze of its full dependency set.</li><li>Host, platform and package versions recorded in the freeze.</li><li>SHA-256 checksums and a job journal travel with every run.</li><li>Three retries, then an honest “no result”. Local substitution is forbidden.</li></ul></section><section class="slide"><h2>Discipline: four levels, never mixed</h2><ul class="big"><li>“Method implemented” — the code exists.</li><li>“Scenario reproduced and cross-checked” — numbers agree with an independent solution.</li><li>“Normative route verified” — the СП/ГОСТ chain is complete and tested.</li><li>“Not determined” — the first-class status when data is missing.</li></ul></section><section class="slide"><h2>Normative layer</h2><p class="lead">A registry, not a prompt.</p><ul class="big"><li>СП 22.13330.2016 (with amendments), СП 24.13330.2021, СП 47.13330.2016.</li><li>ГОСТ 25100, ГОСТ 20522 — classification and statistical processing.</li><li>Registry chain: document → edition → clause → formula → implementation → test.</li><li>Applicability checks are code; editions are pinned and dated.</li></ul></section><section class="slide"><h2>Evidence today</h2><p class="lead">What exists, not what is planned.</p><ul class="big"><li>Engineering specification v1.6 — 1200+ lines, versioned, with a change log.</li><li>Contour geotech-base on a Linux node: 105 packages, import test 21/21.</li><li>Async jobs runner v2: per-job timeouts, retention, checksums.</li><li>Live agent passed 6/6 acceptance checks, including the anti-fallback trap.</li><li>Next: D1 benchmark — shallow foundations, R and settlement by СП 22.13330.</li></ul></section><section class="slide"><h2>The niche</h2><p class="lead">What solver vendors do not do.</p><ul class="big"><li>Direct field: GEO5, PLAXIS, GeoStudio, Rocscience, Lira/SCAD, GeoWall, SiO 2D.</li><li>Free niche: normative protocol and review of third-party calculations as a service.</li><li>Audience: geotechnical teams in design institutes and specialized bureaus.</li><li>Position: the traceability layer, not another solver.</li></ul></section><section class="slide"><h2>Links</h2><p class="lead">Read the spec, check the evidence.</p><ul class="big"><li>github.com/sasha-sazonova/geotech-surok</li><li>docs/ — engineering specification, competitor analysis, status.</li><li>presentation/ru — русская версия этого дека.</li><li>Human in the loop. Always.</li></ul></section></div>
-<div class="counter" id="cnt">1 / 11</div>
+<div class="deck" id="deck">
+
+<section class="slide dark active">
+  <p class="kicker">Geotechnics · normative layer · human in the loop</p>
+  <h1>Surok</h1>
+  <p class="lead">A geotechnical agent that prepares calculations so every number can be traced back to a clause.</p>
+  <p class="sub">Not a solver, not a one-formula calculator. An engineering co-pilot: data → clause → formula → implementation → test → report.</p>
+  <p class="note">Spec v1.6 · 22 Oct 2026 · OpenClaw</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">01 · Problem</p>
+  <h2>The number exists, the justification does not</h2>
+  <ul class="big">
+    <li>Calculations live in proprietary silos: a project file, but no chain to the clause.</li>
+    <li>Reports are retyped by hand, so numbers lose their source data and software version.</li>
+    <li>Expert review asks for provenance and gets a screenshot.</li>
+    <li>AI output without traceability cannot be checked, so it is worth nothing.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <p class="kicker">02 · Purpose</p>
+  <h2>Turn a calculation into a verifiable artifact</h2>
+  <p class="lead">Three jobs the agent exists for.</p>
+  <ul class="big">
+    <li><b>Keeps the normative registry.</b> Document → edition → amendment → clause → formula → implementation → test. Only confirmed editions enter a calculation.</li>
+    <li><b>Prepares and checks the calculation.</b> Open-source solvers in frozen environments, cross-tool verification, soil parameter passport with provenance.</li>
+    <li><b>Assembles the justification package.</b> Report with substituted numbers, traceability table, honest status for every check.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <p class="kicker">03 · Boundaries</p>
+  <h2>What it does and does not do</h2>
+  <div class="cols">
+    <div>
+      <h3>Does</h3>
+      <ul>
+        <li>prepares calculations, reports and draft notes;</li>
+        <li>maintains the normative registry and audit logs;</li>
+        <li>audits input data and drafts clarification requests;</li>
+        <li>proposes a calculation route and an independent check;</li>
+        <li>returns “not determined” instead of a silent skip.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Does not</h3>
+      <ul>
+        <li>sign or release documentation;</li>
+        <li>replace the responsible engineer or independent review;</li>
+        <li>recalculate released reports silently;</li>
+        <li>use unverified editions of norms;</li>
+        <li>publish anything outward without human acceptance.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <p class="kicker">04 · How to use</p>
+  <h2>Four steps</h2>
+  <div class="flow">
+    <div><b>Step 1</b>Brief: object, design stage, what to calculate and to which code.</div>
+    <div><b>Step 2</b>Data: investigation report, GEF/CPT, AGS4, boreholes, SPT, groundwater, loads, geometry.</div>
+    <div><b>Step 3</b>Calculation: route from the registry, frozen environment, cross-tool verification.</div>
+    <div><b>Step 4</b>Report: formulas with substituted numbers, check statuses, limits, traceability table.</div>
+  </div>
+  <p class="sub" style="margin-top:18px">Then a human takes over: the specialist verifies numbers and clauses, signs and releases. The agent prepares; it does not sign.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">05 · How to use</p>
+  <h2>What to send to get a calculation</h2>
+  <table>
+    <tr><th>Input</th><th>Format</th><th>Why</th></tr>
+    <tr><td>Geotechnical investigation report</td><td>PDF / DOCX</td><td>cross-section, soil units, parameters</td></tr>
+    <tr><td>In-situ testing</td><td>GEF, CPT, AGS4</td><td>interpretation, De Beer, bearing capacity</td></tr>
+    <tr><td>Laboratory results</td><td>tables, protocols</td><td>φ, c, E, γ and statistics per GOST 20522</td></tr>
+    <tr><td>Geometry and loads</td><td>drawing, scheme, table</td><td>problem statement and combinations</td></tr>
+    <tr><td>Required code</td><td>code and clause</td><td>route and check selection</td></tr>
+  </table>
+  <p class="sub" style="margin-top:14px">If data is missing, the agent does not invent it: it produces a question list and stops until answered.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">06 · Inside</p>
+  <h2>Normative layer: a registry, not a prompt</h2>
+  <table>
+    <tr><th>Document</th><th>Edition</th><th>State</th></tr>
+    <tr><td>SP 22.13330.2016</td><td>with amendments 1–5 (No. 5 — 884/pr, from 08.01.2024)</td><td>confirmed</td></tr>
+    <tr><td>SP 24.13330.2021</td><td>am. 1 (659/pr), am. 2 (481/pr, from 29.08.2026)</td><td>confirmed</td></tr>
+    <tr><td>SP 542.1325800.2024</td><td>am. 1 (566/pr, from 26.09.2026)</td><td>confirmed</td></tr>
+    <tr><td>SP 248.1325800.2023</td><td>order 2/pr, in force 10.02.2024</td><td>confirmed</td></tr>
+    <tr><td>SP 47.13330.2016 · SP 446.1325800.2019</td><td>with am. 1</td><td>confirmed</td></tr>
+    <tr><td>GOST 20522-2012</td><td>am. 1 (from 01.01.2024)</td><td>confirmed</td></tr>
+  </table>
+  <p class="sub" style="margin-top:12px">9 documents confirmed, 11 in the verification queue. A queued document does not enter a calculation: the answer carries “requires verification”.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">07 · Inside</p>
+  <h2>Methods: every module carries a passport</h2>
+  <table>
+    <tr><th>Module</th><th>What it computes</th><th>Code</th></tr>
+    <tr><td>Foundations</td><td>bearing resistance R, edge pressure, settlement, tilt</td><td>SP 22.13330.2016</td></tr>
+    <tr><td>Piles</td><td>capacity, γk, negative friction, pile group</td><td>SP 24.13330.2021</td></tr>
+    <tr><td>Retaining walls</td><td>Rankine/Coulomb, sliding, overturning, anchors</td><td>SP 542.1325800.2024</td></tr>
+    <tr><td>Slopes</td><td>LEM, factor of safety, seepage</td><td>SP 22.13330.2016</td></tr>
+    <tr><td>FEM</td><td>SSR / φ-c reduction, staged construction</td><td>SP 22, SP 248</td></tr>
+    <tr><td>Soils</td><td>statistical treatment, characteristic and design φ/c/E/γ</td><td>GOST 20522-2012</td></tr>
+  </table>
+  <p class="sub" style="margin-top:12px">Each module records version, code edition dependency, reference cases, applicability range and known limits.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">08 · Inside</p>
+  <h2>Workflows: four pipelines</h2>
+  <div class="flow">
+    <div><b>P-1</b>Investigation → statistics: GEF/CPT, AGS4, GOST 20522 → parameter passports</div>
+    <div><b>P-2</b>Slopes: xslope + pyslope, factor-of-safety cross-check</div>
+    <div><b>P-3</b>Piles: OpenPile + De Beer, reference comparison is mandatory</div>
+    <div><b>P-4</b>Report: pint → Jinja2 → PDF/DOCX, traceability table</div>
+  </div>
+  <p class="sub" style="margin-top:16px">Every pipeline has a fixed point where human cross-check is mandatory. A discrepancy beyond tolerance stops the run instead of being averaged away.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">09 · Reproducibility</p>
+  <h2>A result without a freeze is not reproducible</h2>
+  <ul class="big">
+    <li>Calculation runs on a compute node, not on the agent machine: job directory with input, status and output.</li>
+    <li>Environment is fixed by a freeze: platform, host, package versions.</li>
+    <li>Inputs and outputs travel with SHA-256 checksums; the job journal goes into the report.</li>
+    <li>Three retries, then an honest “no result”. Local substitution and rough estimates are forbidden.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <p class="kicker">10 · Discipline</p>
+  <h2>Four statuses that must not be mixed</h2>
+  <table>
+    <tr><th>Status</th><th>Meaning</th></tr>
+    <tr><td>Method implemented</td><td>code exists and runs</td></tr>
+    <tr><td>Scenario reproduced and cross-checked</td><td>numbers match an independent solution</td></tr>
+    <tr><td>Normative route verified</td><td>clause → formula → implementation → test is complete</td></tr>
+    <tr><td>Not determined</td><td>data or a confirmed edition is missing</td></tr>
+  </table>
+  <p class="sub" style="margin-top:14px">“Method implemented” is not “normative route verified”. A missing check is never a green tick.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">11 · What exists</p>
+  <h2>Facts, not plans</h2>
+  <ul class="big">
+    <li>Spec v1.6 — 1200+ lines, versioned, with a change log and the normative registry.</li>
+    <li>Compute contour on a Linux node: 105 packages, import test 21/21, freeze recorded.</li>
+    <li>Async runner v2: per-job timeouts, retention, SHA-256 manifests.</li>
+    <li>The live agent passed 6/6 acceptance checks, including the anti-fallback trap.</li>
+    <li>License audit of 105 packages: GPL/LGPL classified, no blockers for internal use.</li>
+  </ul>
+  <p class="sub" style="margin-top:14px">Next: benchmark D1 — shallow foundations, bearing resistance and settlement per SP 22.13330.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">12 · Audience</p>
+  <h2>Geotechnical teams, not everyone</h2>
+  <div class="cols">
+    <div>
+      <h3>Who it is for</h3>
+      <ul>
+        <li>design institutes and bureaus with a geotechnical department;</li>
+        <li>foundation and soil engineers;</li>
+        <li>experts reviewing third-party calculations;</li>
+        <li>teams that need a report package for expert review.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Who it is not for</h3>
+      <ul>
+        <li>anyone looking for a one-formula calculator;</li>
+        <li>replacing an FEM package by module breadth;</li>
+        <li>releasing documentation without a specialist.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:16px">The open niche: normative protocol and review of third-party calculations as a service. Solver vendors do not cover it.</p>
+</section>
+
+<section class="slide">
+  <p class="kicker">13 · Repository</p>
+  <h2>Where things live</h2>
+  <table>
+    <tr><th>Section</th><th>Content</th></tr>
+    <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok">workspace-geotech_surok/</a></td><td>agent workspace: persona, operating contract, documents</td></tr>
+    <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/norms">norms/</a></td><td>normative registry: 9 confirmed, 11 queued, CSV</td></tr>
+    <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/methods">methods/</a></td><td>modules, verification, four acceptance levels</td></tr>
+    <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/workflows">workflows/</a></td><td>P-1…P-4 and the compute job protocol</td></tr>
+    <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/tools">tools/</a></td><td>67 OSS tools and the 13-class coverage map</td></tr>
+    <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/TZ-geotech-surok.md">docs/TZ</a></td><td>engineering specification v1.6</td></tr>
+  </table>
+  <p class="note">RU: <a href="../ru/index.html">presentation/ru</a> · Landing: <a href="../../index.html">index.html</a></p>
+</section>
+
+</div>
+<div class="counter" id="cnt">1 / 14</div>
 <div class="nav"><button onclick="prev()">←</button><button onclick="next()">→</button></div>
 <script>
 let i=0;const S=[...document.querySelectorAll('.slide')];
 function show(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((s,j)=>s.classList.toggle('active',j===i));document.getElementById('cnt').textContent=(i+1)+' / '+S.length;document.getElementById('pf').style.width=((i+1)/S.length*100)+'%';}
 function next(){show(i+1)}function prev(){show(i-1)}
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')next();if(e.key==='ArrowLeft')prev();});
-document.getElementById('deck').addEventListener('click',e=>{if(e.clientX>window.innerWidth/2)next();else prev();});
+document.getElementById('deck').addEventListener('click',e=>{if(e.target.closest('a'))return;if(e.clientX>window.innerWidth/2)next();else prev();});
 show(0);
-</script></body></html>
+</script>
+</body>
+</html>

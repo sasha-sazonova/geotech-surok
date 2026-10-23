@@ -1,52 +1,74 @@
-# Surok — Geotechnical Reasoning Agent
+# Surok — geotechnical agent with a traceable normative chain
 
-**A traceable geotechnical calculation pipeline. Not another solver UI.**
+**A calculation is only worth something if it can be checked.** Surok prepares, runs and verifies
+geotechnical calculations over open-source solvers, wrapping every number in the chain
+`data → clause → formula → implementation → test → report`, and treats **“not determined”**
+as a first-class result.
 
-Surok is an engineering co-pilot built on OpenClaw. It prepares, runs and verifies geotechnical
-calculations over open-source solvers, wrapping every number in a normative chain
-`data → norm clause → formula → implementation → test → report`, and treats **“not determined”**
-as a first-class result instead of a green checkmark.
+- Landing: <https://sasha-sazonova.github.io/geotech-surok/>
+- Presentation: [EN](https://sasha-sazonova.github.io/geotech-surok/presentation/en/) · [RU](https://sasha-sazonova.github.io/geotech-surok/presentation/ru/)
+- Specification: [TZ v1.6](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/TZ-geotech-surok.md)
 
-## Why
+## What it is for
 
-- Calculations live in proprietary silos; the protocol is retyped by hand.
-- Expertise asks for provenance, not screenshots.
-- AI output is worthless without a chain from clause to number.
-
-## What is inside
-
-| Path | What |
+| Problem | What the agent does |
 |---|---|
-| `index.html` | bilingual landing page (EN + RU section) — GitHub Pages root |
-| `presentation/en`, `presentation/ru` | slide decks: purpose, architecture, discipline, evidence, niche |
-| `docs/TZ-geotech-surok.md` | engineering specification (public edition, sanitized; v1.6) |
-| `docs/competitor-analysis.md` | competitor landscape and the free niche |
-| `docs/status.md` | what exists today vs what is planned |
-| `agent/` | working persona files of the live agent (SOUL, AGENTS, IDENTITY, TOOLS…) |
+| Calculations live in proprietary silos; the report is retyped by hand | keeps a normative registry with editions, amendments and check dates |
+| Expert review asks for provenance and gets a screenshot | builds a traceability table from source data to the clause |
+| A missing check silently becomes a green tick | returns “not determined” and stops instead of guessing |
+| Results cannot be reproduced | runs in frozen environments with checksums and a job journal |
+
+The agent prepares, calculates and checks. A specialist signs and releases.
+
+## How to use
+
+1. **Brief** — object, design stage, what to calculate and to which code.
+2. **Data** — investigation report, GEF/CPT, AGS4, boreholes, SPT, groundwater, loads, geometry.
+3. **Calculation** — route from the registry, frozen environment, cross-tool verification.
+4. **Report** — formulas with substituted numbers, check statuses, limits, traceability table.
+
+If input data is missing, the agent produces a question list and stops until it is answered.
+
+## Repository map
+
+```
+workspace-geotech_surok/          the agent workspace (mirrors the live one)
+├── AGENTS.md SOUL.md IDENTITY.md TOOLS.md DESCRIPTION.md USER.md
+├── norms/          normative registry: 9 confirmed, 11 queued, registry.csv
+├── methods/        modules, verification levels, acceptance rules
+├── workflows/      P-1 investigation, P-2 slopes, P-3 piles, P-4 reports, jobs protocol
+├── tools/          67 OSS tools + 13-class coverage map + licence policy
+└── docs/           TZ v1.6, competitor analysis, status
+presentation/       ru/ and en/ decks (purpose, usage, architecture, evidence)
+index.html          bilingual landing page (GitHub Pages root)
+```
+
+| Section | Link |
+|---|---|
+| Agent workspace | <https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok> |
+| Normative registry | <https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/norms> |
+| Methods | <https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/methods> |
+| Workflows | <https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/workflows> |
+| Tools | <https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/tools> |
+| Status | <https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/status.md> |
+| Competitor analysis | <https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/competitor-analysis.md> |
 
 ## Design pillars
 
 1. **Traceability** — every number resolves to a clause, an edition and a tool version.
-2. **Honest statuses** — `выполняется / не выполняется / не определено`; a missing check is never a pass.
-3. **Reproducibility by contract** — frozen environments, recorded host, SHA-256 checksums, job journal.
-4. **Async compute** — `jobs/<id>/{in,status,out}` over rsync; three retries, then an honest “no result”.
-   Local substitution is forbidden.
+2. **Honest statuses** — implemented / reproduced / normative route verified / not determined.
+3. **Reproducibility by contract** — frozen environments, recorded host, SHA-256 checksums.
+4. **Async compute** — job directory with input, status and output; three retries, then an honest “no result”.
 5. **Human in the loop** — the agent prepares; a specialist signs.
 
 ## Status
 
-Engineering spec **v1.6** · contour `geotech-base` (105 packages, import test 21/21) ·
-async jobs runner **v2** (per-job timeouts, retention, checksums) · live agent passed **6/6**
-acceptance checks incl. the anti-fallback trap · next: **D1 benchmark** — shallow foundations,
-bearing resistance `R` and settlement by СП 22.13330.
-
-## Pages
-
-- Landing: <https://sasha-sazonova.github.io/geotech-surok/>
-- Presentation EN: `/presentation/en/` · RU: `/presentation/ru/`
+Spec **v1.6** · compute contour: 105 packages, import test 21/21, freeze recorded · async runner **v2** ·
+live agent passed **6/6** acceptance checks including the anti-fallback trap ·
+next: **D1 benchmark** — shallow foundations, bearing resistance `R` and settlement by SP 22.13330.
 
 ## License
 
-Documentation and presentation: Apache-2.0 (see `LICENSE`, `NOTICE`).
+Documentation and presentations: Apache-2.0 (see `LICENSE`, `NOTICE`).
 Referenced open-source tools and normative documents remain with their respective authors;
 normative texts are not included.
