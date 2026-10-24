@@ -12,3 +12,9 @@ jobs:
         run: pip install -r requirements.lock
       - name: Verify (traceability + tests)
         run: make verify
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and verify in container
+        run: docker build -t geotech-surok .
