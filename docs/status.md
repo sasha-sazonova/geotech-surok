@@ -1,5 +1,7 @@
 # Status — 2026-10-24
 
+Detailed numbers: [docs/results.md](results.md).
+
 ## Что сделано в этом проходе
 
 * Код D1 вынесен в `calc/d1_foundation.py`; коэффициенты приведены к официальному тексту СП:

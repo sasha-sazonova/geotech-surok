@@ -119,7 +119,7 @@ td a{color:var(--accent);border-bottom:1px solid rgba(18,54,184,.3)}
   <section class="sec">
     <h2>Status</h2>
     <p class="big">Spec v1.6 · compute contour: 105 packages, import test 21/21, freeze recorded · async runner v2 · live agent passed 6/6 acceptance checks, including the anti-fallback trap.</p>
-    <p class="big"><b>D1 benchmark (v2):</b> p = 286.0 kPa vs R = 217.42 kPa → check fails; settlement ≥ 4.43 cm → not determined (layer truncated at 4.0 m); two independent implementations diverge by 0.0%. Next: D2 pile protocol.</p>
+    <p class="big"><b>D1 (verified against the official СП text):</b> p = 286.0 kPa vs R = 215.62 kPa → check fails (+32.6%); settlement s = 4.232 cm ≤ su = 10 cm → passes (Hc = 3.6 m). A resized 2.4×2.8 m footing passes bearing with a 1.9% margin. <b>D2:</b> lateral pile at H = 500 kN — y = 6.3/19.3 mm, Mmax = 890.5/1389 kNm. Verification: manual reference, 16 tests, traceability validator, CI green.</p>
     <div class="actions" style="margin-top:18px">
       <a class="btn" href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/status.md">Status document</a>
       <a class="btn" href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/competitor-analysis.md">Competitor analysis</a>

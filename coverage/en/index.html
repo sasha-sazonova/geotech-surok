@@ -53,7 +53,7 @@ td.s{white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:.0
  </header>
  <section><h2>Areas of work</h2><div class="cap"><span class="num">01</span><h4>Bearing resistance and settlement</h4>
 <p>Computes average pressure under the footing, bearing resistance R and settlement by layer-by-layer summation. Returns a status per check, not a single number.</p>
-<p class="kv"><b>Basis:</b> SP 22.13330.2016: clause 5.6.7, formula (5.7), tables 5.4 and 5.5, appendices G and D<br><b>Evidence:</b> Benchmark D1 v2: p = 286.0 kPa vs R = 217.42 kPa — fails; settlement ≥ 4.43 cm — not determined; two implementations diverge by 0.0%</p></div>
+<p class="kv"><b>Basis:</b> SP 22.13330.2016: clause 5.6.7 (5.7), tables 5.4/5.5; 5.6.10; 5.6.31 (5.16); 5.6.32 (5.17), table 5.8; 5.6.41; appendix G, table G.1<br><b>Evidence:</b> Benchmark D1: p = 286.0 kPa vs R = 215.62 kPa — fails (+32.6%); settlement s = 4.232 cm ≤ su = 10 cm — passes (Hc = 3.6 m); pinned by a manual reference test</p></div>
 <div class="cap"><span class="num">02</span><h4>Slope stability</h4>
 <p>Computes the factor of safety with seven LEM methods, builds slip surfaces and cross-checks with a second tool. For rock slopes — kinematic analysis.</p>
 <p class="kv"><b>Basis:</b> SP 22.13330.2016; SP 116.13330 is queued for edition confirmation<br><b>Evidence:</b> xslope 1.0.5 (7 methods) + pyslope 1.4.0; a discrepancy beyond tolerance stops the run</p></div>

@@ -1,5 +1,7 @@
 # Surok — geotechnical agent with a traceable normative chain
 
+[![verify](https://github.com/sasha-sazonova/geotech-surok/actions/workflows/verify.yml/badge.svg)](https://github.com/sasha-sazonova/geotech-surok/actions/workflows/verify.yml)
+
 **A calculation is only worth something if it can be checked.** Surok prepares, runs and verifies
 geotechnical calculations over open-source solvers, wrapping every number in the chain
 `data → clause → formula → implementation → test → report`, and treats **“not determined”**
@@ -75,9 +77,13 @@ index.html          bilingual landing page (GitHub Pages root)
 Spec **v1.6** · compute contour: 105 packages, import test 21/21, freeze recorded · async runner **v2** ·
 live agent passed **6/6** acceptance checks including the anti-fallback trap.
 
-**D1 benchmark (v2)** — shallow foundation: `p = 286.0 kPa` vs `R = 217.42 kPa` → check **fails**;
-settlement `s ≥ 4.43 cm` → **not determined** (compressible layer truncated at 4.0 m);
-two independent implementations diverge by **0.0%**. Next: D2 pile protocol.
+**D1** — shallow foundation (coefficients re-verified against the official text of СП 22.13330.2016):
+`p = 286.0 kPa` vs `R = 215.62 kPa` → check **fails** (+32.6 %);
+settlement `s = 4.232 cm` vs `su = 10 cm` → **passes** (Hc = 3.6 m, п.5.6.41). A resized 2.4×2.8 m
+footing passes bearing with a 1.9 % margin (`R = 218.82`, `p = 214.57` kPa).
+**D2** — lateral pile (openpile 1.0.3): at H = 500 kN, y = 6.3 / 19.3 mm and Mmax = 890.5 / 1389 kNm
+for the two stiffness calibrations; the СП 24.13330 route remains “not determined”.
+Verification: manual reference (`docs/manual-check-d1.md`), 16 tests, traceability validator — CI green.
 
 ## License
 
