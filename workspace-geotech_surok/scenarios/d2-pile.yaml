@@ -1,0 +1,12 @@
+id: d2-pile
+title: D2 — одиночная стальная свая D=1.2 м, L=24 м, горизонтальная нагрузка (синтетический эталон)
+date: 2026-10-24
+revision: 1
+pile: {type: steel_pipe, D_m: 1.2, t_m: 0.022, L_m: 24.0, material: Steel}
+soil: {type: sand, phi_deg: 35, gamma_kNm3: 18.0, water_line_m: -3.0, layer_bottom_m: -30.0}
+loading: {H_kN: [100, 500], head: free, vertical_dof_fixed: true}
+models:
+  primary: {name: API_sand, params: {phi: 35, initial_subgrade_modulus: [default, 5000]}}
+  cross_check: {name: Dunkirk_sand, params: {Dr: 0.75, G0: 80000}, status: "не определено (параметры не подтверждены)"}
+normative: {SP24: "не определено (no_verified_SP_24_workflow)"}
+contour: {name: piles-py310, freeze: envs/20261023-2228-piles-pip-freeze.txt}

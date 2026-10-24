@@ -1,0 +1,12 @@
+id: d1-foundation-r2
+title: D1-r2 — увеличенная подошва 2.4×2.8 (проверка «зелёного» пути)
+date: 2026-10-23
+revision: 1
+parent: d1-foundation (revision 2)
+geometry: {b: 2.4, l: 2.8, A: 6.72, d: 1.8, basement: none}
+loads: {N: 1200.0, moment: null, horizontal: null, p_formula: "p = N/A + 20*d"}
+soil: {IGEE1: {gamma_kNm3: 18.5, phi_deg: 16, c_kPa: 18, E_MPa: 9, thickness_below_base_m: 4.0},
+       above_base_gamma_kNm3: 17.5, UGV_m: 3.2, gamma_sb_kNm3: 9.0, params_source: tests, data_bottom_m: 5.8}
+calculation_policy: {gamma_II_zone: b/2, gst_boundary_coef: 0.2, settlement_from: p0}
+assumptions: [{name: gamma_c2, value: 1.1, status: "не определено (допущение)"}]
+limitations: [no_weak_layer_data, no_moment_data, no_building_geometry, alpha_table_eta_1_2, no_verified_gge_review]

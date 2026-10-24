@@ -38,6 +38,11 @@ workspace-geotech_surok/          воркспейс агента (зеркал�
 ├── methods/        модули, уровни верификации, правила приёмки
 ├── workflows/      П-1 изыскания, П-2 откосы, П-3 сваи, П-4 протоколы, протокол заданий
 ├── tools/          67 OSS-инструментов + карта покрытия 13 классов + лицензионная политика
+├── calc/           расчётный код: D1 фундамент (R, осадка), D2 свая
+├── scenarios/      карточки сценариев YAML с ограничениями и допущениями
+├── procedures/     политика статусов расчёта и чек-лист приёмки
+├── envs/           freeze контуров + packages.csv (105 пакетов, лицензии, ссылки)
+├── reports/        протоколы и таблицы трассируемости по ревизиям
 └── docs/           ТЗ v1.6, конкурентный анализ, статус
 presentation/       презентации ru/ и en/ (назначение, использование, архитектура, факты)
 index.html          двуязычный лендинг (корень GitHub Pages)
@@ -50,6 +55,9 @@ index.html          двуязычный лендинг (корень GitHub Pag
 | Методики | <https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/methods> |
 | Воркфлоу | <https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/workflows> |
 | Инструментарий | <https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/tools> |
+| Расчётный код | <https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/calc> |
+| Окружения и пакеты | <https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/envs> |
+| Протокол D1 | <https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/reports/d1-foundation-v2/protocol.md> |
 | Статус | <https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/status.md> |
 | Конкурентный анализ | <https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/competitor-analysis.md> |
 
@@ -64,8 +72,11 @@ index.html          двуязычный лендинг (корень GitHub Pag
 ## Состояние
 
 ТЗ **v1.6** · расчётный контур: 105 пакетов, импорт-тест 21/21, freeze записан · runner **v2** ·
-живой агент прошёл **6/6** приёмочных проверок, включая ловушку анти-фоллбэка ·
-далее: **эталон D1** — фундаменты мелкого заложения, R и осадка по СП 22.13330.
+живой агент прошёл **6/6** приёмочных проверок, включая ловушку анти-фоллбэка.
+
+**Эталон D1 (v2)** — фундамент мелкого заложения: `p = 286.0 кПа` против `R = 217.42 кПа` → проверка **не выполняется**;
+осадка `s ≥ 4.43 см` → **не определено** (толща обрезана на 4.0 м);
+две независимые реализации расходятся на **0.0%**. Далее: протокол D2 по свае.
 
 ## Лицензия
 

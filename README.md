@@ -38,6 +38,11 @@ workspace-geotech_surok/          the agent workspace (mirrors the live one)
 ├── methods/        modules, verification levels, acceptance rules
 ├── workflows/      P-1 investigation, P-2 slopes, P-3 piles, P-4 reports, jobs protocol
 ├── tools/          67 OSS tools + 13-class coverage map + licence policy
+├── calc/           calculation code: D1 foundation (R, settlement), D2 lateral pile
+├── scenarios/      scenario cards in YAML with limits and assumptions
+├── procedures/     calculation status policy and acceptance checklist
+├── envs/           contour freezes + packages.csv (105 packages, licences, links)
+├── reports/        protocols and traceability tables per revision
 └── docs/           TZ v1.6, competitor analysis, status
 presentation/       ru/ and en/ decks (purpose, usage, architecture, evidence)
 index.html          bilingual landing page (GitHub Pages root)
@@ -50,6 +55,9 @@ index.html          bilingual landing page (GitHub Pages root)
 | Methods | <https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/methods> |
 | Workflows | <https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/workflows> |
 | Tools | <https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/tools> |
+| Calculation code | <https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/calc> |
+| Environments and packages | <https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/envs> |
+| D1 protocol | <https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/reports/d1-foundation-v2/protocol.md> |
 | Status | <https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/status.md> |
 | Competitor analysis | <https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/competitor-analysis.md> |
 
@@ -64,8 +72,11 @@ index.html          bilingual landing page (GitHub Pages root)
 ## Status
 
 Spec **v1.6** · compute contour: 105 packages, import test 21/21, freeze recorded · async runner **v2** ·
-live agent passed **6/6** acceptance checks including the anti-fallback trap ·
-next: **D1 benchmark** — shallow foundations, bearing resistance `R` and settlement by SP 22.13330.
+live agent passed **6/6** acceptance checks including the anti-fallback trap.
+
+**D1 benchmark (v2)** — shallow foundation: `p = 286.0 kPa` vs `R = 217.42 kPa` → check **fails**;
+settlement `s ≥ 4.43 cm` → **not determined** (compressible layer truncated at 4.0 m);
+two independent implementations diverge by **0.0%**. Next: D2 pile protocol.
 
 ## License
 

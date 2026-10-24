@@ -95,6 +95,8 @@ td a{color:var(--accent);border-bottom:1px solid rgba(18,54,184,.3)}
       <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/methods">methods/</a></td><td>module map, verification levels, acceptance rules</td></tr>
       <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/workflows">workflows/</a></td><td>pipelines P-1…P-4 and the compute job protocol</td></tr>
       <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/tools">tools/</a></td><td>67 open-source tools, 13-class coverage map, licence policy</td></tr>
+      <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/calc">calc/</a></td><td>calculation code: D1 foundation (R, settlement), D2 lateral pile</td></tr>
+      <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/envs">envs/</a></td><td>contour freezes and <code>packages.csv</code> — 105 packages with licences and links</td></tr>
       <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/TZ-geotech-surok.md">docs/TZ</a></td><td>engineering specification v1.6</td></tr>
       <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/docs">docs/</a></td><td>competitor analysis, status</td></tr>
     </table>
@@ -102,7 +104,8 @@ td a{color:var(--accent);border-bottom:1px solid rgba(18,54,184,.3)}
 
   <section class="sec">
     <h2>Status</h2>
-    <p class="big">Spec v1.6 · compute contour: 105 packages, import test 21/21, freeze recorded · async runner v2 · live agent passed 6/6 acceptance checks, including the anti-fallback trap · next: benchmark D1 — shallow foundations, bearing resistance and settlement per SP 22.13330.</p>
+    <p class="big">Spec v1.6 · compute contour: 105 packages, import test 21/21, freeze recorded · async runner v2 · live agent passed 6/6 acceptance checks, including the anti-fallback trap.</p>
+    <p class="big"><b>D1 benchmark (v2):</b> p = 286.0 kPa vs R = 217.42 kPa → check fails; settlement ≥ 4.43 cm → not determined (layer truncated at 4.0 m); two independent implementations diverge by 0.0%. Next: D2 pile protocol.</p>
     <div class="actions" style="margin-top:18px">
       <a class="btn" href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/status.md">Status document</a>
       <a class="btn" href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/competitor-analysis.md">Competitor analysis</a>

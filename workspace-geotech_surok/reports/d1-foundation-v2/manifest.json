@@ -1,0 +1,23 @@
+{
+ "job_id": "d1-foundation-003",
+ "scenario": "scenarios/d1-foundation.yaml",
+ "scenario_revision": 2,
+ "contour": "geotech-base",
+ "job_status": "done 2026-10-23T21:54:22+03:00",
+ "freeze": "envs/20261023-1542-server-geotech-base-freeze.txt",
+ "freeze_sha256": "e72257cb0215630f29163f062d9184fd6a81cc73f0bcdf3a18a15ab04480d56f",
+ "outputs_sha256": {
+  "out/env.txt": "8471641559bb9a3653a3e97ac517aea93801848512c97b393cdd34a076853c77",
+  "out/err_check.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "out/err_compare.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "out/err_main.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "out/journal.txt": "5b661b4efcd8b9bbaa5c57c5c7d8f870884060c264c5f8ac8b43ce03d0fc97c3",
+  "out/result_check.json": "f6710d91261b4e5ed07957365b36907801d029a020738c04f7c53484a6723a8e",
+  "out/result_compare.json": "1dc1e2fd568e850e7b61a595476d2cb9aa6fbf142366a2f1cda1e4918191377e",
+  "out/result_main.json": "560f1922a5cb43ba94084e8803f056add161d2a3c7847b165f2a06d7026cb4cf",
+  "out/stdout.txt": "ffaf24e757990d84e3b636eeef1d31f3d1878ea54362a5e49f29ab645b163ae3"
+ },
+ "protocol": "reports/d1-foundation-v2/protocol.md",
+ "traceability": "reports/d1-foundation-v2/traceability.md",
+ "note": "v2 перезапуск после правок кода: p0 вместо p, γII по b/2, ГСТ 0.2σzg, κ по источнику φ/c, статус обрезанной толщи; v1 (d1-foundation-001) сохранён для аудита."
+}

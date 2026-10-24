@@ -1,0 +1,106 @@
+package,version,license,pypi,home
+affine,3.0.1,BSD-3-Clause,https://pypi.org/project/affine/3.0.1/,https://github.com/rasterio/affine
+annotated-types,0.8.0,MIT License,https://pypi.org/project/annotated-types/0.8.0/,https://github.com/annotated-types/annotated-types
+asgiref,3.13.0,BSD-3-Clause,https://pypi.org/project/asgiref/3.13.0/,https://github.com/django/asgiref/
+attrs,26.1.0,MIT,https://pypi.org/project/attrs/26.1.0/,https://github.com/python-attrs/attrs
+certifi,2026.10.23,MPL-2.0,https://pypi.org/project/certifi/2026.10.23/,https://github.com/certifi/python-certifi
+charset-normalizer,3.5.2,MIT,https://pypi.org/project/charset-normalizer/3.5.2/,
+click,8.5.0,BSD-3-Clause,https://pypi.org/project/click/8.5.0/,https://github.com/pallets/click/
+colour,0.1.5,BSD 3-Clause License,https://pypi.org/project/colour/0.1.5/,http://github.com/vaab/colour
+contourpy,1.4.0,BSD-3-Clause,https://pypi.org/project/contourpy/1.4.0/,https://github.com/contourpy/contourpy
+coverage,7.17.0,Apache-2.0,https://pypi.org/project/coverage/7.17.0/,https://github.com/coveragepy/coveragepy
+cycler,0.12.1,BSD License,https://pypi.org/project/cycler/0.12.1/,
+cyclopts,5.3.0,Apache Software License,https://pypi.org/project/cyclopts/5.3.0/,https://github.com/BrianPugh/cyclopts
+defusedxml,0.7.1,PSFL,https://pypi.org/project/defusedxml/0.7.1/,https://github.com/tiran/defusedxml
+dj-database-url,3.1.2,BSD License,https://pypi.org/project/dj-database-url/3.1.2/,https://jazzband.co/projects/dj-database-url
+Django,6.1.2,BSD-3-Clause,https://pypi.org/project/Django/6.1.2/,https://www.djangoproject.com/
+docstring_parser,0.18.0,MIT,https://pypi.org/project/docstring_parser/0.18.0/,
+eqsig,1.2.17,MIT,https://pypi.org/project/eqsig/1.2.17/,
+et_xmlfile,2.0.0,MIT,https://pypi.org/project/et_xmlfile/2.0.0/,https://foss.heptapod.net/openpyxl/et_xmlfile
+ezdxf,1.4.5,MIT License,https://pypi.org/project/ezdxf/1.4.5/,https://github.com/mozman/ezdxf
+fonttools,4.67.0,MIT,https://pypi.org/project/fonttools/4.67.0/,http://github.com/fonttools/fonttools
+func-validator,1.5.0,MIT License,https://pypi.org/project/func-validator/1.5.0/,
+gef-file-to-map,1.0.1,not declared in metadata (see repository LICENSE),https://pypi.org/project/gef-file-to-map/1.0.1/,
+gempy,2026.0.3,EUPL-1.2,https://pypi.org/project/gempy/2026.0.3/,https://github.com/cgre-aachen/gempy
+gempy_engine,2026.0.3.post1,EUPL-1.2,https://pypi.org/project/gempy_engine/2026.0.3.post1/,https://github.com/gempy-project/gempy_engine
+geoeq,0.1.3,Apache-2.0,https://pypi.org/project/geoeq/0.1.3/,https://geoeq.github.io
+geofound,1.1.4,MIT,https://pypi.org/project/geofound/1.1.4/,https://github.com/eng-tools/geofound
+geolysis,0.24.1,MIT License,https://pypi.org/project/geolysis/0.24.1/,https://docs.geolysis.io
+geopandas,1.2.0,BSD-3-Clause,https://pypi.org/project/geopandas/1.2.0/,https://github.com/geopandas/geopandas
+groundhog,0.15.0,GNU GPLv3,https://pypi.org/project/groundhog/0.15.0/,https://github.com/snakesonabrain/groundhog
+gunicorn,26.2.0,MIT,https://pypi.org/project/gunicorn/26.2.0/,https://gunicorn.org
+idna,3.20,BSD-3-Clause,https://pypi.org/project/idna/3.20/,https://github.com/kjd/idna
+ifcopenshell,0.9.0.post1,LGPL-3.0-or-later,https://pypi.org/project/ifcopenshell/0.9.0.post1/,http://ifcopenshell.org
+iniconfig,2.3.1,MIT,https://pypi.org/project/iniconfig/2.3.1/,https://github.com/pytest-dev/iniconfig
+isodate,0.7.2,BSD License,https://pypi.org/project/isodate/0.7.2/,https://github.com/gweis/isodate/
+kaleido,0.2.1,not declared in metadata (see repository LICENSE),https://pypi.org/project/kaleido/0.2.1/,https://github.com/plotly/kaleido
+kiwisolver,1.5.1,BSD License,https://pypi.org/project/kiwisolver/1.5.1/,
+lark,1.3.1,MIT,https://pypi.org/project/lark/1.3.1/,https://github.com/lark-parser/lark
+liquepy,0.6.34,MIT,https://pypi.org/project/liquepy/0.6.34/,
+llvmlite,0.50.0,BSD-2-Clause AND Apache-2.0 WITH LLVM-exception,https://pypi.org/project/llvmlite/0.50.0/,http://llvmlite.readthedocs.io
+lml,0.2.0,New BSD,https://pypi.org/project/lml/0.2.0/,https://github.com/python-lml/lml
+lxml,6.1.3,BSD-3-Clause,https://pypi.org/project/lxml/6.1.3/,https://lxml.de/
+markdown-it-py,4.2.0,MIT License,https://pypi.org/project/markdown-it-py/4.2.0/,https://github.com/executablebooks/markdown-it-py
+matplotlib,3.11.2,Python Software Foundation License,https://pypi.org/project/matplotlib/3.11.2/,https://matplotlib.org
+mdurl,0.1.2,MIT License,https://pypi.org/project/mdurl/0.1.2/,https://github.com/executablebooks/mdurl
+narwhals,2.27.1,MIT,https://pypi.org/project/narwhals/2.27.1/,https://github.com/narwhals-dev/narwhals
+numba,0.68.0,BSD,https://pypi.org/project/numba/0.68.0/,https://numba.pydata.org
+numpy,2.5.4,BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0,https://pypi.org/project/numpy/2.5.4/,
+openpyxl,3.1.5,MIT,https://pypi.org/project/openpyxl/3.1.5/,https://openpyxl.readthedocs.io
+openseespy,3.8.0.0,LICENSE.md,https://pypi.org/project/openseespy/3.8.0.0/,https://github.com/zhuminjie/openseespy
+openseespylinux,3.8.0.0,LICENSE.md,https://pypi.org/project/openseespylinux/3.8.0.0/,https://github.com/zhuminjie/openseespy
+packaging,26.3,Apache-2.0 OR BSD-2-Clause,https://pypi.org/project/packaging/26.3/,https://github.com/pypa/packaging
+pandas,2.3.3,BSD-3-Clause,https://pypi.org/project/pandas/2.3.3/,
+pillow,13.0.0,MIT-CMU,https://pypi.org/project/pillow/13.0.0/,https://python-pillow.org
+platformdirs,4.13.5,MIT License,https://pypi.org/project/platformdirs/4.13.5/,https://github.com/tox-dev/platformdirs
+plotly,7.1.0,MIT License,https://pypi.org/project/plotly/7.1.0/,https://plotly.com/python/
+pluggy,1.7.0,MIT,https://pypi.org/project/pluggy/1.7.0/,https://github.com/pytest-dev/pluggy
+polars,1.44.2,MIT License,https://pypi.org/project/polars/1.44.2/,https://www.pola.rs/
+polars-runtime-32,1.44.2,MIT License,https://pypi.org/project/polars-runtime-32/1.44.2/,https://www.pola.rs/
+pooch,1.9.0,BSD-3-Clause,https://pypi.org/project/pooch/1.9.0/,
+psycopg2-binary,2.9.13,LGPL with exceptions,https://pypi.org/project/psycopg2-binary/2.9.13/,https://psycopg.org/
+pydantic,2.14.1,MIT,https://pypi.org/project/pydantic/2.14.1/,https://github.com/pydantic/pydantic
+pydantic_core,2.50.1,MIT,https://pypi.org/project/pydantic_core/2.50.1/,https://github.com/pydantic/pydantic
+pyexcel,0.7.6,New BSD,https://pypi.org/project/pyexcel/0.7.6/,https://github.com/pyexcel/pyexcel
+pyexcel-io,0.6.8,New BSD,https://pypi.org/project/pyexcel-io/0.6.8/,https://github.com/pyexcel/pyexcel-io
+pyexcel-xlsx,0.6.1,New BSD,https://pypi.org/project/pyexcel-xlsx/0.6.1/,https://github.com/pyexcel/pyexcel-xlsx
+pygef,0.14.1,not declared in metadata (see repository LICENSE),https://pypi.org/project/pygef/0.14.1/,
+Pygments,2.21.0,BSD-2-Clause,https://pypi.org/project/Pygments/2.21.0/,https://pygments.org
+pyKOOH,0.5.1,MIT,https://pypi.org/project/pyKOOH/0.5.1/,https://github.com/arkottke/pykooh
+pyogrio,0.13.0,MIT License,https://pypi.org/project/pyogrio/0.13.0/,https://github.com/geopandas/pyogrio
+pyparsing,3.3.3,MIT,https://pypi.org/project/pyparsing/3.3.3/,https://github.com/pyparsing/pyparsing/
+pyproj,3.8.0,MIT,https://pypi.org/project/pyproj/3.8.0/,https://github.com/pyproj4/pyproj
+pyRVT,0.8.1,MIT,https://pypi.org/project/pyRVT/0.8.1/,https://github.com/arkottke/pyrvt
+pyslope,1.4.0,MIT,https://pypi.org/project/pyslope/1.4.0/,
+pyStrata,0.5.4,not declared in metadata (see repository LICENSE),https://pypi.org/project/pyStrata/0.5.4/,https://github.com/arkottke/pystrata
+pytest,9.1.1,MIT,https://pypi.org/project/pytest/9.1.1/,https://docs.pytest.org/en/latest/
+pytest-cov,7.1.0,MIT License,https://pypi.org/project/pytest-cov/7.1.0/,
+python-ags4,1.2.0,GNU Lesser General Public License v3 (LGPLv3),https://pypi.org/project/python-ags4/1.2.0/,https://gitlab.com/ags-data-format-wg/ags-python-library
+python-dateutil,3.0.0,Dual License,https://pypi.org/project/python-dateutil/3.0.0/,https://github.com/dateutil/dateutil
+python-docx,1.2.0,MIT,https://pypi.org/project/python-docx/1.2.0/,https://github.com/python-openxml/python-docx
+python-dotenv,1.2.4,BSD-3-Clause,https://pypi.org/project/python-dotenv/1.2.4/,https://github.com/theskumar/python-dotenv
+pytz,2026.5,MIT,https://pypi.org/project/pytz/2026.5/,http://pythonhosted.org/pytz
+pyvista,0.49.1,MIT,https://pypi.org/project/pyvista/0.49.1/,https://github.com/pyvista/pyvista
+pyvista-validation,0.2.2,MIT,https://pypi.org/project/pyvista-validation/0.2.2/,https://github.com/pyvista/pyvista-validation
+rasterio,1.5.2,BSD-3-Clause,https://pypi.org/project/rasterio/1.5.2/,https://github.com/rasterio/rasterio
+requests,2.34.2,Apache-2.0,https://pypi.org/project/requests/2.34.2/,https://github.com/psf/requests
+rich,13.9.4,MIT,https://pypi.org/project/rich/13.9.4/,https://github.com/Textualize/rich
+rich-rst,2.2.0,MIT,https://pypi.org/project/rich-rst/2.2.0/,https://wasi-master.github.io/rich-rst
+scipy,1.18.1,BSD License,https://pypi.org/project/scipy/1.18.1/,
+scooby,0.12.0,MIT,https://pypi.org/project/scooby/0.12.0/,https://github.com/banesullivan/scooby
+setuptools,84.2.1,MIT,https://pypi.org/project/setuptools/84.2.1/,https://github.com/pypa/setuptools
+sfsimodels,0.9.46,MIT,https://pypi.org/project/sfsimodels/0.9.46/,https://github.com/eng-tools/sfsimodels
+shapely,2.2.0,BSD-3-Clause,https://pypi.org/project/shapely/2.2.0/,https://github.com/shapely/shapely
+six,1.17.0,MIT,https://pypi.org/project/six/1.17.0/,https://github.com/benjaminp/six
+sqlparse,0.6.0,BSD License,https://pypi.org/project/sqlparse/0.6.0/,https://github.com/andialbrecht/sqlparse
+tabulate,0.10.0,MIT,https://pypi.org/project/tabulate/0.10.0/,https://github.com/astanin/python-tabulate
+texttable,1.7.2,MIT,https://pypi.org/project/texttable/1.7.2/,https://github.com/foutaise/texttable/
+tomli,2.5.0,MIT,https://pypi.org/project/tomli/2.5.0/,https://github.com/hukkin/tomli
+tqdm,4.70.1,MPL-2.0 AND MIT,https://pypi.org/project/tqdm/4.70.1/,
+typing-inspection,0.4.4,MIT,https://pypi.org/project/typing-inspection/0.4.4/,https://github.com/pydantic/typing-inspection
+typing_extensions,4.16.0,PSF-2.0,https://pypi.org/project/typing_extensions/4.16.0/,https://github.com/python/typing_extensions
+tzdata,2026.5,Apache-2.0,https://pypi.org/project/tzdata/2026.5/,https://github.com/python/tzdata
+urllib3,2.8.0,MIT,https://pypi.org/project/urllib3/2.8.0/,
+vtk,9.7.1,BSD,https://pypi.org/project/vtk/9.7.1/,https://vtk.org
+whitenoise,6.12.0,MIT,https://pypi.org/project/whitenoise/6.12.0/,https://github.com/evansd/whitenoise
+xslope,1.0.5,Apache-2.0,https://pypi.org/project/xslope/1.0.5/,https://github.com/njones61/xslope

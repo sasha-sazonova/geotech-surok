@@ -1,0 +1,22 @@
+id: d1-foundation
+title: Эталонный сценарий D1 (уровень 2) — отдельный столбчатый фундамент под колонну
+date: 2026-10-23
+revision: 2   # v2: политика статусов (p0, γII по b/2, ГСТ 0.2, κ по источнику φ/c)
+normative:
+  - СП 22.13330.2016, п.5.6.7, ф.(5.7), табл.5.5, табл.5.4; прил. Г; прил. Д
+geometry: {b: 2.0, l: 2.4, A: 4.8, d: 1.8, basement: none}
+loads: {N: 1200.0, moment: null, horizontal: null, p_formula: "p = N/A + 20*d"}
+soil:
+  IGEE1: {type: суглинок тугопластичный, thickness_below_base_m: 4.0, gamma_kNm3: 18.5, phi_deg: 16, c_kPa: 18, E_MPa: 9}
+  above_base_gamma_kNm3: 17.5
+  UGV_m: 3.2
+  gamma_sb_kNm3: 9.0
+  params_source: tests
+  data_bottom_m: 5.8
+calculation_policy: {gamma_II_zone: b/2, gst_boundary_coef: 0.2, settlement_from: p0}
+assumptions:
+  - {name: gamma_c1, value: 1.1, note: "табл.5.4, суглинок IL 0.25–0.5"}
+  - {name: gamma_c2, value: 1.1, note: "табл.5.4, L/H>4 — геометрия здания не задана", status: "не определено (допущение)"}
+limitations: [no_weak_layer_data, no_moment_data, no_building_geometry, no_verified_gge_review]
+contour: {name: geotech-base, freeze: envs/20261023-1542-server-geotech-base-freeze.txt}
+acceptance: {su_limit_cm: 10.0, su_table_number_verified: false}
