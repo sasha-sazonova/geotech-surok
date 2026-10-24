@@ -60,6 +60,7 @@ index.html          двуязычный лендинг (корень GitHub Pag
 | Протокол D1 | <https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/reports/d1-foundation-v2/protocol.md> |
 | Статус | <https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/status.md> |
 | Конкурентный анализ | <https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/competitor-analysis.md> |
+| Покрытие задач GEO5 | <https://sasha-sazonova.github.io/geotech-surok/coverage/> |
 
 ## Принципы
 

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>What we cover from GEO5 tasks — Surok</title>
+<meta name="description" content="GEO5 is a mature commercial suite of 40 modules. We do not compete on breadth: our job is normative traceability and a report package for expert review. Below is what we cover today, what is partial, and what we do not have.">
+<style>
+:root{--paper:#F4F2EC;--ink:#101113;--muted:#5F6270;--line:rgba(16,17,19,.14);--accent:#1236B8;--mono:"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(18,54,184,.3)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 5vw}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 18px;padding:22px 0;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.hero{padding:8vh 0 5vh;border-bottom:1px solid var(--line)}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin:0 0 16px}
+h1{font-size:clamp(38px,6vw,76px);line-height:.92;letter-spacing:-.04em;margin:0 0 18px;font-weight:600}
+.lead{font-size:clamp(17px,1.9vw,22px);line-height:1.4;max-width:34em;margin:0 0 14px}
+.sub{font-size:15px;line-height:1.6;color:var(--muted);max-width:46em;margin:0}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:26px 0 0}
+.metric{background:var(--paper);padding:18px 20px}
+.metric b{display:block;font-size:34px;letter-spacing:-.03em;line-height:1}
+.metric span{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:block;margin-top:6px}
+section{padding:6vh 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(22px,3vw,32px);letter-spacing:-.02em;margin:0 0 10px}
+h3{font-size:16px;margin:26px 0 8px;font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:400}
+table{border-collapse:collapse;width:100%;font-size:14px;margin-top:8px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:400}
+td.s{white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:.06em}
+.full{color:#0B7A5A}.partial{color:#9A6A00}.none{color:#9B2C2C}
+.tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);padding:3px 7px;margin:0 6px 6px 0;color:var(--muted)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:18px}
+.card{border:1px solid var(--line);padding:18px}
+.card h4{margin:0 0 8px;font-size:16px}
+.card p{margin:0;font-size:14px;line-height:1.55;color:#33343A}
+.foot{border-top:1px solid var(--line);padding:22px 0 40px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+</style></head><body>
+<div class="wrap">
+ <div class="top"><span><b>Surok · GEO5 task coverage</b></span><span><a href="../../index.html">Landing</a> · <a href="../../presentation/en/">Presentation</a> · <a href="../index.html">RU</a></span></div>
+ <header class="hero">
+  <p class="kicker">Who it is for · an honest class-by-class comparison</p>
+  <h1>What we cover from GEO5 tasks</h1>
+  <p class="lead">GEO5 is a mature commercial suite of 40 modules. We do not compete on breadth: our job is normative traceability and a report package for expert review. Below is what we cover today, what is partial, and what we do not have.</p>
+  <p class="sub">Compared by task class, not by feature list: the same module name does not mean the same scope. “Covered” means implementation + confirmed code edition + verification; “partial” means the method exists but the normative route or completeness is missing; “not covered” means no module in the contour.</p>
+  <div class="metrics">
+    <div class="metric"><b>2</b><span>covered</span></div>
+    <div class="metric"><b>19</b><span>partial</span></div>
+    <div class="metric"><b>18</b><span>not covered</span></div>
+    <div class="metric"><b>39</b><span>modules in GEO5</span></div>
+  </div>
+ </header>
+ <section><h2>Map by category</h2><h3>Retaining walls</h3><table><tr><th>GEO5 module</th><th>Status</th><th>What we have</th></tr><tr><td>Cantilever wall</td><td class="s partial">partial</td><td>Rankine/Coulomb and stability checks exist in geoeq/anaStruct; SP 542 is confirmed, but there is no full wall module with staged construction.</td></tr>
+<tr><td>Gravity wall</td><td class="s partial">partial</td><td>Same base: earth pressure and stability are computed; gravity-wall specific checks are missing.</td></tr>
+<tr><td>Reinforced embankments</td><td class="s none">not covered</td><td>Reinforcement and soil nails are absent from the OSS contour — a declared gap.</td></tr>
+<tr><td>Gabions</td><td class="s none">not covered</td><td>Gabion walls per SP 22/SP 542 do not exist in open source; manufacturer rules are a check object, not a calculation.</td></tr>
+<tr><td>Reinforced wall</td><td class="s none">not covered</td><td>No reinforcement module; only earth pressure as an input.</td></tr>
+<tr><td>Redi-Rock wall</td><td class="s none">not covered</td><td>Vendor block catalogues are outside the open-source contour.</td></tr>
+<tr><td>Precast wall</td><td class="s none">not covered</td><td>No precast element library or joint checks.</td></tr>
+<tr><td>Soil nailing</td><td class="s none">not covered</td><td>Nails and pull-out checks are not implemented.</td></tr>
+<tr><td>Stabilising pile</td><td class="s none">not covered</td><td>No pile-soil model for slope stabilisation.</td></tr>
+<tr><td>Earth pressure</td><td class="s full">covered</td><td>Rankine and Coulomb are implemented in geoeq; used as input for walls and slopes.</td></tr></table>
+<h3>Slope stability</h3><table><tr><th>GEO5 module</th><th>Status</th><th>What we have</th></tr><tr><td>Slope stability</td><td class="s partial">partial</td><td>xslope: 7 LEM methods, cross-checked with pyslope; no Shakhunyants method or reinforcement.</td></tr>
+<tr><td>Slope stability – seepage</td><td class="s partial">partial</td><td>Seepage is computed with ogs/Kratos; there is no geotechnical preprocessor, mesh and BCs are manual.</td></tr>
+<tr><td>Rock slope</td><td class="s partial">partial</td><td>Kinematic analysis via mplstereonet; rock-mass strength calculations are missing.</td></tr></table>
+<h3>Foundations</h3><table><tr><th>GEO5 module</th><th>Status</th><th>What we have</th></tr><tr><td>Spread footing</td><td class="s partial">partial</td><td>D1: R per clause 5.6.7 and settlement per Appendix G are implemented and checked. Moment, tilt and edge pressure are not determined.</td></tr>
+<tr><td>Spread footing from CPT</td><td class="s partial">partial</td><td>CPT is read by pygef/groundhog, but the CPT-based footing route is not implemented in code.</td></tr>
+<tr><td>Settlement</td><td class="s full">covered</td><td>Layer-by-layer summation per SP 22 Appendix G is implemented in D1; the limit comes from data, not from the method.</td></tr>
+<tr><td>Slab</td><td class="s partial">partial</td><td>geofound/bedrock-ge provide a slab, but not a slab on soil with SP checks.</td></tr>
+<tr><td>Beam</td><td class="s partial">partial</td><td>anaStruct computes the beam; soil support only via manually assigned subgrade moduli.</td></tr>
+<tr><td>Abutment</td><td class="s none">not covered</td><td>No abutment module or its specific checks.</td></tr>
+<tr><td>Piles</td><td class="s partial">partial</td><td>OpenPile: beam-pile models and springs; no SP 24 normative route in OSS — status no_verified_SP_24_workflow.</td></tr>
+<tr><td>Micropile</td><td class="s none">not covered</td><td>Micropiles and their capacity are not in the contour.</td></tr>
+<tr><td>Pile group</td><td class="s none">not covered</td><td>Pile group, interaction and group efficiency are not implemented.</td></tr>
+<tr><td>Pile from CPT</td><td class="s partial">partial</td><td>De Beer from CPT exists in groundhog/methodedebeer as a method, not as an SP route.</td></tr></table>
+<h3>FEM</h3><table><tr><th>GEO5 module</th><th>Status</th><th>What we have</th></tr><tr><td>FEM</td><td class="s partial">partial</td><td>OpenSees/Kratos/Code_Aster are available; Hardening Soil and Soft Soil are not available out of the box.</td></tr>
+<tr><td>FEM – tunnel</td><td class="s none">not covered</td><td>No tunnel templates or excavation stages.</td></tr>
+<tr><td>FEM – consolidation</td><td class="s partial">partial</td><td>Consolidation is possible in a general Kratos/OpenSees formulation; no ready module.</td></tr>
+<tr><td>FEM – seepage</td><td class="s partial">partial</td><td>ogs/Kratos compute seepage; there is no preprocessing or standard BC set.</td></tr>
+<tr><td>FEM – earthquake</td><td class="s partial">partial</td><td>Dynamics exist in OpenSees; SP 14.13330 checks are absent (document is queued).</td></tr></table>
+<h3>Excavation support</h3><table><tr><th>GEO5 module</th><th>Status</th><th>What we have</th></tr><tr><td>Excavation analysis</td><td class="s none">not covered</td><td>No full scenario “staged excavation → anchors → struts → checks” in OSS.</td></tr>
+<tr><td>Excavation design</td><td class="s none">not covered</td><td>No design of the support system with section and anchor selection.</td></tr></table>
+<h3>Tunnels</h3><table><tr><th>GEO5 module</th><th>Status</th><th>What we have</th></tr><tr><td>Shaft</td><td class="s none">not covered</td><td>Shaft and lining are not implemented.</td></tr>
+<tr><td>Underground opening</td><td class="s none">not covered</td><td>Openings rely on the general FEM core only, without templates.</td></tr></table>
+<h3>Site investigation</h3><table><tr><th>GEO5 module</th><th>Status</th><th>What we have</th></tr><tr><td>Stratigraphy</td><td class="s partial">partial</td><td>GemPy/LoopStructural build a geomodel; there is no single geomodel as a calculation source.</td></tr>
+<tr><td>Stratigraphy – earthworks</td><td class="s none">not covered</td><td>No earthworks quantities.</td></tr>
+<tr><td>Stratigraphy – volumes</td><td class="s none">not covered</td><td>No volume or reserve calculation.</td></tr>
+<tr><td>Stratigraphy – tables</td><td class="s partial">partial</td><td>Layer and parameter tables are maintained manually; export to calculation goes through the scenario.</td></tr>
+<tr><td>Laboratory</td><td class="s partial">partial</td><td>groundhog/geolysis process lab data; PMT/DMT and mobile input are missing.</td></tr>
+<tr><td>Point cloud</td><td class="s partial">partial</td><td>laspy/PDAL read point clouds; there is no geotechnical interpretation.</td></tr>
+<tr><td>Data Collector</td><td class="s none">not covered</td><td>No mobile data collection.</td></tr></table></section>
+ <section><h2>Who needs this and why</h2><div class="cols">
+        <div class="card"><h4>Bureaux already using GEO5</h4><p>We do not replace the calculation — we add what a solver does not have: an edition registry, a traceability table and a report package an expert will accept. GEO5 stays the main tool; Surok is the justification layer.</p></div>
+        <div class="card"><h4>Bureaux without a commercial suite</h4><p>An open contour for tasks where the goal is a verifiable result, not a maximum of modules: foundations, settlement, slopes. Some tasks must be done manually or declined — the table shows which.</p></div>
+        <div class="card"><h4>Expert review</h4><p>Checking third-party calculations: is the clause cited, is the edition current, does the number match an independent implementation. The value is not the calculation but the ability to check it.</p></div></div></section>
+ <section><h2>How to read the statuses</h2><p class="sub">Compared by task class, not by feature list: the same module name does not mean the same scope. “Covered” means implementation + confirmed code edition + verification; “partial” means the method exists but the normative route or completeness is missing; “not covered” means no module in the contour.</p>
+   <p class="sub" style="margin-top:10px"><a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/norms/registry.csv">Normative registry</a> · <a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/tools">OSS coverage map</a> · <a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/status.md">Status</a></p>
+ </section>
+ <div class="foot"><span>Surok · geotechnical agent · 2026 · class-level comparison, not marketing</span></div>
+</div></body></html>
