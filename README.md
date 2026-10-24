@@ -60,7 +60,7 @@ index.html          bilingual landing page (GitHub Pages root)
 | D1 protocol | <https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/reports/d1-foundation-v2/protocol.md> |
 | Status | <https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/status.md> |
 | Competitor analysis | <https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/competitor-analysis.md> |
-| Coverage vs GEO5 (EN) | <https://sasha-sazonova.github.io/geotech-surok/coverage/en/> |
+| What we can do (EN) | <https://sasha-sazonova.github.io/geotech-surok/coverage/en/> |
 
 ## Design pillars
 

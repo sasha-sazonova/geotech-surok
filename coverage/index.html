@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Что мы можем из задач GEO5 — Геотехник Сурок</title>
-<meta name="description" content="GEO5 — зрелый коммерческий комплекс из 40 модулей. Мы не конкурируем с ним по широте: наша работа — нормативная прослеживаемость и протокол под экспертизу. Ниже — что из этого списка задач мы закрываем сегодня, что частично и чего у нас нет.">
+<title>Что мы умеем — Геотехник Сурок</title>
+<meta name="description" content="Семь направлений, в которых агент доводит расчёт до протокола, который можно проверить: от давления под подошвой до таблицы трассируемости для эксперта.">
 <style>
 :root{--paper:#F4F2EC;--ink:#101113;--muted:#5F6270;--line:rgba(16,17,19,.14);--accent:#1236B8;--mono:"SF Mono",Menlo,Consolas,monospace}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
@@ -13,19 +13,24 @@ a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(18,54,18
 h1{font-size:clamp(38px,6vw,76px);line-height:.92;letter-spacing:-.04em;margin:0 0 18px;font-weight:600}
 .lead{font-size:clamp(17px,1.9vw,22px);line-height:1.4;max-width:34em;margin:0 0 14px}
 .sub{font-size:15px;line-height:1.6;color:var(--muted);max-width:46em;margin:0}
-.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:26px 0 0}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:26px 0 0}
 .metric{background:var(--paper);padding:18px 20px}
-.metric b{display:block;font-size:34px;letter-spacing:-.03em;line-height:1}
+.metric b{display:block;font-size:32px;letter-spacing:-.03em;line-height:1}
 .metric span{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:block;margin-top:6px}
 section{padding:6vh 0;border-top:1px solid var(--line)}
 h2{font-size:clamp(22px,3vw,32px);letter-spacing:-.02em;margin:0 0 10px}
-h3{font-size:16px;margin:26px 0 8px;font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:400}
+h3{font-size:15px;margin:26px 0 8px;font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:400}
+.cap{border:1px solid var(--line);padding:20px 20px 18px;margin-bottom:14px}
+.cap h4{margin:0 0 8px;font-size:19px;letter-spacing:-.01em}
+.cap p{margin:0 0 8px;font-size:14.5px;line-height:1.6}
+.cap .kv{font-family:var(--mono);font-size:11.5px;line-height:1.6;color:var(--muted)}
+.cap .kv b{color:var(--ink);font-weight:600}
+.num{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--accent);display:block;margin-bottom:8px}
 table{border-collapse:collapse;width:100%;font-size:14px;margin-top:8px}
 th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
 th{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:400}
 td.s{white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:.06em}
 .full{color:#0B7A5A}.partial{color:#9A6A00}.none{color:#9B2C2C}
-.tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);padding:3px 7px;margin:0 6px 6px 0;color:var(--muted)}
 .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:18px}
 .card{border:1px solid var(--line);padding:18px}
 .card h4{margin:0 0 8px;font-size:16px}
@@ -33,64 +38,84 @@ td.s{white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:.0
 .foot{border-top:1px solid var(--line);padding:22px 0 40px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 </style></head><body>
 <div class="wrap">
- <div class="top"><span><b>Сурок · покрытие задач GEO5</b></span><span><a href="../index.html">Лендинг</a> · <a href="../presentation/ru/">Презентация</a> · <a href="en/index.html">EN</a></span></div>
+ <div class="top"><span><b>Сурок · возможности</b></span><span><a href="../index.html">Лендинг</a> · <a href="../presentation/ru/">Презентация</a> · <a href="en/index.html">EN</a></span></div>
  <header class="hero">
-  <p class="kicker">Для кого и зачем · честное сравнение по классам задач</p>
-  <h1>Что мы можем из задач GEO5</h1>
-  <p class="lead">GEO5 — зрелый коммерческий комплекс из 40 модулей. Мы не конкурируем с ним по широте: наша работа — нормативная прослеживаемость и протокол под экспертизу. Ниже — что из этого списка задач мы закрываем сегодня, что частично и чего у нас нет.</p>
-  <p class="sub">Сравнение по классам задач, а не по функциям: одинаковое название модуля не означает одинаковый объём. Статус «закрываем» означает, что есть реализация, подтверждённая редакция нормы и проверка; «частично» — метод есть, нормативного маршрута или полноты нет; «нет» — модуля в контуре нет.</p>
+  <p class="kicker">Возможности · нормативная основа · проверка</p>
+  <h1>Что мы умеем</h1>
+  <p class="lead">Семь направлений, в которых агент доводит расчёт до протокола, который можно проверить: от давления под подошвой до таблицы трассируемости для эксперта.</p>
+  <p class="sub">Для каждого направления указано, на какой норме оно стоит и чем подтверждено — эталонным расчётом, второй реализацией или приёмочной проверкой. Ниже, в разделе сравнения, — честная карта относительно GEO5 как отраслевого ориентира.</p>
   <div class="metrics">
-    <div class="metric"><b>2</b><span>закрываем</span></div>
-    <div class="metric"><b>19</b><span>частично</span></div>
-    <div class="metric"><b>18</b><span>не закрываем</span></div>
-    <div class="metric"><b>39</b><span>модулей в GEO5</span></div>
+    <div class="metric"><b>7</b><span>направлений</span></div>
+    <div class="metric"><b>9</b><span>норм подтверждено</span></div>
+    <div class="metric"><b>2</b><span>эталонных расчёта</span></div>
+    <div class="metric"><b>39</b><span>модулей в сравнении</span></div>
   </div>
  </header>
- <section><h2>Карта по категориям</h2><h3>Подпорные стены</h3><table><tr><th>Модуль GEO5</th><th>Статус</th><th>Что у нас</th></tr><tr><td>Уголковая стена</td><td class="s partial">частично</td><td>Ренкин/Кулон и проверки устойчивости есть в geoeq/anaStruct; СП 542 подтверждён, но полного модуля стены с этапностью нет.</td></tr>
-<tr><td>Гравитационная стена</td><td class="s partial">частично</td><td>Та же база: давление грунта и устойчивость считаются, специфических проверок гравитационной стены нет.</td></tr>
-<tr><td>Армированные насыпи</td><td class="s none">нет</td><td>Армирования и нагелей в OSS-контуре нет — заявленный пробел ТЗ 12.3.</td></tr>
-<tr><td>Габионы</td><td class="s none">нет</td><td>Габионных стен по СП 22/СП 542 в open-source нет; правило производителя — объект проверки, не расчёта.</td></tr>
-<tr><td>Армированная стена</td><td class="s none">нет</td><td>Нет модуля армирования; возможно только давление грунта как вход.</td></tr>
-<tr><td>Стена Redi-Rock</td><td class="s none">нет</td><td>Каталоги блоков производителя — вне open-source контура.</td></tr>
+ <section><h2>Направления работы</h2><div class="cap"><span class="num">01</span><h4>Несущая способность и осадка фундамента</h4>
+<p>Считает среднее давление под подошвой, несущую способность R и осадку послойным суммированием. Возвращает статус каждой проверки, а не одно число.</p>
+<p class="kv"><b>Основа:</b> СП 22.13330.2016: п. 5.6.7, формула (5.7), табл. 5.4 и 5.5, прил. Г и Д<br><b>Чем подтверждено:</b> Эталон D1 v2: p = 286.0 кПа против R = 217.42 кПа — «не выполняется»; осадка ≥ 4.43 см — «не определено»; две реализации расходятся на 0.0%</p></div>
+<div class="cap"><span class="num">02</span><h4>Устойчивость откосов</h4>
+<p>Считает коэффициент запаса семью методами LEM, строит поверхности скольжения и сверяет результат вторым инструментом. Для скальных откосов — кинематический анализ.</p>
+<p class="kv"><b>Основа:</b> СП 22.13330.2016; СП 116.13330 — в очереди на подтверждение редакции<br><b>Чем подтверждено:</b> xslope 1.0.5 (7 методов) + pyslope 1.4.0; расхождение сверх допуска останавливает расчёт</p></div>
+<div class="cap"><span class="num">03</span><h4>Давление грунта и подпорные стены</h4>
+<p>Считает активное и пассивное давление по Ренкину и Кулону, проверяет сдвиг, опрокидывание и общую устойчивость стены.</p>
+<p class="kv"><b>Основа:</b> СП 542.1325800.2024 с Изм. 1; СП 22.13330.2016<br><b>Чем подтверждено:</b> geoeq (Ренкин/Кулон), anaStruct для стены; реестр норм подтверждает редакции</p></div>
+<div class="cap"><span class="num">04</span><h4>Сваи под вертикальной и горизонтальной нагрузкой</h4>
+<p>Строит балочно-свайную модель с грунтовыми пружинами, считает усилия и перемещения, сравнивает с независимым решением. Осевую способность по CPT оценивает через De Beer.</p>
+<p class="kv"><b>Основа:</b> СП 24.13330.2021 с Изм. 1 и 2 — реестр подтверждён; прямого OSS-модуля СП 24 нет, результат несёт ограничение<br><b>Чем подтверждено:</b> OpenPile 1.0.3, groundhog / methodedebeer; сценарий D2 — свая D = 1.2 м, L = 24 м</p></div>
+<div class="cap"><span class="num">05</span><h4>Изыскания и параметры грунта</h4>
+<p>Читает GEF/CPT и AGS4, разбирает скважины и SPT, считает статистику по ГОСТ 20522 и собирает паспорт параметра: значение, ИГЭ, проба, протокол, метод обработки.</p>
+<p class="kv"><b>Основа:</b> ГОСТ 20522-2012 с Изм. 1; ГОСТ 25100 — в очереди, классификация помечается<br><b>Чем подтверждено:</b> pygef, groundhog, python-ags4, geolysis; импорт-тест контура 21/21</p></div>
+<div class="cap"><span class="num">06</span><h4>Протокол и трассируемость</h4>
+<p>Собирает протокол, в котором у каждого числа есть пункт нормы, редакция, формула с подстановкой и статус проверки. Отдельно — таблица трассируемости для эксперта.</p>
+<p class="kv"><b>Основа:</b> СП 22, СП 24, СП 542, СП 248, СП 47, СП 446, ГОСТ 20522, ГОСТ Р 21.101-2026, ПП РФ № 87<br><b>Чем подтверждено:</b> reports/d1-foundation-v2: протокол и таблица трассируемости по каждому пункту</p></div>
+<div class="cap"><span class="num">07</span><h4>Воспроизводимость расчёта</h4>
+<p>Считает в замороженном окружении на вычислительном узле: задание, статус, результат, контрольные суммы. Три повтора — дальше честное «расчёта нет».</p>
+<p class="kv"><b>Основа:</b> Freeze контура: 105 пакетов, Python 3.12.3; свайный контур отдельно<br><b>Чем подтверждено:</b> 6/6 приёмочных проверок живого агента, включая ловушку анти-фоллбэка</p></div></section>
+ <section><h2>Сравнение с топовым продуктом отрасли</h2><p class="sub">GEO5 — зрелый коммерческий комплекс, и по широте модулей мы с ним не конкурируем. Таблица показывает, где мы дополняем решатель, где закрываем задачу иначе, а где честно не берёмся. Статус «есть» — реализация плюс подтверждённая редакция нормы и проверка.</p><h3>Подпорные стены</h3><table><tr><th>Модуль GEO5</th><th>У нас</th><th>Комментарий</th></tr><tr><td>Уголковая стена</td><td class="s partial">частично</td><td>Давление грунта и проверки устойчивости есть; полного модуля стены с этапностью нет.</td></tr>
+<tr><td>Гравитационная стена</td><td class="s partial">частично</td><td>Давление и устойчивость считаются; специфических проверок гравитационной стены нет.</td></tr>
+<tr><td>Армированные насыпи</td><td class="s none">нет</td><td>Армирование и нагели вне контура.</td></tr>
+<tr><td>Габионы</td><td class="s none">нет</td><td>Габионных стен по СП в open-source нет — заявленный пробел.</td></tr>
+<tr><td>Армированная стена</td><td class="s none">нет</td><td>Нет модуля армирования; давление грунта доступно как вход.</td></tr>
+<tr><td>Стена Redi-Rock</td><td class="s none">нет</td><td>Каталоги блоков производителя вне контура.</td></tr>
 <tr><td>Сборная стена</td><td class="s none">нет</td><td>Нет библиотеки сборных элементов и проверок узлов.</td></tr>
-<tr><td>Нагельное крепление</td><td class="s none">нет</td><td>Нагели и их выдёргивание не реализованы.</td></tr>
+<tr><td>Нагельное крепление</td><td class="s none">нет</td><td>Нагели и выдёргивание не реализованы.</td></tr>
 <tr><td>Стабилизирующая свая</td><td class="s none">нет</td><td>Нет модели свая-грунт для стабилизации откоса.</td></tr>
-<tr><td>Давление грунта</td><td class="s full">закрываем</td><td>Ренкин и Кулон реализованы в geoeq; используется как вход для стен и откосов.</td></tr></table>
-<h3>Устойчивость откосов</h3><table><tr><th>Модуль GEO5</th><th>Статус</th><th>Что у нас</th></tr><tr><td>Устойчивость откоса</td><td class="s partial">частично</td><td>xslope: 7 методов LEM, сверка с pyslope; нет метода Шахунянца и армирования.</td></tr>
-<tr><td>Устойчивость откоса – Фильтрация</td><td class="s partial">частично</td><td>Фильтрация считается через ogs/Kratos, геотехнического препроцессора нет — сетка и ГУ вручную.</td></tr>
-<tr><td>Скальный откос</td><td class="s partial">частично</td><td>Кинематический анализ через mplstereonet; прочностные расчёты скального массива — нет.</td></tr></table>
-<h3>Фундаменты</h3><table><tr><th>Модуль GEO5</th><th>Статус</th><th>Что у нас</th></tr><tr><td>Отдельные фундаменты</td><td class="s partial">частично</td><td>D1: R по п. 5.6.7 и осадка по прил. Г реализованы и проверены. Момент, крен и краевые давления — не определено.</td></tr>
-<tr><td>Отдельные фундаменты CPT</td><td class="s partial">частично</td><td>CPT читается pygef/groundhog, но вариант «фундамент по CPT» в коде не реализован.</td></tr>
-<tr><td>Осадка</td><td class="s full">закрываем</td><td>Послойное суммирование по СП 22 прил. Г реализовано в D1; ограничение задаётся данными, а не методом.</td></tr>
-<tr><td>Плита</td><td class="s partial">частично</td><td>geofound/bedrock-ge дают плиту, но не плиту на грунтовом основании с СП-проверками.</td></tr>
-<tr><td>Балка</td><td class="s partial">частично</td><td>anaStruct считает балку; грунтовое основание — только через коэффициенты постели вручную.</td></tr>
-<tr><td>Устой</td><td class="s none">нет</td><td>Нет модуля устоя и его специфических проверок.</td></tr>
-<tr><td>Сваи</td><td class="s partial">частично</td><td>OpenPile: балочно-свайные модели и пружины; нормативного маршрута СП 24 в OSS нет — статус no_verified_SP_24_workflow.</td></tr>
-<tr><td>Микросвая</td><td class="s none">нет</td><td>Микросвай и их несущей способности в контуре нет.</td></tr>
-<tr><td>Куст свай</td><td class="s none">нет</td><td>Куст, взаимное влияние и групповая эффективность не реализованы.</td></tr>
-<tr><td>Свая CPT</td><td class="s partial">частично</td><td>De Beer по CPT есть в groundhog/methodedebeer как метод, не как СП-маршрут.</td></tr></table>
-<h3>МКЭ</h3><table><tr><th>Модуль GEO5</th><th>Статус</th><th>Что у нас</th></tr><tr><td>МКЭ</td><td class="s partial">частично</td><td>OpenSees/Kratos/Code_Aster есть; Hardening Soil и Soft Soil «из коробки» нет.</td></tr>
+<tr><td>Давление грунта</td><td class="s full">есть</td><td>Ренкин и Кулон реализованы, используются как вход для стен и откосов.</td></tr></table>
+<h3>Устойчивость откосов</h3><table><tr><th>Модуль GEO5</th><th>У нас</th><th>Комментарий</th></tr><tr><td>Устойчивость откоса</td><td class="s partial">частично</td><td>7 методов LEM и сверка вторым инструментом; нет Шахунянца и армирования.</td></tr>
+<tr><td>Устойчивость откоса – Фильтрация</td><td class="s partial">частично</td><td>Фильтрация через ogs/Kratos, без геотехнического препроцессора.</td></tr>
+<tr><td>Скальный откос</td><td class="s partial">частично</td><td>Кинематический анализ через mplstereonet; прочность массива — нет.</td></tr></table>
+<h3>Фундаменты</h3><table><tr><th>Модуль GEO5</th><th>У нас</th><th>Комментарий</th></tr><tr><td>Отдельные фундаменты</td><td class="s partial">частично</td><td>R и осадка реализованы и проверены; момент, крен и краевые давления — «не определено».</td></tr>
+<tr><td>Отдельные фундаменты CPT</td><td class="s partial">частично</td><td>CPT читается, но маршрут «фундамент по CPT» в коде не реализован.</td></tr>
+<tr><td>Осадка</td><td class="s full">есть</td><td>Послойное суммирование по СП 22 прил. Г реализовано и проверено в D1.</td></tr>
+<tr><td>Плита</td><td class="s partial">частично</td><td>Плита считается, но не на грунтовом основании с СП-проверками.</td></tr>
+<tr><td>Балка</td><td class="s partial">частично</td><td>Балка есть; основание — через коэффициенты постели вручную.</td></tr>
+<tr><td>Устой</td><td class="s none">нет</td><td>Модуля устоя нет.</td></tr>
+<tr><td>Сваи</td><td class="s partial">частично</td><td>Балочно-свайные модели и пружины; нормативного маршрута СП 24 в OSS нет.</td></tr>
+<tr><td>Микросвая</td><td class="s none">нет</td><td>Микросвай нет.</td></tr>
+<tr><td>Куст свай</td><td class="s none">нет</td><td>Куст и групповая эффективность не реализованы.</td></tr>
+<tr><td>Свая CPT</td><td class="s partial">частично</td><td>De Beer по CPT как метод, не как СП-маршрут.</td></tr></table>
+<h3>МКЭ</h3><table><tr><th>Модуль GEO5</th><th>У нас</th><th>Комментарий</th></tr><tr><td>МКЭ</td><td class="s partial">частично</td><td>OpenSees/Kratos/Code_Aster есть; Hardening Soil «из коробки» нет.</td></tr>
 <tr><td>МКЭ – Тоннель</td><td class="s none">нет</td><td>Шаблонов тоннеля и этапов проходки нет.</td></tr>
-<tr><td>МКЭ – Консолидация</td><td class="s partial">частично</td><td>Консолидация возможна в общей МКЭ-постановке Kratos/OpenSees, готового модуля нет.</td></tr>
-<tr><td>МКЭ – Фильтрация</td><td class="s partial">частично</td><td>ogs/Kratos считают фильтрацию; препроцессинга и типовых ГУ нет.</td></tr>
-<tr><td>МКЭ – Землетрясение</td><td class="s partial">частично</td><td>Динамика в OpenSees есть; проверок по СП 14.13330 нет (документ в очереди).</td></tr></table>
-<h3>Ограждения котлованов</h3><table><tr><th>Модуль GEO5</th><th>Статус</th><th>Что у нас</th></tr><tr><td>Ограждение котлованов – анализ</td><td class="s none">нет</td><td>Полного сценария «выемка по стадиям → анкеры → распорки → проверки» в OSS нет.</td></tr>
-<tr><td>Ограждение котлованов – проект</td><td class="s none">нет</td><td>Проектирования ограждения с подбором сечения и анкеров нет.</td></tr></table>
-<h3>Тоннели</h3><table><tr><th>Модуль GEO5</th><th>Статус</th><th>Что у нас</th></tr><tr><td>Шахта</td><td class="s none">нет</td><td>Шахта и крепь не реализованы.</td></tr>
-<tr><td>Выработка</td><td class="s none">нет</td><td>Выработки — только общее МКЭ-ядро, без шаблонов.</td></tr></table>
-<h3>Изыскания</h3><table><tr><th>Модуль GEO5</th><th>Статус</th><th>Что у нас</th></tr><tr><td>Стратиграфия</td><td class="s partial">частично</td><td>GemPy/LoopStructural строят геомодель; единой геомодели как источника расчёта нет.</td></tr>
+<tr><td>МКЭ – Консолидация</td><td class="s partial">частично</td><td>Консолидация в общей постановке, готового модуля нет.</td></tr>
+<tr><td>МКЭ – Фильтрация</td><td class="s partial">частично</td><td>Фильтрация считается; препроцессинга и типовых ГУ нет.</td></tr>
+<tr><td>МКЭ – Землетрясение</td><td class="s partial">частично</td><td>Динамика есть; проверок по СП 14.13330 нет.</td></tr></table>
+<h3>Ограждения котлованов</h3><table><tr><th>Модуль GEO5</th><th>У нас</th><th>Комментарий</th></tr><tr><td>Ограждение котлованов – анализ</td><td class="s none">нет</td><td>Полного сценария «выемка по стадиям → анкеры → распорки» нет.</td></tr>
+<tr><td>Ограждение котлованов – проект</td><td class="s none">нет</td><td>Проектирования ограждения нет.</td></tr></table>
+<h3>Тоннели</h3><table><tr><th>Модуль GEO5</th><th>У нас</th><th>Комментарий</th></tr><tr><td>Шахта</td><td class="s none">нет</td><td>Шахта и крепь не реализованы.</td></tr>
+<tr><td>Выработка</td><td class="s none">нет</td><td>Только общее МКЭ-ядро, без шаблонов.</td></tr></table>
+<h3>Изыскания</h3><table><tr><th>Модуль GEO5</th><th>У нас</th><th>Комментарий</th></tr><tr><td>Стратиграфия</td><td class="s partial">частично</td><td>Геомодель строится, но не как единый источник расчёта.</td></tr>
 <tr><td>Стратиграфия – Земляные работы</td><td class="s none">нет</td><td>Ведомостей земляных работ нет.</td></tr>
-<tr><td>Стратиграфия – Резервы</td><td class="s none">нет</td><td>Подсчёта объёмов/резервов нет.</td></tr>
-<tr><td>Стратиграфия – Таблицы</td><td class="s partial">частично</td><td>Таблицы слоёв и параметров ведутся вручную, экспорт в расчёт — через сценарий.</td></tr>
-<tr><td>Лаборатория</td><td class="s partial">частично</td><td>groundhog/geolysis обрабатывают лабораторные данные; PMT/DMT и мобильный ввод — нет.</td></tr>
-<tr><td>Облако точек</td><td class="s partial">частично</td><td>laspy/PDAL читают облака; геотехнической интерпретации нет.</td></tr>
+<tr><td>Стратиграфия – Резервы</td><td class="s none">нет</td><td>Подсчёта объёмов нет.</td></tr>
+<tr><td>Стратиграфия – Таблицы</td><td class="s partial">частично</td><td>Таблицы слоёв ведутся вручную, экспорт через сценарий.</td></tr>
+<tr><td>Лаборатория</td><td class="s partial">частично</td><td>Лабораторные данные обрабатываются; PMT/DMT нет.</td></tr>
+<tr><td>Облако точек</td><td class="s partial">частично</td><td>Облака читаются, геотехнической интерпретации нет.</td></tr>
 <tr><td>Data Collector</td><td class="s none">нет</td><td>Мобильного сбора данных нет.</td></tr></table></section>
- <section><h2>Кому и зачем это нужно</h2><div class="cols">
-        <div class="card"><h4>Бюро, которое уже считает в GEO5</h4><p>Мы не заменяем расчёт — мы достраиваем то, чего в решателе нет: реестр редакций, таблицу трассируемости и протокол, который принимает эксперт. GEO5 остаётся основным инструментом, Сурок — слоем обоснования.</p></div>
-        <div class="card"><h4>Бюро без коммерческого комплекса</h4><p>Открытый контур для задач, где нужен не «максимум модулей», а проверяемый результат: фундаменты, осадка, откосы. Часть задач придётся закрывать вручную или не брать вовсе — это видно в таблице.</p></div>
-        <div class="card"><h4>Экспертиза и ревью</h4><p>Проверка чужих расчётов: есть ли пункт, та ли редакция, сходится ли число с независимой реализацией. Здесь ценность не в расчёте, а в возможности его проверить.</p></div></div></section>
- <section><h2>Как читать статусы</h2><p class="sub">Сравнение по классам задач, а не по функциям: одинаковое название модуля не означает одинаковый объём. Статус «закрываем» означает, что есть реализация, подтверждённая редакция нормы и проверка; «частично» — метод есть, нормативного маршрута или полноты нет; «нет» — модуля в контуре нет.</p>
-   <p class="sub" style="margin-top:10px"><a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/norms/registry.csv">Реестр норм</a> · <a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/tools">Карта OSS-покрытия</a> · <a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/status.md">Статус</a></p>
+ <section><h2>Кому и зачем</h2><div class="cols">
+        <div class="card"><h4>Бюро, которое уже считает в GEO5</h4><p>GEO5 остаётся основным инструментом, Сурок достраивает слой обоснования: реестр редакций, трассируемость и протокол, который принимает эксперт.</p></div>
+        <div class="card"><h4>Бюро без коммерческого комплекса</h4><p>Открытый контур для фундаментов, осадки и откосов — там, где нужен проверяемый результат, а не максимум модулей.</p></div>
+        <div class="card"><h4>Экспертиза и ревью</h4><p>Проверка чужих расчётов: есть ли пункт, та ли редакция, воспроизводится ли число независимой реализацией.</p></div></div>
+   <p class="sub" style="margin-top:12px"><a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/norms/registry.csv">Реестр норм</a> · <a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/tools">Карта OSS-покрытия</a> · <a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/status.md">Статус</a></p>
  </section>
- <div class="foot"><span>Сурок · геотехнический агент · 2026 · сравнение по классам задач, не рекламное сопоставление</span></div>
+ <div class="foot"><span>Сурок · геотехнический агент · 2026</span></div>
 </div></body></html>
