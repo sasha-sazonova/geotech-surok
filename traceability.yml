@@ -1,0 +1,129 @@
+# Data-driven traceability: document -> edition -> clause -> formula -> code -> test.
+# Validator: tools/validate_traceability.py (run by `make verify`).
+documents:
+  - id: SP22-2016
+    title: СП 22.13330.2016 «Основания зданий и сооружений»
+    verification:
+      status: verified
+      edition_note: официальный текст с Изм. 1–5 (проверено по PDF-изданию)
+      sources:
+        - url: https://files.stroyinf.ru/Data2/1/4293747/4293747631.pdf
+          retrieved: 2026-10-24
+          covers: [п.5.6.7, п.5.6.10, п.5.6.31, п.5.6.32, п.5.6.34, п.5.6.41, табл.5.4, табл.5.5, табл.5.8, прил.Г]
+clauses:
+  - id: SP22-5.6.7-R
+    document: SP22-2016
+    clause: п.5.6.7
+    formula: (5.7)
+    status: verified
+    code:
+      - {file: calc/d1_foundation.py, symbol: bearing_resistance}
+    tests:
+      - tests/test_golden.py::test_d1_base_golden
+      - tests/test_manual_reference.py::test_manual_reference_matches
+      - tests/test_units.py::test_R_dimensional_consistency
+      - tests/test_properties.py::test_R_monotonic_in_phi
+      - tests/test_properties.py::test_R_monotonic_in_c
+      - tests/test_properties.py::test_R_monotonic_in_b_dry
+      - tests/test_negative.py::test_failed_check_is_a_number_not_a_refusal
+  - id: SP22-tab5.4-coefficients
+    document: SP22-2016
+    clause: табл.5.4
+    formula: γc1, γc2
+    status: verified
+    code:
+      - {file: calc/d1_foundation.py, symbol: D1Params}
+    tests:
+      - tests/test_golden.py::test_d1_resized_golden
+  - id: SP22-tab5.5-M
+    document: SP22-2016
+    clause: табл.5.5
+    formula: Mγ, Mq, Mc
+    status: verified
+    code:
+      - {file: calc/d1_foundation.py, symbol: M_coefficients}
+    tests:
+      - tests/test_properties.py::test_R_monotonic_in_phi
+  - id: SP22-5.6.10-gamma
+    document: SP22-2016
+    clause: п.5.6.10
+    formula: осреднение γII по z = b/2
+    status: verified
+    code:
+      - {file: calc/d1_foundation.py, symbol: average_gamma_below}
+    tests:
+      - tests/test_properties.py::test_R_monotonic_in_gamma
+  - id: SP22-5.6.31-settlement
+    document: SP22-2016
+    clause: п.5.6.31
+    formula: (5.16), β = 0.8
+    status: verified
+    code:
+      - {file: calc/d1_foundation.py, symbol: settlement}
+    tests:
+      - tests/test_integration_step.py::test_step_independence
+      - tests/test_properties.py::test_settlement_monotonic_in_load
+      - tests/test_properties.py::test_settlement_monotonic_in_E
+      - tests/test_units.py::test_settlement_dimensions
+  - id: SP22-5.6.32-alpha
+    document: SP22-2016
+    clause: п.5.6.32
+    formula: (5.17), табл.5.8
+    status: verified
+    code:
+      - {file: calc/d1_foundation.py, symbol: alpha_coeff}
+    tests:
+      - tests/test_golden.py::test_d1_base_golden
+  - id: SP22-5.6.41-Hc
+    document: SP22-2016
+    clause: п.5.6.41
+    formula: σzp ≈ 0.5·σzg; Hc ≥ b/2
+    status: verified
+    code:
+      - {file: calc/d1_foundation.py, symbol: settlement}
+    tests:
+      - tests/test_negative.py::test_missing_soil_data_refused
+  - id: SP22-5.6.34-sigma-zgamma
+    document: SP22-2016
+    clause: п.5.6.34
+    formula: при d ≥ 5 м требуется учёт σzγ
+    status: partial
+    note: реализован отказ от расчёта; сам член σzγ не реализован
+    code:
+      - {file: calc/d1_foundation.py, symbol: settlement}
+    tests:
+      - tests/test_negative.py::test_deep_base_settlement_refused
+  - id: SP22-5.6.3-5.6.5-tilt
+    document: SP22-2016
+    clause: п.5.6.3–5.6.5
+    formula: крен/краевые давления
+    status: partial
+    note: реализован отказ при заданном моменте; проверка крена не реализована
+    code:
+      - {file: calc/d1_foundation.py, symbol: analyze}
+    tests:
+      - tests/test_negative.py::test_moment_refused
+  - id: SP22-appG-su
+    document: SP22-2016
+    clause: прил. Г, табл. Г.1, п.1
+    formula: su = 10 см (ж/б каркас)
+    status: verified
+    code:
+      - {file: calc/d1_foundation.py, symbol: D1Params}
+    tests:
+      - tests/test_golden.py::test_d1_base_golden
+oracles:
+  - id: manual-d1
+    type: manual
+    path: docs/manual-check-d1.md
+    status: verified
+  - id: commercial-core
+    type: external
+    tolerance: ±5% (R and settlement)
+    status: not_run
+    note: GEO5/PLAXIS/Rocscience/ISSMGE published cases — requires licensed access; see docs/benchmarks/README.md
+open_items:
+  - su для реконструкции — прил. Е; для нового строительства — прил. Г (подтверждено оглавлением издания).
+  - Строки 38/43 табл.5.5 восстановлены интерполяцией из-за OCR-повреждения PDF.
+  - Осадка при d ≥ 5 м требует σzγ (п.5.6.34) — отказ.
+  - СП 24.13330 (сваи) — нормативный маршрут в OSS отсутствует.

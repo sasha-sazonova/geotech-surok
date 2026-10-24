@@ -1,0 +1,24 @@
+Mc: 4.99
+Mg: 0.36
+Mq: 2.43
+R_kPa: 218.82
+checks:
+- clause: СП 22.13330.2016, п.5.6.7, ф.(5.7)
+  criterion: 218.8188
+  id: p_le_R
+  status: выполняется
+  value: 214.57142857142858
+- clause: СП 22.13330.2016, п.5.6.31, ф.(5.16); п.5.6.41; прил. Г, табл. Г.1
+  criterion: 10.0
+  id: s_le_su
+  status: выполняется
+  value: 3.59462242680776
+gamma_II: 18.5
+gamma_IIp: 17.5
+p_kPa: 214.57
+refusals: []
+settlement:
+  Hc_m: 3.6
+  s_cm: 3.595
+  status: выполняется
+  truncated: false
