@@ -54,3 +54,12 @@ Detailed numbers: [docs/results.md](results.md).
 2. Table 5.5 rows 38/43 restored by interpolation (OCR damage) — flagged.
 3. Settlement for d ≥ 5 m (σzγ term) — code refuses.
 4. SP 24.13330 normative route for piles — absent in OSS.
+
+## Update 2026-10-29 (2): clean-machine verification
+
+* Full `pip install -r requirements.lock` + `make verify` re-run on a second clean venv:
+  TRACEABILITY OK (10 clauses, 19 tests), 31 tests passed.
+* Found: Pint 0.24.4 has no Python 3.9 wheel — declared Python ≥ 3.10 requirement in README.
+  CI (Python 3.12) and Docker (3.12-slim) are unaffected.
+* Subagent norm-check and adversarial review were dispatched on 2026-10-28 (bench2); their
+  findings on slope/pile benchmarks are to be applied in the next benchmark round (B1/B3).

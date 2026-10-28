@@ -98,7 +98,7 @@ clause (document → edition → clause → formula) to code symbols and tests; 
 build on orphan clauses, unreferenced tests, or a "verified" status without a dated source.
 
 ```bash
-make verify            # traceability validator + pytest
+make verify (Python ≥ 3.10 required — Pint 0.24.4 has no py3.9 wheel)            # traceability validator + pytest
 make regen             # regenerate golden files (only when results intentionally change)
 docker build -t geotech-surok .   # clean-machine run of the same checks
 ```
