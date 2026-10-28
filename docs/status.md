@@ -34,3 +34,23 @@ Detailed numbers: [docs/results.md](results.md).
 | Строки 38/43 табл.5.5 (OCR) | **открыто**: восстановлены интерполяцией, помечено |
 | Осадка при d ≥ 5 м (σzγ) | **открыто**: код отказывается считать |
 | Нормативный маршрут СП 24.13330 (сваи) | **открыто**: в OSS отсутствует |
+
+
+## Update 2026-10-29: B2 benchmark (table 5.8 vs Boussinesq) and crash-recovery test
+
+* **Table 5.8 benchmark closed.** Exact elastic center values (closed-form angular-point
+  formula, validated against numeric integration to 0.4–0.6%) run 2.7–31.6% ABOVE the
+  tabulated α as ξ grows. Tabulated α is conservative by design — our settlement uses it,
+  so results stay on the safe side. Pinned by `tests/test_boussinesq_table58.py` (15 checks)
+  and wired into `traceability.yml` under the табл.5.8 clause.
+* **Crash-recovery test (unplanned, real).** On 2026-10-26 the compute node's venvs were wiped
+  by a third-party cleanup (not our cron). On 2026-10-28 the geotech-base contour was fully
+  rebuilt from its freeze file in 3 minutes (job venv-rebuild-001) with import test 21/21 —
+  the freeze contract (clause 6.1.6) proved itself in a real outage.
+
+## Open items (unchanged)
+
+1. Commercial-core cross-check (±5%) — no licensed access.
+2. Table 5.5 rows 38/43 restored by interpolation (OCR damage) — flagged.
+3. Settlement for d ≥ 5 m (σzγ term) — code refuses.
+4. SP 24.13330 normative route for piles — absent in OSS.

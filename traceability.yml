@@ -74,6 +74,9 @@ clauses:
       - {file: calc/d1_foundation.py, symbol: alpha_coeff}
     tests:
       - tests/test_golden.py::test_d1_base_golden
+      - tests/test_boussinesq_table58.py::test_our_interpolator_reproduces_table
+      - tests/test_boussinesq_table58.py::test_table58_is_conservative_vs_exact
+      - tests/test_boussinesq_table58.py::test_settlement_is_conservative
   - id: SP22-5.6.41-Hc
     document: SP22-2016
     clause: п.5.6.41
