@@ -63,3 +63,9 @@ Detailed numbers: [docs/results.md](results.md).
   CI (Python 3.12) and Docker (3.12-slim) are unaffected.
 * Subagent norm-check and adversarial review were dispatched on 2026-10-28 (bench2); their
   findings on slope/pile benchmarks are to be applied in the next benchmark round (B1/B3).
+
+## Update 2026-10-29: commercial cross-check cancelled; B1/B3 benchmarks started
+
+Owner decision: no commercial-core verification. Oracle stack now: manual closed form (done),
+independent second implementation (done), cross-tool comparisons (B1/B3 in progress), exact elastic
+closed forms (done, table 5.8 conservative 3–32 %). Details: docs/benchmarks/README.md.

@@ -110,4 +110,4 @@ Evidence today:
 | Manual independent calculation (R = 215.62 kPa; s = 4.232 cm) | `docs/manual-check-d1.md`, pinned by `test_manual_reference` |
 | Normative text verified (СП 22.13330.2016, п.5.6.7/5.6.10/5.6.31/5.6.32/5.6.41, табл.5.4/5.5/5.8, прил.Г) | `docs/norm-sources/sp22-2016.md` |
 | Golden / property / step / units / negative tests | `tests/` |
-| Commercial-core cross-check (±5%) | **not run** — no licensed access; see `docs/benchmarks/README.md` |
+| Commercial-core cross-check | **cancelled** by owner; oracle stack = manual closed form + second implementation + cross-tool |

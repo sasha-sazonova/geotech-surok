@@ -123,8 +123,11 @@ oracles:
   - id: commercial-core
     type: external
     tolerance: ±5% (R and settlement)
-    status: not_run
-    note: GEO5/PLAXIS/Rocscience/ISSMGE published cases — requires licensed access; see docs/benchmarks/README.md
+    status: cancelled
+    note: cancelled by owner decision 2026-10-29 (no licensed access planned). Replacement oracles:
+      manual closed-form check (docs/manual-check-d1.md, verified), independent second implementation
+      (calc_check), cross-tool comparisons (xslope/pyslope/openpile vs hand formulas), and published
+      cases if free sources become available. See docs/benchmarks/README.md.
 open_items:
   - su для реконструкции — прил. Е; для нового строительства — прил. Г (подтверждено оглавлением издания).
   - Строки 38/43 табл.5.5 восстановлены интерполяцией из-за OCR-повреждения PDF.
