@@ -38,3 +38,8 @@ Declared cross-tool tolerance ±5 % — **passes** (Fellenius vs pyslope: 2.2 %)
 
 `calc/b1_slope.py` — hand Fellenius/Bishop on a fixed circle; `tests/test_b1_slope.py` —
 benchmark tests incl. the ±5 % cross-tool check and cohesion monotonicity.
+
+## Status
+
+Benchmark accepted 2026-10-29: Fellenius vs pyslope agreement 2.2% (within ±5%); Bishop < Fellenius;
+cohesion monotonicity wired. All 35 tests + traceability validator green in CI (run 1f4d5d9).
