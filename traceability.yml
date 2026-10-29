@@ -126,6 +126,14 @@ oracles:
       - tests/test_b1_slope.py::test_bishop_on_pyslope_critical_circle
     tolerance: ±5% (Fellenius vs pyslope on the same circle) — passed (2.2%)
     status: verified
+  - id: b3-axial-hand-ref
+    type: manual-reference
+    path: tests/test_b3_axial.py
+    tests:
+      - tests/test_b3_axial.py::test_hand_matches_openpile_node_values
+      - tests/test_b3_axial.py::test_tip_pressure_reference
+    tolerance: 0.0% (z<=20m); fmax cap near tip
+    status: verified
   - id: manual-d1
     type: manual
     path: docs/manual-check-d1.md
