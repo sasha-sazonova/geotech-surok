@@ -123,6 +123,7 @@ oracles:
       - tests/test_b1_slope.py::test_fellenius_on_pyslope_critical_circle
       - tests/test_b1_slope.py::test_pyslope_agreement_within_declared_tolerance
       - tests/test_b1_slope.py::test_monotonic_fs_in_cohesion
+      - tests/test_b1_slope.py::test_bishop_on_pyslope_critical_circle
     tolerance: ±5% (Fellenius vs pyslope on the same circle) — passed (2.2%)
     status: verified
   - id: manual-d1
