@@ -43,6 +43,10 @@ def main():
     tests = scan_tests()
     referenced = set()
 
+    for oracle in data.get("oracles", []):
+        for t in oracle.get("tests") or []:
+            referenced.add(t)
+
     for clause in data.get("clauses", []):
         cid = clause.get("id", "?")
         doc = docs.get(clause.get("document"))

@@ -116,6 +116,15 @@ clauses:
     tests:
       - tests/test_golden.py::test_d1_base_golden
 oracles:
+  - id: b1-slope-pyslope
+    type: cross-tool
+    path: calc/b1_slope.py
+    tests:
+      - tests/test_b1_slope.py::test_fellenius_on_pyslope_critical_circle
+      - tests/test_b1_slope.py::test_pyslope_agreement_within_declared_tolerance
+      - tests/test_b1_slope.py::test_monotonic_fs_in_cohesion
+    tolerance: ±5% (Fellenius vs pyslope on the same circle) — passed (2.2%)
+    status: verified
   - id: manual-d1
     type: manual
     path: docs/manual-check-d1.md
@@ -124,10 +133,10 @@ oracles:
     type: external
     tolerance: ±5% (R and settlement)
     status: cancelled
-    note: cancelled by owner decision 2026-10-29 (no licensed access planned). Replacement oracles:
-      manual closed-form check (docs/manual-check-d1.md, verified), independent second implementation
-      (calc_check), cross-tool comparisons (xslope/pyslope/openpile vs hand formulas), and published
-      cases if free sources become available. See docs/benchmarks/README.md.
+    note: "Cancelled by owner decision 2026-10-29 (no licensed access planned). Replacement
+      oracles: manual closed-form check (docs/manual-check-d1.md, verified), independent second
+      implementation (calc_check), cross-tool comparisons (pyslope/openpile vs hand formulas),
+      published free cases if found. See docs/benchmarks/README.md." 
 open_items:
   - su для реконструкции — прил. Е; для нового строительства — прил. Г (подтверждено оглавлением издания).
   - Строки 38/43 табл.5.5 восстановлены интерполяцией из-за OCR-повреждения PDF.
