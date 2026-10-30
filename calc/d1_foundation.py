@@ -27,6 +27,23 @@ from typing import Dict, List, Optional, Sequence, Tuple
 
 GAMMA_W = 9.81  # kN/m3, water unit weight
 
+
+class UnverifiedNormValue(ValueError):
+    """A calculation would depend on a table cell that is not verified.
+
+    Rows 38 and 43 of табл. 5.5 are damaged in the source PDF (the text layer
+    shows «А Н .» and «ЗЛ2» instead of Mγ).  The Mγ values stored for those two
+    rows are reconstructions, so any calculation that actually uses them must
+    refuse instead of returning a plausible-looking number.
+    """
+
+
+# φ values whose Mγ cell is a reconstruction, not a verified transcription.
+RESTORED_ROWS: Dict[int, str] = {
+    38: "Mγ восстановлен интерполяцией между 37 и 39 (OCR «А Н .»)",
+    43: "Mγ восстановлен по скану как 3,12 (OCR «ЗЛ2»)",
+}
+
 # --- табл. 5.5 (Mγ, Mq, Mc). Rows 38 and 43 were restored by linear
 # interpolation between verified neighbours because of OCR damage in the
 # source PDF; they are flagged in docs/norm-sources/sp22-2016.md.
@@ -82,13 +99,24 @@ def _linear(x: float, x0: float, x1: float, y0: float, y1: float) -> float:
     return y0 + (y1 - y0) * (x - x0) / (x1 - x0)
 
 
-def M_coefficients(phi_deg: float) -> Tuple[float, float, float]:
-    """Mγ, Mq, Mc from табл. 5.5 with linear interpolation."""
+def M_coefficients(phi_deg: float, allow_restored: bool = False) -> Tuple[float, float, float]:
+    """Mγ, Mq, Mc from табл. 5.5 with linear interpolation.
+
+    Raises UnverifiedNormValue when the interpolation actually uses row 38 or
+    row 43, because Mγ in those rows is a reconstruction (see RESTORED_ROWS).
+    Pass allow_restored=True only for sensitivity studies, never for a result.
+    """
     if not (0.0 <= phi_deg <= 45.0):
         raise ValueError("phi outside table 5.5 range 0..45 deg")
     lo = int(phi_deg)
     hi = min(lo + 1, 45)
     f = phi_deg - lo
+    used = [lo] if f == 0 else [lo, hi]
+    bad = [row for row in used if row in RESTORED_ROWS]
+    if bad and not allow_restored:
+        detail = "; ".join(f"φ={row}: {RESTORED_ROWS[row]}" for row in bad)
+        raise UnverifiedNormValue(
+            "табл. 5.5: ячейка не подтверждена печатным оригиналом — " + detail)
     a, b = M_TABLE[lo], M_TABLE[hi]
     return (_linear(f, 0, 1, a[0], b[0]),
             _linear(f, 0, 1, a[1], b[1]),
@@ -146,6 +174,10 @@ class Layer:
     bottom: float
     gamma: float        # total unit weight, kN/m3
     E_kpa: float
+    # E_e — модуль по ветви вторичного нагружения (п.5.6.31, ф.(5.16)).
+    # При отсутствии опытных данных примечание 1 к 5.6.31 для категорий 1-2
+    # допускает E_e ≈ 5·E; None означает именно это допущение.
+    E_unload_kpa: Optional[float] = None
 
     @property
     def thickness(self) -> float:
@@ -175,6 +207,9 @@ class D1Params:
     water_line: float = -3.2   # elevation, m
     data_bottom: float = -5.8  # lowest known elevation
     su_cm: float = 10.0        # прил. Г, табл. Г.1, п.1 (RC frame)
+    # п.5.6.33: в расчёте σzγ берутся размеры в плане котлована, а не фундамента.
+    pit_b: Optional[float] = None
+    pit_l: Optional[float] = None
     layers: List[Layer] = field(default_factory=lambda: [
         Layer(top=0.0, bottom=-1.8, gamma=17.5, E_kpa=9000.0),   # planning fill above the base
         Layer(top=-1.8, bottom=-5.8, gamma=18.5, E_kpa=9000.0), # ИГЭ-1 (clayey loam)
@@ -213,9 +248,26 @@ def average_gamma_above(params: D1Params) -> float:
              + (params.gamma_above - GAMMA_W) * (params.d - above_wl)) / params.d)
 
 
-def bearing_resistance(params: D1Params) -> Dict[str, float]:
+def sigma_zg0(params: D1Params) -> float:
+    """σzg,0 — own-weight stress at the footing base (п.5.6.33, planning by cut)."""
+    return average_gamma_above(params) * params.d
+
+
+def _E_unload_at(params: D1Params, depth: float) -> float:
+    """Модуль по ветви вторичного нагружения E_e для глубины depth (вниз от 0)."""
+    elevation = -depth
+    for layer in params.layers:
+        if layer.bottom <= elevation <= layer.top:
+            if layer.E_unload_kpa is not None:
+                return layer.E_unload_kpa
+            return 5.0 * layer.E_kpa  # примечание 1 к п.5.6.31
+    last = params.layers[-1]
+    return last.E_unload_kpa if last.E_unload_kpa is not None else 5.0 * last.E_kpa
+
+
+def bearing_resistance(params: D1Params, allow_restored: bool = False) -> Dict[str, float]:
     """R by п.5.6.7, formula (5.7)."""
-    Mg, Mq, Mc = M_coefficients(params.phi_deg)
+    Mg, Mq, Mc = M_coefficients(params.phi_deg, allow_restored=allow_restored)
     gII = average_gamma_below(params, params.b / 2.0)
     gIIp = average_gamma_above(params)
     R = (params.gamma_c1 * params.gamma_c2 / params.kappa) * (
@@ -249,17 +301,39 @@ def sigma_zg(params: D1Params, z_below_base: float) -> float:
     return stress
 
 
-def settlement(params: D1Params, h: Optional[float] = None) -> Dict[str, object]:
-    """s by п.5.6.31 (5.16), σzp by п.5.6.32 (5.17), Hc by п.5.6.41."""
+def settlement(params: D1Params, h: Optional[float] = None,
+               include_unloading: Optional[bool] = None) -> Dict[str, object]:
+    """s by п.5.6.31 (5.16), σzp by п.5.6.32 (5.17), σzγ by п.5.6.33 (5.18), Hc by п.5.6.41.
+
+    Formula (5.16) has two terms:
+
+        s = β · Σ [ σzp,i / E_i  −  σzγ,i / E_e,i ] · h_i
+
+    where σzγ,i = α·σzg,0 (5.18) uses the plan dimensions of the PIT, not of
+    the footing (п.5.6.33), and E_e is the secondary-loading modulus.
+    Per п.5.6.34 the second term may be omitted for pits shallower than 5 m;
+    that is the default behaviour here for d < 5 m, and omitting it for deeper
+    pits is only allowed explicitly via include_unloading=False.
+    """
     p = params.pressure_kpa()
-    if params.d >= 5.0:
-        return {"status": "не определено (d ≥ 5 м: требуется учёт σzγ, п.5.6.34)",
+    sg0 = sigma_zg0(params)
+    if include_unloading is None:
+        include_unloading = params.d >= 5.0
+    if params.d >= 5.0 and not include_unloading:
+        return {"status": "не определено (d ≥ 5 м: второе слагаемое σzγ по п.5.6.34 опускать нельзя)",
                 "s_cm": None, "Hc_m": None, "truncated": True}
     if params.data_bottom >= -params.d:
         return {"status": "не определено (нет данных о грунте ниже подошвы)",
                 "s_cm": None, "Hc_m": None, "truncated": True}
+    if p < sg0:
+        return {"status": "не определено (p < σzg,0: требуется формула (5.19), п.5.6.35)",
+                "s_cm": None, "Hc_m": None, "truncated": True,
+                "p_kPa": p, "sigma_zg0_kPa": sg0}
     h = h if h is not None else min(0.4 * params.b, 0.4)
     eta = params.l / params.b
+    pit_b = params.pit_b if params.pit_b else params.b
+    pit_l = params.pit_l if params.pit_l else params.l
+    eta_pit = pit_l / pit_b
     beta = 0.8
     s = 0.0
     z = 0.0
@@ -271,7 +345,11 @@ def settlement(params: D1Params, h: Optional[float] = None) -> Dict[str, object]
         zm = z + dz / 2.0
         sp = alpha_coeff(2.0 * zm / params.b, eta) * p
         E = _E_at(params, params.d + zm)
-        s += beta * sp * dz / E
+        term = sp / E
+        if include_unloading:
+            sg_alpha = alpha_coeff(2.0 * zm / pit_b, eta_pit) * sg0
+            term -= sg_alpha / _E_unload_at(params, params.d + zm)
+        s += beta * term * dz
         sg = sigma_zg(params, z_next)
         if sp <= 0.5 * sg:
             Hc = z_next
@@ -289,7 +367,9 @@ def settlement(params: D1Params, h: Optional[float] = None) -> Dict[str, object]
                 "s_cm": s * 100.0, "Hc_m": Hc, "truncated": False}
     s_cm = s * 100.0
     status = "выполняется" if s_cm <= params.su_cm else "не выполняется"
-    return {"status": status, "s_cm": s_cm, "Hc_m": Hc, "truncated": False}
+    return {"status": status, "s_cm": s_cm, "Hc_m": Hc, "truncated": False,
+            "unloading_included": include_unloading,
+            "sigma_zg0_kPa": sg0}
 
 
 def _E_at(params: D1Params, depth: float) -> float:
@@ -308,19 +388,38 @@ def analyze(params: D1Params) -> Dict[str, object]:
         refusals.append("крен/краевые давления: момент задан, проверка не реализована")
     if params.data_bottom >= -params.d:
         refusals.append("нет данных о грунте ниже подошвы")
-    R = bearing_resistance(params)
     p = params.pressure_kpa()
-    checks.append({
-        "id": "p_le_R", "clause": "СП 22.13330.2016, п.5.6.7, ф.(5.7)",
-        "value": p, "criterion": R["R_kPa"],
-        "status": "выполняется" if p <= R["R_kPa"] else "не выполняется",
-    })
+    try:
+        R = bearing_resistance(params)
+    except UnverifiedNormValue as exc:
+        refusals.append(f"R: не определено — {exc}")
+        R = None
+    if R is None:
+        checks.append({
+            "id": "p_le_R", "clause": "СП 22.13330.2016, п.5.6.7, ф.(5.7)",
+            "value": p, "criterion": None, "status": "не определено",
+        })
+    else:
+        checks.append({
+            "id": "p_le_R", "clause": "СП 22.13330.2016, п.5.6.7, ф.(5.7)",
+            "value": p, "criterion": R["R_kPa"],
+            "status": "выполняется" if p <= R["R_kPa"] else "не выполняется",
+        })
     sres = settlement(params)
     checks.append({
         "id": "s_le_su", "clause": "СП 22.13330.2016, п.5.6.31, ф.(5.16); п.5.6.41; прил. Г, табл. Г.1",
         "value": sres.get("s_cm"), "criterion": params.su_cm,
         "status": sres["status"],
     })
+    if R is None:
+        return {
+            "R_kPa": None, "p_kPa": round(p, 2),
+            "Mg": None, "Mq": None, "Mc": None,
+            "gamma_II": None, "gamma_IIp": None,
+            "settlement": {k: (round(v, 3) if isinstance(v, float) else v)
+                           for k, v in sres.items()},
+            "checks": checks, "refusals": refusals,
+        }
     return {
         "R_kPa": round(R["R_kPa"], 2), "p_kPa": round(p, 2),
         "Mg": round(R["Mg"], 3), "Mq": round(R["Mq"], 3), "Mc": round(R["Mc"], 3),

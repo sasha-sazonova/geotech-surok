@@ -5,7 +5,9 @@ SET = settings(max_examples=40, deadline=None)
 
 
 def R_of(**kw):
-    return bearing_resistance(D1Params(**kw))["R_kPa"]
+    # allow_restored: проверяется форма кривой R(φ), а не поставляемое значение;
+    # для реальных расчётов φ=38/43 по-прежнему дают отказ (UnverifiedNormValue).
+    return bearing_resistance(D1Params(**kw), allow_restored=True)["R_kPa"]
 
 
 @SET

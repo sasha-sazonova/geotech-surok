@@ -20,5 +20,7 @@ refusals: []
 settlement:
   Hc_m: 3.6
   s_cm: 3.595
+  sigma_zg0_kPa: 31.5
   status: выполняется
   truncated: false
+  unloading_included: false

@@ -69,3 +69,18 @@ Detailed numbers: [docs/results.md](results.md).
 Owner decision: no commercial-core verification. Oracle stack now: manual closed form (done),
 independent second implementation (done), cross-tool comparisons (B1/B3 in progress), exact elastic
 closed forms (done, table 5.8 conservative 3–32 %). Details: docs/benchmarks/README.md.
+
+## Update 2026-10-30: closing the four open items
+
+| Пункт | Что сделано | Статус |
+|---|---|---|
+| Осадка при d ≥ 5 м | Реализовано второе слагаемое (5.16): `s = βΣ[σzp/E − σzγ/Ee]h`; σzγ = α·σzg,0 по (5.18) **с размерами котлована** (п.5.6.33); Ee ≈ 5E по прим. 1; отказ при попытке опустить слагаемое для d ≥ 5 м; отказ при p < σzg,0 (нужна (5.19), п.5.6.35) | **закрыто** (кроме (5.19)) |
+| Строки 38/43 табл.5.5 | Введён `UnverifiedNormValue` + `RESTORED_ROWS = {38, 43}`: любое использование восстановленной ячейки (точное φ=38/43 или интерполяция через неё) даёт «не определено», а не число. `allow_restored=True` — только для исследования чувствительности | **закрыто как защита** (ячейки остаются неподтверждёнными) |
+| Классы доверия источников | `docs/data-sources.md`: `normative` / `reference` / `computed` / `cancelled`; Engineering ToolBox зарегистрирован как `reference`; валидатор требует `trust_class` + дату у каждого источника и запрещает зелёный статус на справочнике | **закрыто** |
+| Мониторинг контуров | runner v3: `in/requires.txt` (preflight путей), `health.txt` (интерпретаторы контуров + свободный диск), `failed preflight` в статусе, всё в `runner.log` | **закрыто** |
+
+Проверка: 65 тестов, TRACEABILITY OK (12 пунктов, 39 тестов); D1 не сдвинулся — R=215,62 кПа,
+s=4,232 см, Hc=3,6 м; расширенная плита 2,4×2,8 — R=218,82, p=214,57, s=3,595 см.
+
+Остаётся открытым: СП 24.13330 (нормативный маршрут свай в OSS), формула (5.19) при p < σzg,0,
+ячейки 38/43 до сверки с бумажным оригиналом.

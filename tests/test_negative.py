@@ -12,9 +12,13 @@ def test_moment_refused():
     assert any("крен" in x for x in r["refusals"])
 
 
-def test_deep_base_settlement_refused():
-    r = analyze(D1Params(d=5.5))
-    assert "σzγ" in r["settlement"]["status"]
+def test_deep_base_without_soil_data_refused():
+    """d ≥ 5 м now computes the σzγ term, so the refusal must come from missing data."""
+    r = analyze(D1Params(d=5.5))  # данные до -5.8 м, подошва -5.5 м → 0.3 м
+    assert "вне данных" in r["settlement"]["status"]
+    deep = analyze(D1Params(d=6.0))  # подошва ниже всех данных
+    assert deep["settlement"]["s_cm"] is None
+    assert "нет данных" in deep["settlement"]["status"]
 
 
 def test_failed_check_is_a_number_not_a_refusal():

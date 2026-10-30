@@ -7,7 +7,9 @@ Fails (exit 1) on:
 * a code reference whose file or symbol does not exist;
 * a test reference that does not exist;
 * an orphan test (not referenced by any clause);
-* a clause marked verified whose document is not verified or has no dated source.
+* a clause marked verified whose document is not verified or has no dated source;
+* a source without a trust class (normative / reference / computed / cancelled);
+* a clause that leans on a `reference` source as if it were normative.
 """
 import ast
 import io
@@ -42,6 +44,23 @@ def main():
     docs = {d["id"]: d for d in data.get("documents", [])}
     tests = scan_tests()
     referenced = set()
+
+    TRUST_CLASSES = {"normative", "reference", "computed", "cancelled"}
+    for doc in data.get("documents", []):
+        did = doc.get("id", "?")
+        sources = (doc.get("verification") or {}).get("sources") or []
+        if not sources:
+            errors.append(f"document {did}: no sources")
+        for src in sources:
+            cls = src.get("trust_class")
+            if cls not in TRUST_CLASSES:
+                errors.append(f"document {did}: source {src.get('url', '?')} has trust_class {cls!r}")
+            if not src.get("retrieved"):
+                errors.append(f"document {did}: source {src.get('url', '?')} has no retrieved date")
+        if doc.get("verification", {}).get("status") != "verified":
+            classes = {src.get("trust_class") for src in sources}
+            if "normative" in classes:
+                errors.append(f"document {did}: not verified but declares a normative source")
 
     for oracle in data.get("oracles", []):
         for t in oracle.get("tests") or []:
