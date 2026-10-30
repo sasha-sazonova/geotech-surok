@@ -74,7 +74,7 @@ index.html          bilingual landing page (GitHub Pages root)
 
 ## Status
 
-Spec **v1.6** · compute contour: 105 packages, import test 21/21, freeze recorded · async runner **v2** ·
+Spec **v1.6** · compute contour: 105 packages, import test 21/21, freeze recorded · async runner **v3** (contour preflight + health monitoring) ·
 live agent passed **6/6** acceptance checks including the anti-fallback trap.
 
 **D1** — shallow foundation (coefficients re-verified against the official text of СП 22.13330.2016):
@@ -83,7 +83,11 @@ settlement `s = 4.232 cm` vs `su = 10 cm` → **passes** (Hc = 3.6 m, п.5.6.41)
 footing passes bearing with a 1.9 % margin (`R = 218.82`, `p = 214.57` kPa).
 **D2** — lateral pile (openpile 1.0.3): at H = 500 kN, y = 6.3 / 19.3 mm and Mmax = 890.5 / 1389 kNm
 for the two stiffness calibrations; the СП 24.13330 route remains “not determined”.
-Verification: manual reference (`docs/manual-check-d1.md`), 16 tests, traceability validator — CI green.
+Settlement for `d ≥ 5 m` is now computed in full: the second term of (5.16) with `σzγ` from (5.18)
+and the pit plan dimensions (clause 5.6.33). Table 5.5 cells that the printed original does not
+confirm (Mγ at φ=38° and 43°) are never substituted — the calculation returns "not determined".
+Verification: manual reference (`docs/manual-check-d1.md`), **65 tests**, traceability validator
+(12 clauses, 39 tests) — CI green (verify + docker).
 
 ## License
 
