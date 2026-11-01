@@ -22,6 +22,20 @@
 
 Агент готовит, считает и проверяет. Подписывает и выпускает специалист.
 
+## Установка за четыре команды
+
+```bash
+git clone https://github.com/sasha-sazonova/geotech-surok.git
+cd geotech-surok
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.lock
+make verify        # ожидаемо: TRACEABILITY: OK + 65 passed
+make quickstart    # первый расчёт по СП 22.13330.2016
+```
+
+Нужен только Python ≥ 3.9 и git. Подробности, вариант с Docker, Windows и разбор типовых ошибок —
+[INSTALL.md](INSTALL.md). Проверено на чистой машине: установка 27 секунд, 65 тестов проходят.
+
 ## Как использовать
 
 1. **Постановка** — объект, стадия, что считать и по какой норме.
@@ -103,10 +117,13 @@ Mmax = 890.5 / 1389 кНм для двух калибровок; маршрут 
 на сиротских пунктах, тестах без пункта и статусе «verified» без датированного источника.
 
 ```bash
-make verify (Python ≥ 3.10 required — Pint 0.24.4 has no py3.9 wheel)            # валидатор трассируемости + pytest
-make regen             # перегенерация golden-файлов (только при осознанном изменении результатов)
-docker build -t geotech-surok .   # те же проверки на чистой машине
+make verify      # валидатор трассируемости + pytest (Python ≥ 3.9)
+make regen       # перегенерация golden-файлов (только при осознанном изменении результатов)
+make quickstart  # первый расчёт: examples/quickstart_d1.py
+docker build -t geotech-surok . && docker run --rm geotech-surok   # те же проверки на чистой машине
 ```
+
+Пошаговая установка с нуля — [INSTALL.md](INSTALL.md).
 
 Доказательства на сегодня:
 

@@ -22,6 +22,20 @@ as a first-class result.
 
 The agent prepares, calculates and checks. A specialist signs and releases.
 
+## Install in four commands
+
+```bash
+git clone https://github.com/sasha-sazonova/geotech-surok.git
+cd geotech-surok
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.lock
+make verify        # expect: TRACEABILITY: OK + 65 passed
+make quickstart    # first calculation (SP 22.13330.2016)
+```
+
+Only Python >= 3.9 and git are required. Docker, Windows notes and troubleshooting —
+[INSTALL.en.md](INSTALL.en.md). Verified on a clean machine: 27 s install, 65 tests pass.
+
 ## How to use
 
 1. **Brief** — object, design stage, what to calculate and to which code.
@@ -102,10 +116,13 @@ clause (document → edition → clause → formula) to code symbols and tests; 
 build on orphan clauses, unreferenced tests, or a "verified" status without a dated source.
 
 ```bash
-make verify (Python ≥ 3.10 required — Pint 0.24.4 has no py3.9 wheel)            # traceability validator + pytest
-make regen             # regenerate golden files (only when results intentionally change)
-docker build -t geotech-surok .   # clean-machine run of the same checks
+make verify      # traceability validator + pytest (Python >= 3.9)
+make regen       # regenerate golden files (only when results intentionally change)
+make quickstart  # first calculation: examples/quickstart_d1.py
+docker build -t geotech-surok . && docker run --rm geotech-surok   # clean-machine run of the same checks
 ```
+
+Step-by-step install from scratch — [INSTALL.en.md](INSTALL.en.md).
 
 Evidence today:
 
