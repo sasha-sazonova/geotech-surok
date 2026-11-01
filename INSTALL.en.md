@@ -11,7 +11,7 @@ You need nothing but Python and git. Docker is optional.
 
 | Requirement | Minimum | Verified on |
 |---|---|---|
-| Python | **3.9** | 3.9.6 (macOS), 3.12 (CI, Docker) |
+| Python | **3.9** | 3.9.6, 3.12, 3.13 (manual), 3.12 (CI, Docker) |
 | git | any | 2.x |
 | OS | macOS, Linux, Windows (WSL or Git Bash) | macOS 14, Ubuntu 24.04 |
 | Docker | optional | only for the clean-machine check |
@@ -98,3 +98,5 @@ Use **WSL** (recommended) or **Git Bash**; activate with `source .venv/Scripts/a
 | `make: command not found` | no make | run `python -m pytest -q` directly |
 | `command not found: python` | only `python3` present | use `python3` |
 | `test_units.py` fails | broken Pint install | `pip install --force-reinstall Pint==0.24.4` |
+| `ensurepip is not available` | Debian/Ubuntu lacks `python3-venv` | `sudo apt install python3-venv` |
+| `not determined (compressible thickness beyond data)` | soil data too shallow | describe layers down to about `d + 2·b`; this is a norm requirement (5.6.41), not a bug |
