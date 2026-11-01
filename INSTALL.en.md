@@ -1,7 +1,7 @@
 # Install and run your first calculation
 
 Verified on a clean machine: macOS, Python 3.9.6, install from scratch took **27 seconds**,
-after which `make verify` reported **65 passed**.
+after which `make verify` reported **78 passed**.
 
 You need nothing but Python and git. Docker is optional.
 
@@ -43,8 +43,8 @@ make verify
 Expected:
 
 ```
-TRACEABILITY: OK (12 clauses, 39 tests)
-65 passed
+TRACEABILITY: OK (15 clauses, 47 tests)
+78 passed
 ```
 
 No `make`? Run the same two checks directly:

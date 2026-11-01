@@ -29,12 +29,12 @@ git clone https://github.com/sasha-sazonova/geotech-surok.git
 cd geotech-surok
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.lock
-make verify        # expect: TRACEABILITY: OK + 65 passed
+make verify        # expect: TRACEABILITY: OK + 78 passed
 make quickstart    # first calculation (SP 22.13330.2016)
 ```
 
 Only Python >= 3.9 and git are required. Docker, Windows notes and troubleshooting —
-[INSTALL.en.md](INSTALL.en.md). Verified on a clean machine: 27 s install, 65 tests pass.
+[INSTALL.en.md](INSTALL.en.md). Verified on a clean machine: 27 s install, 78 tests pass.
 
 ## How to use
 
@@ -100,8 +100,8 @@ for the two stiffness calibrations; the СП 24.13330 route remains “not deter
 Settlement for `d ≥ 5 m` is now computed in full: the second term of (5.16) with `σzγ` from (5.18)
 and the pit plan dimensions (clause 5.6.33). Table 5.5 cells that the printed original does not
 confirm (Mγ at φ=38° and 43°) are never substituted — the calculation returns "not determined".
-Verification: manual reference (`docs/manual-check-d1.md`), **65 tests**, traceability validator
-(12 clauses, 39 tests) — CI green (verify + docker).
+Verification: manual reference (`docs/manual-check-d1.md`), **78 tests**, traceability validator
+(15 clauses, 47 tests) — CI green (verify + docker).
 
 ## License
 

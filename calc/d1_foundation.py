@@ -38,6 +38,10 @@ class UnverifiedNormValue(ValueError):
     """
 
 
+class InsufficientData(ValueError):
+    """The input does not describe the soil over the depth the norm requires."""
+
+
 # φ values whose Mγ cell is a reconstruction, not a verified transcription.
 RESTORED_ROWS: Dict[int, str] = {
     38: "Mγ восстановлен интерполяцией между 37 и 39 (OCR «А Н .»)",
@@ -179,16 +183,6 @@ class Layer:
     # допускает E_e ≈ 5·E; None означает именно это допущение.
     E_unload_kpa: Optional[float] = None
 
-    @property
-    def thickness(self) -> float:
-        return self.top - self.bottom
-
-
-def effective_gamma(layer: Layer, elevation_mid: float, water_line: float) -> float:
-    """Total or submerged unit weight depending on the water table."""
-    return layer.gamma - GAMMA_W if elevation_mid < water_line else layer.gamma
-
-
 @dataclass
 class D1Params:
     b: float = 2.0
@@ -201,7 +195,7 @@ class D1Params:
     gamma_c1: float = 1.2      # табл. 5.4, clayey 0.25 < IL < 0.5
     gamma_c2: float = 1.0      # табл. 5.4, L/H ≥ 4 or flexible scheme
     kappa: float = 1.0         # п.5.6.7: 1.0 if φ,c from direct tests
-    kz: float = 1.0            # b < 10 m
+    kz: Optional[float] = None  # None → по п.5.6.7: 1 при b < 10 м, иначе z0/b + 0.2 (z0 = 8 м)
     db: float = 0.0            # no basement
     gamma_above: float = 17.5  # unit weight above the base (planning fill), kN/m3
     water_line: float = -3.2   # elevation, m
@@ -216,26 +210,59 @@ class D1Params:
     ])
     moment_kNm: Optional[float] = None
 
+    def __post_init__(self) -> None:
+        if self.b <= 0 or self.l <= 0:
+            raise ValueError("b и l должны быть положительными")
+        if self.d < 0:
+            raise ValueError("d не может быть отрицательной")
+        if self.water_line > 0:
+            raise ValueError(
+                "water_line — отметка УГВ в тех же координатах, что и подошва: "
+                "0 = поверхность земли, отрицательные значения ниже. "
+                f"Получено {self.water_line}; если УГВ выше поверхности, это уровень "
+                "верховодки/подтопления — задайте 0.0 и опишите его отдельно")
+        if self.data_bottom >= 0:
+            raise ValueError("data_bottom — самая низкая известная отметка, должна быть < 0")
+
     @property
     def A(self) -> float:
         return self.b * self.l
+
+    @property
+    def kz_value(self) -> float:
+        """п.5.6.7: kz = 1 при b < 10 м; kz = z0/b + 0.2 при b ≥ 10 м (z0 = 8 м)."""
+        if self.kz is not None:
+            return self.kz
+        if self.b < 10.0:
+            return 1.0
+        return 8.0 / self.b + 0.2
 
     def pressure_kpa(self) -> float:
         return self.N / self.A + self.gamma_f * self.d
 
 
 def average_gamma_below(params: D1Params, depth: float) -> float:
-    """п.5.6.10: average γ over z = b/2 below the footing (b < 10 m)."""
+    """п.5.6.10: average γ over z = b/2 below the footing (b < 10 m).
+
+    Raises InsufficientData when the layers do not cover the whole averaging depth:
+    a missing layer must not be silently replaced by zero weight.
+    """
     z0, z1 = params.d, params.d + depth
     total, length = 0.0, z1 - z0
+    covered = 0.0
     for layer in params.layers:
         lo = max(z0, -layer.top)   # depth coordinates positive down
         hi = min(z1, -layer.bottom)
         if hi <= lo:
             continue
+        covered += hi - lo
         total += _gamma_integral(layer, lo, hi, params.water_line)
     if length <= 0:
         raise ValueError("invalid averaging depth")
+    if covered < length - 1e-9:
+        raise InsufficientData(
+            f"γII: слои покрывают {covered:.2f} м из {length:.2f} м (z = b/2 ниже подошвы); "
+            "нужны данные о грунте на всю глубину осреднения")
     return total / length
 
 
@@ -271,7 +298,7 @@ def bearing_resistance(params: D1Params, allow_restored: bool = False) -> Dict[s
     gII = average_gamma_below(params, params.b / 2.0)
     gIIp = average_gamma_above(params)
     R = (params.gamma_c1 * params.gamma_c2 / params.kappa) * (
-        Mg * params.kz * params.b * gII
+        Mg * params.kz_value * params.b * gII
         + Mq * gIIp * params.d
         + (Mq - 1.0) * params.db * gIIp
         + Mc * params.c_kpa
@@ -391,7 +418,7 @@ def analyze(params: D1Params) -> Dict[str, object]:
     p = params.pressure_kpa()
     try:
         R = bearing_resistance(params)
-    except UnverifiedNormValue as exc:
+    except (UnverifiedNormValue, InsufficientData) as exc:
         refusals.append(f"R: не определено — {exc}")
         R = None
     if R is None:

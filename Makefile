@@ -1,6 +1,6 @@
 PYTHON ?= python3
 
-.PHONY: verify validate test regen quickstart
+.PHONY: verify validate test regen quickstart scenario
 
 verify: validate test
 
@@ -15,3 +15,8 @@ regen:
 
 quickstart:
 	$(PYTHON) examples/quickstart_d1.py
+
+SCENARIO ?= scenarios/d1-foundation.yaml
+
+scenario:
+	$(PYTHON) tools/run_scenario.py $(SCENARIO)
