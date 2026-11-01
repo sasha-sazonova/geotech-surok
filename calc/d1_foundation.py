@@ -42,10 +42,15 @@ class InsufficientData(ValueError):
     """The input does not describe the soil over the depth the norm requires."""
 
 
-# φ values whose Mγ cell is a reconstruction, not a verified transcription.
-RESTORED_ROWS: Dict[int, str] = {
-    38: "Mγ восстановлен интерполяцией между 37 и 39 (OCR «А Н .»)",
-    43: "Mγ восстановлен по скану как 3,12 (OCR «ЗЛ2»)",
+# Ячейки, которые нельзя использовать, пока они не подтверждены печатным оригиналом.
+# 01.11.2026: строки 38 и 43 подтверждены по изображению печатного издания (с. 36–37):
+# Mγ(38) = 2,11; Mγ(43) = 3,12. Механизм оставлен пустым как страховка для будущих изданий.
+RESTORED_ROWS: Dict[int, str] = {}
+
+# Происхождение значений, которые раньше были реконструкцией.
+TABLE55_PROVENANCE: Dict[int, str] = {
+    38: "печатное издание, с. 36: Mγ = 2,11 (подтверждено 2026-11-01)",
+    43: "печатное издание, с. 37: Mγ = 3,12 (подтверждено 2026-11-01)",
 }
 
 # --- табл. 5.5 (Mγ, Mq, Mc). Rows 38 and 43 were restored by linear
@@ -95,6 +100,38 @@ ALPHA_ROWS: Tuple[Tuple[float, ...], ...] = (
     (0.031, 0.040, 0.055, 0.069, 0.088, 0.110),
     (0.028, 0.036, 0.049, 0.062, 0.080, 0.100),
 )
+
+
+# --- табл. 5.9: k_e для крена при внецентренной нагрузке (п.5.6.44)
+TILT_ETA: Tuple[float, ...] = (1.0, 1.2, 1.5, 2.0, 3.0, 5.0, 10.0)
+TILT_KE_LARGER: Tuple[float, ...] = (0.50, 0.57, 0.68, 0.82, 1.17, 1.42, 2.00)
+TILT_KE_SMALLER: Tuple[float, ...] = (0.50, 0.43, 0.36, 0.28, 0.20, 0.12, 0.07)
+TILT_KE_CIRCLE = 0.75
+
+# --- табл. 5.10: коэффициент поперечной деформации ν (диапазоны)
+POISSON_TABLE: Dict[str, Tuple[float, float]] = {
+    "крупнообломочные": (0.27, 0.27),
+    "пески и супеси": (0.30, 0.35),
+    "суглинки": (0.35, 0.37),
+    "глины IL<=0": (0.20, 0.30),
+    "глины 0<IL<=0.25": (0.30, 0.38),
+    "глины 0.25<IL<=1": (0.38, 0.45),
+}
+
+
+def tilt_ke(eta: float, along: str = "larger") -> float:
+    """k_e по табл. 5.9; along = 'larger' | 'smaller' | 'circle'."""
+    if along == "circle":
+        return TILT_KE_CIRCLE
+    row = TILT_KE_LARGER if along == "larger" else TILT_KE_SMALLER
+    if eta <= TILT_ETA[0]:
+        return row[0]
+    if eta >= TILT_ETA[-1]:
+        return row[-1]
+    for i in range(len(TILT_ETA) - 1):
+        if TILT_ETA[i] <= eta <= TILT_ETA[i + 1]:
+            return _linear(eta, TILT_ETA[i], TILT_ETA[i + 1], row[i], row[i + 1])
+    return row[-1]
 
 
 def _linear(x: float, x0: float, x1: float, y0: float, y1: float) -> float:
@@ -209,6 +246,9 @@ class D1Params:
         Layer(top=-1.8, bottom=-5.8, gamma=18.5, E_kpa=9000.0), # ИГЭ-1 (clayey loam)
     ])
     moment_kNm: Optional[float] = None
+    moment_along: str = "larger"   # 'larger' | 'smaller' | 'circle' — табл. 5.9
+    poisson: Optional[float] = None  # ν по табл. 5.10; без него крен не считается
+    tilt_limit: Optional[float] = None  # предельный крен i_u, задаётся проектом
 
     def __post_init__(self) -> None:
         if self.b <= 0 or self.l <= 0:
@@ -352,10 +392,9 @@ def settlement(params: D1Params, h: Optional[float] = None,
     if params.data_bottom >= -params.d:
         return {"status": "не определено (нет данных о грунте ниже подошвы)",
                 "s_cm": None, "Hc_m": None, "truncated": True}
-    if p < sg0:
-        return {"status": "не определено (p < σzg,0: требуется формула (5.19), п.5.6.35)",
-                "s_cm": None, "Hc_m": None, "truncated": True,
-                "p_kPa": p, "sigma_zg0_kPa": sg0}
+    # п.5.6.35: при p ≤ σzg,0 осадку считают по формуле (5.19) —
+    # s = β·Σ σzp,i·h_i / E_e,i (модуль вторичного нагружения, без вычитания σzγ).
+    unloading_from_excavation = p > sg0
     h = h if h is not None else min(0.4 * params.b, 0.4)
     eta = params.l / params.b
     pit_b = params.pit_b if params.pit_b else params.b
@@ -363,40 +402,125 @@ def settlement(params: D1Params, h: Optional[float] = None,
     eta_pit = pit_l / pit_b
     beta = 0.8
     s = 0.0
+    history: List[Tuple[float, float]] = []  # (z_next, накопленная s)
     z = 0.0
     Hc = None
     z_max_data = -params.data_bottom - params.d  # available thickness below base
+    # п.5.6.41: если граница толщи попадает в слой E ≤ 7 МПа (или такой слой лежит
+    # сразу ниже Hc), этот слой включают в толщу, а Hc берут как минимум из подошвы
+    # слоя и глубины, где σzp = 0.2·σzg.
+    criterion = 0.5
+    weak_bottom = None
     while z < z_max_data - 1e-9:
         z_next = min(z + h, z_max_data)
         dz = z_next - z
         zm = z + dz / 2.0
         sp = alpha_coeff(2.0 * zm / params.b, eta) * p
         E = _E_at(params, params.d + zm)
-        term = sp / E
-        if include_unloading:
-            sg_alpha = alpha_coeff(2.0 * zm / pit_b, eta_pit) * sg0
-            term -= sg_alpha / _E_unload_at(params, params.d + zm)
+        if unloading_from_excavation:
+            term = sp / E
+            if include_unloading:
+                sg_alpha = alpha_coeff(2.0 * zm / pit_b, eta_pit) * sg0
+                term -= sg_alpha / _E_unload_at(params, params.d + zm)
+        else:
+            term = sp / _E_unload_at(params, params.d + zm)  # (5.19)
         s += beta * term * dz
+        history.append((z_next, s))
         sg = sigma_zg(params, z_next)
-        if sp <= 0.5 * sg:
+        if sp <= criterion * sg:
+            if criterion == 0.5:
+                E_below = _E_at(params, params.d + z_next + 1e-9)
+                if E_below <= 7000.0:
+                    criterion = 0.2
+                    weak_bottom = _layer_bottom_depth(params, params.d + z_next + 1e-9) - params.d
+                    continue
             Hc = z_next
             break
         z = z_next
     if Hc is None:
-        return {"status": "не определено (граница сжимаемой толщи вне данных)",
-                "s_cm": s * 100.0, "Hc_m": None, "truncated": True}
+        # п.5.6.41: подошва слабого слоя — законная граница толщи, если она в данных
+        if weak_bottom is not None and weak_bottom <= z_max_data + 1e-9:
+            Hc = weak_bottom
+        else:
+            return {"status": "не определено (граница сжимаемой толщи вне данных)",
+                    "s_cm": s * 100.0, "Hc_m": None, "truncated": True}
+    if weak_bottom is not None:
+        Hc = min(Hc, weak_bottom)
     Hc = max(Hc, params.b / 2.0)
-    # п.5.6.41: if the layer below Hc has E < 7 MPa, extend to 0.2·σzg
-    below = params.d + Hc + 1e-9
-    E_below = _E_at(params, below)
-    if E_below < 7000.0:
-        return {"status": "не определено (ниже Hc слой E < 7 МПа: правило 5.6.41 требует расширения толщи)",
-                "s_cm": s * 100.0, "Hc_m": Hc, "truncated": False}
+    # осадка считается только до Hc: сумма по шагам, попавшим в толщу
+    s = next((val for z_end, val in history if z_end >= Hc - 1e-9), s)
     s_cm = s * 100.0
     status = "выполняется" if s_cm <= params.su_cm else "не выполняется"
     return {"status": status, "s_cm": s_cm, "Hc_m": Hc, "truncated": False,
             "unloading_included": include_unloading,
+            "formula": "5.16" if unloading_from_excavation else "5.19 (p ≤ σzg,0)",
             "sigma_zg0_kPa": sg0}
+
+
+def _layer_bottom_depth(params: D1Params, depth: float) -> float:
+    """Глубина подошвы (вниз от 0) слоя, в котором находится заданная глубина."""
+    elevation = -depth
+    for layer in params.layers:
+        if layer.bottom <= elevation <= layer.top:
+            return -layer.bottom
+    return depth
+
+
+def tilt(params: D1Params) -> Dict[str, object]:
+    """Крен фундамента i по п.5.6.44 ф.(5.24)–(5.25), D̄ по п.5.6.45 ф.(5.26).
+
+        i = D̄ · k_e · N · e / (a/2)³ ,   D = (1 − ν²)/E
+
+    D̄ — среднее по сжимаемой толще: D̄ = Σ(σzp,i·h_i·(1−ν²)/E_i) / Σ(σzp,i·h_i).
+    Требует ν (табл. 5.10) и направление момента; без них — честный отказ.
+    """
+    if params.moment_kNm in (None, 0, 0.0):
+        return {"status": "не применимо (момент не задан)", "i": None}
+    if params.poisson is None:
+        return {"status": "не определено (нужен коэффициент поперечной деформации ν по табл. 5.10)",
+                "i": None}
+    sres = settlement(params)
+    if sres.get("Hc_m") is None:
+        return {"status": f"не определено (нет Hc: {sres['status']})", "i": None}
+    Hc = float(sres["Hc_m"])
+
+    # D̄ по (5.26): веса A_i = σzp,i·h_i, посчитанные по той же сетке, что и осадка
+    p_press = params.pressure_kpa()
+    eta = params.l / params.b
+    h = min(0.4 * params.b, 0.4)
+    z = 0.0
+    num = den = 0.0
+    while z < Hc - 1e-9:
+        z_next = min(z + h, Hc)
+        dz = z_next - z
+        zm = z + dz / 2.0
+        a_i = alpha_coeff(2.0 * zm / params.b, eta) * p_press * dz
+        e_i = _E_at(params, params.d + zm)
+        num += a_i * (1.0 - params.poisson ** 2) / e_i
+        den += a_i
+        z = z_next
+    if den <= 0:
+        return {"status": "не определено (не удалось построить эпюру σzp)", "i": None}
+    D_avg = num / den
+
+    n_load = params.N
+    ecc = params.moment_kNm / n_load if n_load else 0.0
+    eta_ratio = params.l / params.b
+    if params.moment_along == "circle":
+        a = params.b
+    elif params.moment_along == "smaller":
+        a = min(params.b, params.l)
+    else:
+        a = max(params.b, params.l)
+    ke = tilt_ke(eta_ratio, params.moment_along)
+    i_value = D_avg * ke * n_load * ecc / (a / 2.0) ** 3
+
+    if params.tilt_limit is None:
+        status = "не определено (предельный крен i_u не задан; вычисленное значение — справочно)"
+    else:
+        status = "выполняется" if i_value <= params.tilt_limit else "не выполняется"
+    return {"status": status, "i": i_value, "ke": ke, "D_avg": D_avg,
+            "ecc_m": ecc, "a_m": a, "Hc_m": Hc}
 
 
 def _E_at(params: D1Params, depth: float) -> float:
@@ -411,8 +535,10 @@ def analyze(params: D1Params) -> Dict[str, object]:
     """Full D1 check with explicit statuses and refusals."""
     refusals: List[str] = []
     checks: List[Dict[str, object]] = []
+    if params.moment_kNm not in (None, 0, 0.0) and params.poisson is None:
+        refusals.append("крен: не задан коэффициент поперечной деформации ν (табл. 5.10)")
     if params.moment_kNm not in (None, 0, 0.0):
-        refusals.append("крен/краевые давления: момент задан, проверка не реализована")
+        refusals.append("краевые давления: проверка не реализована (крен — реализован)")
     if params.data_bottom >= -params.d:
         refusals.append("нет данных о грунте ниже подошвы")
     p = params.pressure_kpa()
@@ -432,6 +558,12 @@ def analyze(params: D1Params) -> Dict[str, object]:
             "value": p, "criterion": R["R_kPa"],
             "status": "выполняется" if p <= R["R_kPa"] else "не выполняется",
         })
+    tres = tilt(params)
+    if tres.get("i") is not None:
+        checks.append({
+            "id": "i_le_iu", "clause": "СП 22.13330.2016, п.5.6.44, ф.(5.24)–(5.26)",
+            "value": tres["i"], "criterion": params.tilt_limit, "status": tres["status"],
+        })
     sres = settlement(params)
     checks.append({
         "id": "s_le_su", "clause": "СП 22.13330.2016, п.5.6.31, ф.(5.16); п.5.6.41; прил. Г, табл. Г.1",
@@ -445,6 +577,7 @@ def analyze(params: D1Params) -> Dict[str, object]:
             "gamma_II": None, "gamma_IIp": None,
             "settlement": {k: (round(v, 3) if isinstance(v, float) else v)
                            for k, v in sres.items()},
+            "tilt": {k: (round(v, 6) if isinstance(v, float) else v) for k, v in tres.items()},
             "checks": checks, "refusals": refusals,
         }
     return {
@@ -452,5 +585,6 @@ def analyze(params: D1Params) -> Dict[str, object]:
         "Mg": round(R["Mg"], 3), "Mq": round(R["Mq"], 3), "Mc": round(R["Mc"], 3),
         "gamma_II": round(R["gamma_II"], 3), "gamma_IIp": round(R["gamma_IIp"], 3),
         "settlement": {k: (round(v, 3) if isinstance(v, float) else v) for k, v in sres.items()},
+        "tilt": {k: (round(v, 6) if isinstance(v, float) else v) for k, v in tres.items()},
         "checks": checks, "refusals": refusals,
     }

@@ -65,10 +65,11 @@ def test_secondary_modulus_credit_is_conservative_by_default():
     assert settlement(soft_reload)["s_cm"] < settlement(deep_params())["s_cm"]
 
 
-def test_pressure_below_own_weight_requires_formula_519():
+def test_pressure_below_own_weight_switches_to_519():
+    """С 01.11.2026 формула (5.19) реализована, отказа больше нет."""
     res = settlement(deep_params(N=10.0, gamma_f=1.0))
-    assert res["s_cm"] is None
-    assert "5.19" in res["status"]
+    assert res["s_cm"] is not None
+    assert res["formula"].startswith("5.19")
 
 
 def test_sigma_zg0_uses_submerged_weight_below_water_table():

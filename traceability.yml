@@ -132,13 +132,41 @@ clauses:
   - id: SP22-5.6.35-p-less-sigma
     document: SP22-2016
     clause: п.5.6.35
-    formula: (5.19) при p < σzg,0
-    status: partial
-    note: реализован отказ; формула (5.19) не реализована
+    formula: (5.19) при p ≤ σzg,0 — s = β·Σ σzp,i·h_i / E_e,i
+    status: verified
     code:
       - {file: calc/d1_foundation.py, symbol: settlement}
     tests:
-      - tests/test_settlement_unloading.py::test_pressure_below_own_weight_requires_formula_519
+      - tests/test_settlement_519_and_tilt.py::test_formula_519_when_pressure_below_own_weight
+      - tests/test_settlement_519_and_tilt.py::test_formula_516_when_pressure_above_own_weight
+      - tests/test_settlement_519_and_tilt.py::test_519_uses_secondary_modulus
+      - tests/test_settlement_unloading.py::test_pressure_below_own_weight_switches_to_519
+  - id: SP22-5.6.41-weak-layer
+    document: SP22-2016
+    clause: п.5.6.41 (второй абзац)
+    formula: слой E ≤ 7 МПа включают в толщу; Hc = min(подошва слоя, σzp = 0.2σzg)
+    status: verified
+    code:
+      - {file: calc/d1_foundation.py, symbol: settlement}
+    tests:
+      - tests/test_settlement_519_and_tilt.py::test_weak_layer_extends_compressible_thickness
+      - tests/test_settlement_519_and_tilt.py::test_baseline_settlement_unchanged
+  - id: SP22-5.6.44-tilt
+    document: SP22-2016
+    clause: п.5.6.43–5.6.45
+    formula: (5.24)–(5.26) i = D̄·k_e·N·e/(a/2)³; k_e — табл. 5.9; ν — табл. 5.10
+    status: partial
+    note: крен реализован; краевые давления — нет; предельный крен задаётся проектом
+    code:
+      - {file: calc/d1_foundation.py, symbol: tilt}
+      - {file: calc/d1_foundation.py, symbol: tilt_ke}
+    tests:
+      - tests/test_settlement_519_and_tilt.py::test_tilt_ke_table_values
+      - tests/test_settlement_519_and_tilt.py::test_tilt_requires_poisson
+      - tests/test_settlement_519_and_tilt.py::test_tilt_matches_closed_form_for_uniform_soil
+      - tests/test_settlement_519_and_tilt.py::test_tilt_is_linear_in_moment
+      - tests/test_settlement_519_and_tilt.py::test_tilt_absent_without_moment
+      - tests/test_settlement_519_and_tilt.py::test_analyze_reports_tilt_check_when_moment_given
   - id: SP22-5.6.3-5.6.5-tilt
     document: SP22-2016
     clause: п.5.6.3–5.6.5
@@ -202,16 +230,15 @@ oracles:
     type: internal-guard
     path: tests/test_table55_restored.py
     tests:
-      - tests/test_table55_restored.py::test_restored_rows_are_declared
-      - tests/test_table55_restored.py::test_exact_restored_row_refuses
-      - tests/test_table55_restored.py::test_interpolation_touching_restored_row_refuses
-      - tests/test_table55_restored.py::test_verified_rows_still_work
-      - tests/test_table55_restored.py::test_sensitivity_mode_is_explicit
-      - tests/test_table55_restored.py::test_bearing_resistance_refuses_on_damaged_cell
-      - tests/test_table55_restored.py::test_default_design_case_is_unaffected
+      - tests/test_table55_restored.py::test_no_unverified_rows_left
+      - tests/test_table55_restored.py::test_provenance_recorded_for_former_gaps
+      - tests/test_table55_restored.py::test_former_gap_rows_now_return_verified_values
+      - tests/test_table55_restored.py::test_neighbours_unchanged_by_the_fix
+      - tests/test_table55_restored.py::test_guard_still_works_when_a_row_is_flagged
+      - tests/test_table55_restored.py::test_design_case_unaffected
     tolerance: n/a (guard, not comparison)
     status: verified
-    note: ячейки Mγ(38) и Mγ(43) не подтверждены печатным оригиналом; любое их использование обязано давать «не определено»
+    note: "01.11.2026 ячейки Mγ(38)=2,11 и Mγ(43)=3,12 подтверждены по изображению печатных с. 36–37; механизм отказа сохранён для будущих изданий"
   - id: b1-slope-pyslope
     type: cross-tool
     path: calc/b1_slope.py
@@ -244,5 +271,5 @@ oracles:
       published free cases if found. See docs/benchmarks/README.md." 
 open_items:
   - su для реконструкции — прил. Е; для нового строительства — прил. Г (подтверждено оглавлением издания).
-  - Строки 38/43 табл.5.5: Mγ восстановлен (OCR-повреждение PDF); расчёт с φ=38/43 отказывает (UnverifiedNormValue), см. оракул tab5.5-restored-guard.
+  - Строки 38/43 табл.5.5 подтверждены печатным изданием 01.11.2026 (2,11 и 3,12); отказ снят.
   - СП 24.13330 (сваи) — нормативный маршрут в OSS отсутствует.

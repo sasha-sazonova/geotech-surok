@@ -19,8 +19,12 @@ p_kPa: 286.0
 refusals: []
 settlement:
   Hc_m: 3.6
+  formula: '5.16'
   s_cm: 4.232
   sigma_zg0_kPa: 31.5
   status: выполняется
   truncated: false
   unloading_included: false
+tilt:
+  i: null
+  status: не применимо (момент не задан)
