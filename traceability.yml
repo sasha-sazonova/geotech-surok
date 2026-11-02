@@ -11,6 +11,16 @@ documents:
           retrieved: 2026-10-24
           trust_class: normative
           covers: [п.5.6.7, п.5.6.10, п.5.6.31, п.5.6.32, п.5.6.33, п.5.6.34, п.5.6.35, п.5.6.41, табл.5.4, табл.5.5, табл.5.8, прил.Г]
+  - id: SP24-2021
+    title: СП 24.13330.2021 «Свайные фундаменты» (СНиП 2.02.03-85)
+    verification:
+      status: verified
+      edition_note: официальный текст (PDF, 82 с.) из публичного зеркала; табличные значения сверены с OCR изображений страниц 17–21
+      sources:
+        - url: https://web.archive.org/web/2024/https://sibgeo.pro/netcat_files/31/21/_24.13330.2021_2.02.03_85_.pdf_dnl15357.pdf
+          retrieved: 2026-11-03
+          trust_class: normative
+          covers: [7.2.1, 7.2.4, 7.2.7, 7.2.10, ф.7.5-7.13, табл.7.1, табл.7.3(глины), табл.7.4, табл.7.6]
   - id: ETB
     title: The Engineering ToolBox — справочник свойств материалов и физических величин
     verification:
@@ -196,6 +206,62 @@ clauses:
       - {file: calc/d1_foundation.py, symbol: average_gamma_below}
     tests:
       - tests/test_input_guards.py::test_missing_soil_over_averaging_depth_is_refused
+  - id: SP24-7.2.1-end-bearing-rock
+    document: SP24-2021
+    clause: п.7.2.1, ф.(7.5)–(7.8), табл.7.1
+    formula: Fd = γc·R·A; Rm = Rc·Ks; Ks по ВОР; R ≤ 20000 кПа
+    status: verified
+    code:
+      - {file: calc/sp24_piles.py, symbol: end_bearing_rock}
+      - {file: calc/sp24_piles.py, symbol: ks_for_rock}
+    tests:
+      - tests/test_sp24_piles.py::test_ks_endpoints
+      - tests/test_sp24_piles.py::test_ks_interpolates_within_band
+      - tests/test_sp24_piles.py::test_end_bearing_rock_basic
+      - tests/test_sp24_piles.py::test_end_bearing_rock_cracked_rock
+      - tests/test_sp24_piles.py::test_end_bearing_cap_20000
+  - id: SP24-7.2.4-driven-friction
+    document: SP24-2021
+    clause: п.7.2.4, ф.(7.9), табл.7.3(глины), табл.7.4
+    formula: Fd = γc·(γR,R·R·A + u·ΣγR,f·fi·hi); fi — табл. 7.3 (IL 0.2…1.0)
+    status: partial
+    note: глинистая часть подтверждена; песчаные fi и глинистая часть табл. 7.2 не подтверждены — код отказывает
+    code:
+      - {file: calc/sp24_piles.py, symbol: driven_friction_pile}
+      - {file: calc/sp24_piles.py, symbol: f_lateral_cohesive}
+      - {file: calc/sp24_piles.py, symbol: driving_factors}
+    tests:
+      - tests/test_sp24_piles.py::test_f_lateral_nodes
+      - tests/test_sp24_piles.py::test_f_lateral_interpolates_both_axes
+      - tests/test_sp24_piles.py::test_f_lateral_matches_snip_2020_baseline
+      - tests/test_sp24_piles.py::test_f_lateral_out_of_range_refuses
+      - tests/test_sp24_piles.py::test_driven_pile_full_example
+      - tests/test_sp24_piles.py::test_driven_pile_refuses_sand_side_friction
+      - tests/test_sp24_piles.py::test_driven_pile_refuses_clay_end_bearing
+      - tests/test_sp24_piles.py::test_driven_pile_layer_thicker_than_2m_refuses
+  - id: SP24-7.2.7-pullout
+    document: SP24-2021
+    clause: п.7.2.7, ф.(7.11)
+    formula: Fdu = γcu·Σ γR,f·fi·hi
+    status: verified
+    code:
+      - {file: calc/sp24_piles.py, symbol: pulled_out_pile}
+    tests:
+      - tests/test_sp24_piles.py::test_pulled_out_uses_side_only
+  - id: SP24-7.2.10-bored
+    document: SP24-2021
+    clause: п.7.2.10, ф.(7.13), табл.7.6
+    formula: Fd = γc·(γR,R·R·A + γR,f·u·Σfi·hi); γR,f по способу и виду грунта
+    status: verified
+    code:
+      - {file: calc/sp24_piles.py, symbol: bored_pile}
+      - {file: calc/sp24_piles.py, symbol: gamma_rf_bored}
+    tests:
+      - tests/test_sp24_piles.py::test_driving_factors_hammer
+      - tests/test_sp24_piles.py::test_unknown_driving_method_refuses
+      - tests/test_sp24_piles.py::test_bored_pile_with_explicit_fi
+      - tests/test_sp24_piles.py::test_bored_pile_gamma_c_wet_clay
+      - tests/test_sp24_piles.py::test_bored_pile_missing_fi_refuses
   - id: input-validation
     document: SP22-2016
     clause: входные данные (координаты, знак УГВ)
