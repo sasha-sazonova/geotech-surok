@@ -267,6 +267,65 @@ clauses:
       - tests/test_sp24_piles.py::test_bored_pile_with_explicit_fi
       - tests/test_sp24_piles.py::test_bored_pile_gamma_c_wet_clay
       - tests/test_sp24_piles.py::test_bored_pile_missing_fi_refuses
+  - id: SP24-7.4.2-single-pile-settlement
+    document: SP24-2021
+    clause: п.7.4.2–7.4.3, ф.(7.34)–(7.39), табл.7.18
+    formula: s = β·N/(G1l) при κ ≥ 7.5; s = ζ′·N/(G2d) при κ ≤ 7.5; d = 4A/π
+    status: verified
+    code:
+      - {file: calc/sp24_group.py, symbol: single_pile_settlement}
+      - {file: calc/sp24_group.py, symbol: k_nu}
+      - {file: calc/sp24_group.py, symbol: equivalent_diameter}
+    tests:
+      - tests/test_sp24_group.py::test_knu_table_nodes
+      - tests/test_sp24_group.py::test_knu_interpolation
+      - tests/test_sp24_group.py::test_single_pile_long_branch_closed_form
+      - tests/test_sp24_group.py::test_single_pile_short_branch
+      - tests/test_sp24_group.py::test_equivalent_diameter
+  - id: SP24-7.4.4-group-settlement
+    document: SP24-2021
+    clause: п.7.4.4–7.4.5, ф.(7.40)–(7.42)
+    formula: sad = δ·N/(G1l); δ = 0.17·ln(x)/x при x > 1; si = s(Ni) + Σ δij·Nj/(G1l)
+    status: verified
+    code:
+      - {file: calc/sp24_group.py, symbol: interaction_delta}
+      - {file: calc/sp24_group.py, symbol: group_settlement}
+      - {file: calc/sp24_group.py, symbol: rigid_group_settlement}
+    tests:
+      - tests/test_sp24_group.py::test_delta_zero_when_argument_le_one
+      - tests/test_sp24_group.py::test_delta_has_maximum_at_x_equals_e
+      - tests/test_sp24_group.py::test_delta_manual_value
+      - tests/test_sp24_group.py::test_group_of_two_matches_manual
+      - tests/test_sp24_group.py::test_group_symmetry
+      - tests/test_sp24_group.py::test_group_symmetry_3x3_full
+      - tests/test_sp24_group.py::test_group_over_25_refuses
+      - tests/test_sp24_group.py::test_rigid_group_equalizes_settlements
+      - tests/test_sp24_group.py::test_rigid_group_load_shifts_to_edge
+  - id: SP24-7.4.8-fictitious-footing
+    document: SP24-2021
+    clause: п.7.4.8–7.4.11, ф.(7.45)–(7.49)
+    formula: s = sef + Δsp + Δsc; границы условного фундамента 0.5 шага ≤ 1.5d
+    status: partial
+    note: реализованы Δsp (7.46–7.48), Δsc (7.49), геометрия (7.4.9); sef — вызов СП 22.13330 (d1_foundation)
+    code:
+      - {file: calc/sp24_group.py, symbol: punch_settlement}
+      - {file: calc/sp24_group.py, symbol: shaft_compression}
+      - {file: calc/sp24_group.py, symbol: fictitious_footing_geometry}
+    tests:
+      - tests/test_sp24_group.py::test_fictitious_footing_geometry
+      - tests/test_sp24_group.py::test_fictitious_footing_offset_capped
+      - tests/test_sp24_group.py::test_punch_settlement_manual
+      - tests/test_sp24_group.py::test_punch_refuses_when_a_le_d
+      - tests/test_sp24_group.py::test_shaft_compression_manual
+  - id: SP24-7.8.5-pullout-group
+    document: SP24-2021
+    clause: п.7.8.5
+    formula: кусты ≤ 4 свай опор ЛЭП — снижение 20 % на выдёргивание
+    status: verified
+    code:
+      - {file: calc/sp24_group.py, symbol: pullout_in_group_factor}
+    tests:
+      - tests/test_sp24_group.py::test_pullout_group_factor
   - id: input-validation
     document: SP22-2016
     clause: входные данные (координаты, знак УГВ)
