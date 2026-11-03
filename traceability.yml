@@ -222,27 +222,34 @@ clauses:
       - tests/test_sp24_piles.py::test_end_bearing_cap_20000
   - id: SP24-7.2.4-driven-friction
     document: SP24-2021
-    clause: п.7.2.4, ф.(7.9), табл.7.3(глины), табл.7.4
-    formula: Fd = γc·(γR,R·R·A + u·ΣγR,f·fi·hi); fi — табл. 7.3 (IL 0.2…1.0)
-    status: partial
-    note: глинистая часть подтверждена; песчаные fi и глинистая часть табл. 7.2 не подтверждены — код отказывает
+    clause: п.7.2.4, ф.(7.9), табл.7.2(пески+глины), табл.7.3(глины), табл.7.4
+    formula: Fd = γc·(γR,R·R·A + u·ΣγR,f·fi·hi); fi — табл. 7.3 (IL 0.2…1.0); R — табл. 7.2
+    status: verified
+    note: "табл. 7.2 подтверждена структурно (pdfplumber lines + Apple Vision): глины IL=0.1/0.2/0.3/0.4/0.6; пустые ячейки издания дают отказ; песчаные fi табл. 7.3 в издании отсутствуют — отказ"
     code:
       - {file: calc/sp24_piles.py, symbol: driven_friction_pile}
       - {file: calc/sp24_piles.py, symbol: f_lateral_cohesive}
       - {file: calc/sp24_piles.py, symbol: driving_factors}
+      - {file: calc/sp24_piles.py, symbol: R_end_sand}
+      - {file: calc/sp24_piles.py, symbol: R_end_clay}
     tests:
       - tests/test_sp24_piles.py::test_R_end_sand_nodes_and_interpolation
       - tests/test_sp24_piles.py::test_R_end_sand_dense_cpt_cap
       - tests/test_sp24_piles.py::test_R_end_sand_out_of_range_refuses
-      - tests/test_sp24_piles.py::test_R_end_clay_refuses
+      - tests/test_sp24_piles.py::test_R_end_clay_nodes
+      - tests/test_sp24_piles.py::test_R_end_clay_interpolates_by_depth
+      - tests/test_sp24_piles.py::test_R_end_clay_empty_cells_refuse
+      - tests/test_sp24_piles.py::test_R_end_clay_out_of_IL_refuses
+      - tests/test_sp24_piles.py::test_R_end_clay_empty_cell_refuses
       - tests/test_sp24_piles.py::test_driven_pile_manual_end_bearing
+      - tests/test_sp24_piles.py::test_driven_pile_clay_end_bearing_now_supported
+      - tests/test_sp24_piles.py::test_driven_pile_clay_empty_cell_refuses
       - tests/test_sp24_piles.py::test_f_lateral_nodes
       - tests/test_sp24_piles.py::test_f_lateral_interpolates_both_axes
       - tests/test_sp24_piles.py::test_f_lateral_matches_snip_2020_baseline
       - tests/test_sp24_piles.py::test_f_lateral_out_of_range_refuses
       - tests/test_sp24_piles.py::test_driven_pile_full_example
       - tests/test_sp24_piles.py::test_driven_pile_refuses_sand_side_friction
-      - tests/test_sp24_piles.py::test_driven_pile_refuses_clay_end_bearing
       - tests/test_sp24_piles.py::test_driven_pile_layer_thicker_than_2m_refuses
   - id: SP24-7.2.7-pullout
     document: SP24-2021

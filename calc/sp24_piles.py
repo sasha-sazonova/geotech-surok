@@ -71,8 +71,10 @@ def ks_for_rock(vop_percent: float) -> float:
 # часть зафиксирована отдельно как UNCERTAIN и в расчёт не идёт.
 T72_DEPTH: Tuple[int, ...] = (3, 4, 5, 7, 10, 15, 20, 25, 30, 35, 40)
 T72_SAND_COLS = ("гравелистые", "крупные", "средней крупности", "мелкие", "пылеватые")
+# Песчаная часть: подтверждена координатно-структурным извлечением (pdfplumber lines +
+# Apple Vision OCR страницы 19, два независимых метода согласованы)
 T72_SAND: Dict[int, Tuple[float, ...]] = {
-    3:  (7500, 6600, 3000, 3100, 2000),
+    3:  (7500, 6600, 3100, 2000, 1100),
     4:  (8300, 6800, 3800, 3200, 2100),
     5:  (8800, 7000, 4000, 3400, 2200),
     7:  (9700, 7300, 4300, 3700, 2400),
@@ -84,20 +86,23 @@ T72_SAND: Dict[int, Tuple[float, ...]] = {
     35: (15000, 10000, 8000, 6000, 4100),
     40: (15800, 10500, 8600, 6400, 4400),
 }
-# Глинистые значения «под чертой» — прочитаны, но привязка к IL не подтверждена:
-T72_CLAY_UNCERTAIN: Dict[int, Tuple[float, ...]] = {
-    3:  (4000, 2000, 1200),
-    4:  (5100, 2500, 1600),
-    5:  (6200, 2800, 2000),
-    7:  (6900, 3300, 2200),
-    10: (7300, 3500, 2400),
-    15: (7500, 4000,),
-    20: (4500,),
+# Глинистая часть «под чертой»: структура установлена координатно (подпись IL совпадает
+# с колонкой под-числа; проверено на всех строках; сверка с СНиП 2.02.03-85 показывает
+# пересмотр значений в СП 24). Пустые ячейки — так в издании; интерполяция через них запрещена.
+T72_CLAY_IL: Tuple[float, ...] = (0.1, 0.2, 0.3, 0.4, 0.5, 0.6)
+T72_CLAY: Dict[int, Tuple[Optional[float], ...]] = {
+    3:  (4000, 3000, 2000, 1200, None, 600),
+    4:  (5100, 3800, 2500, 1600, None, 700),
+    5:  (6200, 4000, 2800, 2000, None, 800),
+    7:  (6900, 4300, 3300, 2200, None, 850),
+    10: (7300, 5000, 3500, 2400, None, 900),
+    15: (7500, 5600, 4000, None, None, 1000),
+    20: (None, 6200, None, None, None, 1100),
+    25: (None, 6800, None, None, None, 1200),
+    30: (None, 7400, None, None, None, 1300),
+    35: (None, 8000, None, None, None, 1400),
+    40: (None, 8600, None, None, None, 1500),
 }
-T72_CLAY_UNCERTAIN_NOTE = (
-    "значения под чертой табл. 7.2 прочитаны с изображения, но соответствие колонок "
-    "показателю текучести IL не подтверждено (подписи IL 0…0.6 не выровнены с колонками); "
-    "требуется сверка с печатным изданием")
 
 SAND_KIND = {"гравелистые": 0, "крупные": 1, "средней крупности": 2, "мелкие": 3, "пылеватые": 4}
 
@@ -127,9 +132,31 @@ def R_end_sand(depth_m: float, kind: str, dense_CPT: bool = False) -> float:
 
 
 def R_end_clay(depth_m: float, IL: float) -> float:
-    """R под нижним концом в ГЛИНИСТОМ грунте: пока НЕ подтверждено — всегда отказ."""
-    raise UnverifiedNormValue(
-        "табл. 7.2 глинистая часть: " + T72_CLAY_UNCERTAIN_NOTE)
+    """R (кПа) под нижним концом забивной сваи в глинистом грунте (табл. 7.2, под чертой).
+
+    Узлы по изданию: (глубина 3…40 м) × (IL 0.1, 0.2, 0.3, 0.4, 0.6). Пустые ячейки издания
+    (None) интерполяцию через себя запрещают — отказ с объяснением.
+    """
+    if not (3.0 <= depth_m <= 40.0):
+        raise Sp24Limitation(f"глубина {depth_m} м вне диапазона табл. 7.2 (3…40 м)")
+    if IL not in T72_CLAY_IL:
+        raise Sp24Limitation(f"IL = {IL} вне подтверждённых колонок табл. 7.2 {T72_CLAY_IL}")
+    idx = T72_CLAY_IL.index(IL)
+    depths = sorted(T72_CLAY)
+    d_lo = max(x for x in depths if x <= depth_m)
+    d_hi = min(x for x in depths if x >= depth_m)
+
+    def row_value(d: int) -> Optional[float]:
+        return T72_CLAY[d][idx]
+
+    v_lo, v_hi = row_value(d_lo), row_value(d_hi)
+    if v_lo is None or v_hi is None:
+        raise UnverifiedNormValue(
+            f"табл. 7.2: ячейка IL={IL} у глубины "
+            f"{d_lo if v_lo is None else d_hi} м в издании пуста — "
+            "интерполяция через неподтверждённую ячейку не выполняется")
+    fd = 0.0 if d_hi == d_lo else (depth_m - d_lo) / (d_hi - d_lo)
+    return float(v_lo + (v_hi - v_lo) * fd)
 
 
 # ---------------- табл. 7.3: fi на боковой поверхности, глинистые ----------------
@@ -285,8 +312,14 @@ def driven_friction_pile(end_bearing: Dict[str, object], area: float, perimeter_
             refusals.append(f"R нижнего конца: {exc}")
     elif btype == "manual":
         end_term = gamma_rr * float(end_bearing["R_kpa"]) * area
+    elif btype == "clay" and end_bearing.get("IL") is not None:
+        try:
+            R = R_end_clay(float(end_bearing["depth_m"]), float(end_bearing["IL"]))
+            end_term = gamma_rr * R * area
+        except (Sp24Limitation, UnverifiedNormValue) as exc:
+            refusals.append(f"R нижнего конца в глине: {exc}")
     elif btype == "clay":
-        refusals.append("R нижнего конца в глине: " + T72_CLAY_UNCERTAIN_NOTE)
+        refusals.append("R нижнего конца в глине: укажите IL (подтверждённые: 0.1, 0.2, 0.3, 0.4, 0.6)")
     else:
         refusals.append(f"неизвестный тип основания нижнего конца: {btype!r}")
 

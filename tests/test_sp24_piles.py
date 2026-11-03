@@ -111,9 +111,10 @@ def test_R_end_sand_dense_cpt_cap():
     assert R_end_sand(10.0, "мелкие", dense_CPT=True) == pytest.approx(9200.0)
 
 
-def test_R_end_clay_refuses():
+def test_R_end_clay_empty_cell_refuses():
+    # d=20, IL=0.1: в издании ячейка пуста → отказ
     with pytest.raises(UnverifiedNormValue):
-        R_end_clay(10.0, 0.3)
+        R_end_clay(20.0, 0.1)
 
 
 def test_R_end_sand_out_of_range_refuses():
@@ -152,11 +153,20 @@ def test_driven_pile_refuses_sand_side_friction():
     assert "не подтверждены" in res["refusals"][0]
 
 
-def test_driven_pile_refuses_clay_end_bearing():
-    """Глинистая часть табл. 7.2 не подтверждена → отказ."""
-    res = driven_friction_pile({"type": "clay"}, 0.16, 1.6, [], "hammer")
+def test_driven_pile_clay_end_bearing_now_supported():
+    """Табл. 7.2 глины подтверждены: IL=0.1, d=10 → R=7300."""
+    res = driven_friction_pile(
+        {"type": "clay", "depth_m": 10.0, "IL": 0.1}, 0.16, 1.6, [], "hammer")
+    assert res["status"] == "рассчитано"
+    assert res["end_term_kN"] == pytest.approx(7300.0 * 0.16)
+
+
+def test_driven_pile_clay_empty_cell_refuses():
+    """Пустые ячейки издания (d=20, IL=0.1) → отказ, не интерполяция."""
+    res = driven_friction_pile(
+        {"type": "clay", "depth_m": 20.0, "IL": 0.1}, 0.16, 1.6, [], "hammer")
     assert res["status"] == "не определено"
-    assert any("7.2" in r for r in res["refusals"])
+    assert any("пуста" in r for r in res["refusals"])
 
 
 def test_driven_pile_layer_thicker_than_2m_refuses():
@@ -164,6 +174,32 @@ def test_driven_pile_layer_thicker_than_2m_refuses():
     res = driven_friction_pile({"type": "manual", "R_kpa": 5000.0}, 0.16, 1.6, layers)
     assert res["status"] == "не определено"
     assert "2 м" in res["refusals"][0]
+
+
+# ---------- табл. 7.2 глины: R_end_clay ----------
+
+def test_R_end_clay_nodes():
+    assert R_end_clay(10.0, 0.2) == pytest.approx(5000.0)
+    assert R_end_clay(3.0, 0.4) == pytest.approx(1200.0)
+    assert R_end_clay(4.0, 0.1) == pytest.approx(5100.0)
+    assert R_end_clay(25.0, 0.6) == pytest.approx(1200.0)
+
+
+def test_R_end_clay_interpolates_by_depth():
+    # d=6, IL=0.2: между 5 (4000) и 7 (4300) → 4150
+    assert R_end_clay(6.0, 0.2) == pytest.approx(4150.0)
+
+
+def test_R_end_clay_empty_cells_refuse():
+    with pytest.raises(UnverifiedNormValue):
+        R_end_clay(20.0, 0.1)  # ячейка пуста в издании
+    with pytest.raises(UnverifiedNormValue):
+        R_end_clay(15.0, 0.4)  # ячейка пуста в издании
+
+
+def test_R_end_clay_out_of_IL_refuses():
+    with pytest.raises(Sp24Limitation):
+        R_end_clay(10.0, 0.05)
 
 
 # ---------- ф.(7.11): выдёргивание ----------
