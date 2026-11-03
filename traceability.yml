@@ -326,6 +326,31 @@ clauses:
       - {file: calc/sp24_group.py, symbol: pullout_in_group_factor}
     tests:
       - tests/test_sp24_group.py::test_pullout_group_factor
+  - id: SP24-7.4.14-CSP
+    document: SP24-2021
+    clause: п.7.4.14–7.4.20, п.7.4.7 ф.(7.44), п.7.4.18
+    formula: суммарные жёсткости по 7.4.8; k_w по (7.44); k_s из осесимметричной задачи ячейки (7.4.20)
+    status: partial
+    note: "реализовано совместное распределение Nd (сваи+плита) и проверки ф.(7.2), СП 22 и осадки; обнаружена аномалия ф.(7.44) издания — жёсткость почти не зависит от N при k_w0/N_u >> 1, воспроизводится дословно"
+    code:
+      - {file: calc/sp24_csp.py, symbol: csp_analysis}
+      - {file: calc/sp24_csp.py, symbol: pile_stiffness}
+      - {file: calc/sp24_csp.py, symbol: plate_subgrade_reaction}
+    tests:
+      - tests/test_sp24_csp.py::test_pile_stiffness_formula_as_published
+      - tests/test_sp24_csp.py::test_pile_stiffness_rejects_bad_input
+      - tests/test_sp24_csp.py::test_pile_stiffness_manual_value
+      - tests/test_sp24_csp.py::test_initial_stiffness_is_N_over_s
+      - tests/test_sp24_csp.py::test_plate_subgrade_positive_and_scales
+      - tests/test_sp24_csp.py::test_plate_subgrade_smaller_plate_stiffer
+      - tests/test_sp24_csp.py::test_csp_computes_and_converges
+      - tests/test_sp24_csp.py::test_csp_load_split_sums_to_total
+      - tests/test_sp24_csp.py::test_csp_checks_present
+      - tests/test_sp24_csp.py::test_csp_overloaded_foundation_flags_settlement
+      - tests/test_sp24_csp.py::test_csp_baseline_all_green
+      - tests/test_sp24_csp.py::test_csp_more_piles_share_load_better
+      - tests/test_sp24_csp.py::test_csp_without_plate_R_refuses_plate_check
+      - tests/test_sp24_csp.py::test_csp_refuses_non_convergence
   - id: input-validation
     document: SP22-2016
     clause: входные данные (координаты, знак УГВ)
