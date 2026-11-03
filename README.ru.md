@@ -78,6 +78,7 @@ index.html          двуязычный лендинг (корень GitHub Pag
 | Конкурентный анализ | <https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/competitor-analysis.md> |
 | Что мы умеем и сравнение с GEO5 | <https://sasha-sazonova.github.io/geotech-surok/coverage/> |
 | Источники данных и классы доверия | <https://github.com/sasha-sazonova/geotech-surok/blob/main/docs/data-sources.md> |
+| Покрытие СП 24.13330.2021 | <https://github.com/sasha-sazonova/geotech-surok/blob/main/docs/sp24-coverage.md> |
 
 ## Принципы
 
