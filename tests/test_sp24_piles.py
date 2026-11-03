@@ -9,9 +9,9 @@ import pytest
 
 from calc.d1_foundation import UnverifiedNormValue
 from calc.sp24_piles import (
-    PileLayer, Sp24Limitation, bored_pile, driven_friction_pile,
-    end_bearing_rock, f_lateral_cohesive, gamma_rf_bored, ks_for_rock,
-    pulled_out_pile,
+    PileLayer, R_end_clay, R_end_sand, Sp24Limitation, UnverifiedNormValue,
+    bored_pile, driven_friction_pile, end_bearing_rock, f_lateral_cohesive,
+    gamma_rf_bored, ks_for_rock, pulled_out_pile,
 )
 
 
@@ -95,35 +95,73 @@ def test_end_bearing_cap_20000():
 
 # ---------- ф.(7.9): висячая забивная свая ----------
 
+def test_R_end_sand_nodes_and_interpolation():
+    assert R_end_sand(10.0, "средней крупности") == pytest.approx(5000.0)
+    assert R_end_sand(25.0, "мелкие") == pytest.approx(5200.0)
+    # d=6 мелкие: между 5 (3400) и 7 (3700) → 3550
+    assert R_end_sand(6.0, "мелкие") == pytest.approx(3550.0)
+    assert R_end_sand(4.0, "гравелистые") == pytest.approx(8300.0)
+
+
+def test_R_end_sand_dense_cpt_cap():
+    # прим. 4: +100 % крупные/ср.кр., +130 % мелкие/пылеватые; cap 20000
+    # крупные, d=40: 10500·2 = 21000 → cap 20000
+    assert R_end_sand(40.0, "крупные", dense_CPT=True) == pytest.approx(20000.0)
+    # мелкие, d=10: 4000·2.3 = 9200
+    assert R_end_sand(10.0, "мелкие", dense_CPT=True) == pytest.approx(9200.0)
+
+
+def test_R_end_clay_refuses():
+    with pytest.raises(UnverifiedNormValue):
+        R_end_clay(10.0, 0.3)
+
+
+def test_R_end_sand_out_of_range_refuses():
+    with pytest.raises(Sp24Limitation):
+        R_end_sand(2.0, "крупные")
+    with pytest.raises(Sp24Limitation):
+        R_end_sand(50.0, "крупные")
+
+
 def test_driven_pile_full_example():
-    """Ручной расчёт: R=5000 (песок ср.кр.), A=0.16 (0.4×0.4), u=1.6, молоты.
+    """Ручной расчёт: песок ср.кр. под концом (d=10 → R=5000), A=0.16, u=1.6, молоты.
     Слои: d=3 м, IL=0.4 → fi=25 (узел таблицы); d=7 м, IL=0.3 → интерполяция
     между d=6 (42) и d=8 (44) → 43. side = (25+43)·2 = 136 кПа·м; end = 5000·0.16 = 800.
     Fd = 1.0·(800 + 1.6·136) = 1017.6 кН."""
     layers = [PileLayer(depth_mid_m=3.0, thickness_m=2.0, IL=0.4),
               PileLayer(depth_mid_m=7.0, thickness_m=2.0, IL=0.3)]
-    res = driven_friction_pile(5000.0, 0.16, 1.6, layers, "hammer")
+    res = driven_friction_pile(
+        {"type": "sand", "depth_m": 10.0, "kind": "средней крупности"},
+        0.16, 1.6, layers, "hammer")
     assert res["status"] == "рассчитано"
     assert res["Fd_kN"] == pytest.approx(800 + 1.6 * 136.0)
+
+
+def test_driven_pile_manual_end_bearing():
+    layers = [PileLayer(depth_mid_m=3.0, thickness_m=2.0, IL=0.4)]
+    res = driven_friction_pile({"type": "manual", "R_kpa": 5000.0}, 0.16, 1.6, layers)
+    assert res["status"] == "рассчитано"
+    assert res["end_term_kN"] == pytest.approx(800.0)
 
 
 def test_driven_pile_refuses_sand_side_friction():
     """Песчаные колонки табл. 7.3 не подтверждены → отказ, не число."""
     layers = [PileLayer(depth_mid_m=3.0, thickness_m=2.0, IL=None)]
-    res = driven_friction_pile(5000.0, 0.16, 1.6, layers, "hammer")
+    res = driven_friction_pile({"type": "manual", "R_kpa": 5000.0}, 0.16, 1.6, layers)
     assert res["status"] == "не определено"
     assert "не подтверждены" in res["refusals"][0]
 
 
 def test_driven_pile_refuses_clay_end_bearing():
-    """Глинистая часть табл. 7.2 не подтверждена → отказ при R=None."""
-    res = driven_friction_pile(None, 0.16, 1.6, [], "hammer")
+    """Глинистая часть табл. 7.2 не подтверждена → отказ."""
+    res = driven_friction_pile({"type": "clay"}, 0.16, 1.6, [], "hammer")
     assert res["status"] == "не определено"
+    assert any("7.2" in r for r in res["refusals"])
 
 
 def test_driven_pile_layer_thicker_than_2m_refuses():
     layers = [PileLayer(depth_mid_m=3.0, thickness_m=4.0, IL=0.4)]
-    res = driven_friction_pile(5000.0, 0.16, 1.6, layers, "hammer")
+    res = driven_friction_pile({"type": "manual", "R_kpa": 5000.0}, 0.16, 1.6, layers)
     assert res["status"] == "не определено"
     assert "2 м" in res["refusals"][0]
 

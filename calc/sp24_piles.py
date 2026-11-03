@@ -63,6 +63,75 @@ def ks_for_rock(vop_percent: float) -> float:
     raise ValueError("недостижимо")
 
 
+# ---------------- табл. 7.2: R под нижним концом забивных свай ----------------
+# Структура (подтверждена Apple Vision OCR стр. 19 + pdfplumber extract_tables стр. 18):
+# колонки совмещённые: над чертой — песок указанной крупности, под чертой — глина
+# соответствующего показателя текучести. Соответствие «под чертой» → IL неоднозначно
+# (подписи IL 0…0.6 не совпадают по позициям с песчаными колонками), поэтому глинистая
+# часть зафиксирована отдельно как UNCERTAIN и в расчёт не идёт.
+T72_DEPTH: Tuple[int, ...] = (3, 4, 5, 7, 10, 15, 20, 25, 30, 35, 40)
+T72_SAND_COLS = ("гравелистые", "крупные", "средней крупности", "мелкие", "пылеватые")
+T72_SAND: Dict[int, Tuple[float, ...]] = {
+    3:  (7500, 6600, 3000, 3100, 2000),
+    4:  (8300, 6800, 3800, 3200, 2100),
+    5:  (8800, 7000, 4000, 3400, 2200),
+    7:  (9700, 7300, 4300, 3700, 2400),
+    10: (10500, 7700, 5000, 4000, 2600),
+    15: (11700, 8200, 5600, 4400, 2900),
+    20: (12600, 8500, 6200, 4800, 3200),
+    25: (13400, 9000, 6800, 5200, 3500),
+    30: (14200, 9500, 7400, 5600, 3800),
+    35: (15000, 10000, 8000, 6000, 4100),
+    40: (15800, 10500, 8600, 6400, 4400),
+}
+# Глинистые значения «под чертой» — прочитаны, но привязка к IL не подтверждена:
+T72_CLAY_UNCERTAIN: Dict[int, Tuple[float, ...]] = {
+    3:  (4000, 2000, 1200),
+    4:  (5100, 2500, 1600),
+    5:  (6200, 2800, 2000),
+    7:  (6900, 3300, 2200),
+    10: (7300, 3500, 2400),
+    15: (7500, 4000,),
+    20: (4500,),
+}
+T72_CLAY_UNCERTAIN_NOTE = (
+    "значения под чертой табл. 7.2 прочитаны с изображения, но соответствие колонок "
+    "показателю текучести IL не подтверждено (подписи IL 0…0.6 не выровнены с колонками); "
+    "требуется сверка с печатным изданием")
+
+SAND_KIND = {"гравелистые": 0, "крупные": 1, "средней крупности": 2, "мелкие": 3, "пылеватые": 4}
+
+
+def R_end_sand(depth_m: float, kind: str, dense_CPT: bool = False) -> float:
+    """R (кПа) под нижним концом забивной сваи в песке (табл. 7.2).
+
+    dense_CPT=True — плотный песок по статическому зондированию (прим. 4: +100 % для
+    крупных/средней крупности, +130 % для мелких/пылеватых), cap 20000 кПа.
+    Интерполяция по глубине между узлами 3…40 м; вне диапазона — отказ.
+    """
+    if kind not in SAND_KIND:
+        raise Sp24Limitation(f"тип песка '{kind}' вне колонок табл. 7.2")
+    if not (3.0 <= depth_m <= 40.0):
+        raise Sp24Limitation(f"глубина {depth_m} м вне диапазона табл. 7.2 (3…40 м)")
+    idx = SAND_KIND[kind]
+    d_lo = max(x for x in T72_DEPTH if x <= depth_m)
+    d_hi = min(x for x in T72_DEPTH if x >= depth_m)
+    v_lo = T72_SAND[d_lo][idx]
+    v_hi = T72_SAND[d_hi][idx]
+    f = 0.0 if d_hi == d_lo else (depth_m - d_lo) / (d_hi - d_lo)
+    R = v_lo + (v_hi - v_lo) * f
+    if dense_CPT:
+        factor = 2.0 if kind in ("гравелистые", "крупные", "средней крупности") else 2.3
+        R = min(R * factor, 20000.0)
+    return R
+
+
+def R_end_clay(depth_m: float, IL: float) -> float:
+    """R под нижним концом в ГЛИНИСТОМ грунте: пока НЕ подтверждено — всегда отказ."""
+    raise UnverifiedNormValue(
+        "табл. 7.2 глинистая часть: " + T72_CLAY_UNCERTAIN_NOTE)
+
+
 # ---------------- табл. 7.3: fi на боковой поверхности, глинистые ----------------
 T73_IL: Tuple[float, ...] = (0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
 T73_COHESIVE: Dict[int, Tuple[float, ...]] = {
@@ -190,27 +259,36 @@ class PileLayer:
     IL: float = None     # показатель текучести (для глинистых)
 
 
-def driven_friction_pile(R_sand_kpa: Optional[float], area: float, perimeter_m: float,
+def driven_friction_pile(end_bearing: Dict[str, object], area: float, perimeter_m: float,
                          layers: List[PileLayer], driving_method: str = "hammer",
-                         gamma_c: float = 1.0,
-                         dense_sand_CPT: bool = False) -> Dict[str, object]:
+                         gamma_c: float = 1.0) -> Dict[str, object]:
     """Fd по ф.(7.9): Fd = γc·(γR,R·R·A + u·Σ γR,f·fi·hi).
 
-    R (табл. 7.2) — только для песчаного основания под нижним концом (глинистая часть
-    таблицы не подтверждена → refusal). fi (табл. 7.3) — только глинистые слои (песчаные
-    колонки таблицы не подтверждены → refusal).
-    Примечание 3 к табл. 7.3: плотные пески +30 % — применяется, когда слои песка
-    заданы; здесь не активируется (песчаные fi не читаются).
+    end_bearing — основание под нижним концом:
+      {"type": "sand", "depth_m": 10.0, "kind": "средней крупности", "dense_CPT": False}
+        → R по табл. 7.2 (подтверждённые песчаные колонки);
+      {"type": "manual", "R_kpa": 5000.0} → готовое значение (например из полевых испытаний);
+      {"type": "clay", ...} → refusal (глинистая часть табл. 7.2 не подтверждена).
+    fi (табл. 7.3) — только глинистые слои (песчаные колонки не подтверждены → refusal).
     """
     refusals: list = []
     gamma_rr, gamma_rf = driving_factors(driving_method)
 
     end_term = None
-    if R_sand_kpa is not None:
-        if dense_sand_CPT:
-            R_sand_kpa = R_sand_kpa * 2.0  # прим. 4 (зондирование): +100 %, cap 20000
-            R_sand_kpa = min(R_sand_kpa, 20000.0)
-        end_term = gamma_rr * R_sand_kpa * area
+    btype = end_bearing.get("type")
+    if btype == "sand":
+        try:
+            R = R_end_sand(float(end_bearing["depth_m"]), end_bearing["kind"],
+                           dense_CPT=bool(end_bearing.get("dense_CPT", False)))
+            end_term = gamma_rr * R * area
+        except (Sp24Limitation, KeyError) as exc:
+            refusals.append(f"R нижнего конца: {exc}")
+    elif btype == "manual":
+        end_term = gamma_rr * float(end_bearing["R_kpa"]) * area
+    elif btype == "clay":
+        refusals.append("R нижнего конца в глине: " + T72_CLAY_UNCERTAIN_NOTE)
+    else:
+        refusals.append(f"неизвестный тип основания нижнего конца: {btype!r}")
 
     side_sum = 0.0
     for layer in layers:

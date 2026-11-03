@@ -20,7 +20,7 @@ documents:
         - url: https://web.archive.org/web/2024/https://sibgeo.pro/netcat_files/31/21/_24.13330.2021_2.02.03_85_.pdf_dnl15357.pdf
           retrieved: 2026-11-03
           trust_class: normative
-          covers: [7.2.1, 7.2.4, 7.2.7, 7.2.10, ф.7.5-7.13, табл.7.1, табл.7.3(глины), табл.7.4, табл.7.6]
+          covers: [7.2.1, 7.2.4, 7.2.7, 7.2.10, ф.7.5-7.13, табл.7.1, табл.7.2(пески), табл.7.3(глины), табл.7.4, табл.7.6]
   - id: ETB
     title: The Engineering ToolBox — справочник свойств материалов и физических величин
     verification:
@@ -231,6 +231,11 @@ clauses:
       - {file: calc/sp24_piles.py, symbol: f_lateral_cohesive}
       - {file: calc/sp24_piles.py, symbol: driving_factors}
     tests:
+      - tests/test_sp24_piles.py::test_R_end_sand_nodes_and_interpolation
+      - tests/test_sp24_piles.py::test_R_end_sand_dense_cpt_cap
+      - tests/test_sp24_piles.py::test_R_end_sand_out_of_range_refuses
+      - tests/test_sp24_piles.py::test_R_end_clay_refuses
+      - tests/test_sp24_piles.py::test_driven_pile_manual_end_bearing
       - tests/test_sp24_piles.py::test_f_lateral_nodes
       - tests/test_sp24_piles.py::test_f_lateral_interpolates_both_axes
       - tests/test_sp24_piles.py::test_f_lateral_matches_snip_2020_baseline
