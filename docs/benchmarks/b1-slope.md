@@ -39,6 +39,23 @@ Declared cross-tool tolerance ±5 % — **passes** (Fellenius vs pyslope: 2.2 %)
 `calc/b1_slope.py` — hand Fellenius/Bishop on a fixed circle; `tests/test_b1_slope.py` —
 benchmark tests incl. the ±5 % cross-tool check and cohesion monotonicity.
 
+
+## Correction 2026-11-04 — прежний результат был неверен
+
+Кросс-проверка против **xslope 1.0.6** (Apache-2.0, 7 методов LEM) вскрыла две ошибки
+в нашем `calc/b1_slope.py`:
+
+| Метод | Было в коде | Правильно | Наш старый FS | Правильный FS | xslope |
+|---|---|---|---|---|---|
+| Fellenius | `c·l + W·tanφ` (без cos α) | `c·l + W·cosα·tanφ` | 1.7302 | **1.5904** | **1.590** |
+| Bishop | `(c·l + W·tanφ)/(1+tanα·tanφ/FS)` | `(c·b + W·tanφ)/m_α`, `m_α = cosα + sinα·tanφ/FS` | 1.5274 | **1.6925** | **1.692** |
+
+Совпадение с xslope после исправления — до 4 значащих цифр. Прежний вывод «B1 подтверждён,
+расхождение 2.2 % с pyslope» **аннулирован**: две ошибки взаимно компенсировались при
+сравнении с другим методом. Дополнительно исправлен поиск второго корня пересечения:
+глубокий круг выходит у подошвы практически касательно, знак не менялся и модуль падал
+с ZeroDivisionError.
+
 ## Status
 
 Benchmark accepted 2026-10-29: Fellenius vs pyslope agreement 2.2% (within ±5%); Bishop < Fellenius;

@@ -405,12 +405,14 @@ oracles:
     type: cross-tool
     path: calc/b1_slope.py
     tests:
-      - tests/test_b1_slope.py::test_fellenius_on_pyslope_critical_circle
-      - tests/test_b1_slope.py::test_pyslope_agreement_within_declared_tolerance
+      - tests/test_b1_slope.py::test_fellenius_matches_xslope_oms
+      - tests/test_b1_slope.py::test_bishop_matches_xslope_bishop
+      - tests/test_b1_slope.py::test_bishop_above_fellenius_for_circular_slip
+      - tests/test_b1_slope.py::test_auto_exit_detection_without_override
       - tests/test_b1_slope.py::test_monotonic_fs_in_cohesion
-      - tests/test_b1_slope.py::test_bishop_on_pyslope_critical_circle
-    tolerance: ±5% (Fellenius vs pyslope on the same circle) — passed (2.2%)
+    tolerance: "±0.5% против xslope 1.0.6 на том же круге (Fellenius 1.590, Bishop 1.692)"
     status: verified
+    note: "2026-11-04: прежняя сверка с pyslope (2.2%) признана недействительной — в коде были две ошибки (cos α в Fellenius, формула Bishop). После исправления совпадение с xslope ≤0.02%."
   - id: b3-axial-hand-ref
     type: manual-reference
     path: tests/test_b3_axial.py

@@ -1,6 +1,17 @@
 # -*- coding: utf-8 -*-
 """B1 — slope stability: hand Fellenius/Bishop on a defined circular slip surface.
 
+ИСПРАВЛЕНО 2026-11-04 (кросс-проверка против xslope 1.0.6):
+
+* Fellenius считался без cos α в числителе (N = W вместо N = W·cos α) → FS завышался;
+* Bishop считался по формуле (c·l + W·tanφ)/(1 + tanα·tanφ/FS) вместо
+  (c·b + W·tanφ)/m_α с m_α = cosα + sinα·tanφ/FS → FS занижался.
+
+После исправления на круге pyslope (cx=55.405, cz=61.024, R=21.520):
+Fellenius 1.5904 (xslope OMS 1.590), Bishop 1.6925 (xslope Bishop 1.692).
+Прежние значения 1.7296 / 1.5265 были следствием двух ошибок и недействительны.
+
+
 Reference verified against pyslope 1.4.0 (jobs b1-slope-005/006):
 * pyslope critical circle (cx=55.405, cz=61.024, R=21.520) on its own geometry
   (crest x=40 RL=50; toe x=60 RL=40) with clayey fill (18 kN/m3, φ=25°, c=10 kPa)
@@ -14,6 +25,7 @@ crest (40, 50), toe (60, 40). Slices: x from arc entry (36.92) to toe exit (59.9
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 
@@ -61,6 +73,19 @@ def _intersections(spec: SlopeSpec, cx: float, cz: float, R: float) -> List[floa
         if prev is not None and prev[1] * d < 0:
             roots.append(0.5 * (prev[0] + x))
         prev = (x, d)
+    # Касание: круг выходит из грунта почти касательно (типично для глубокого круга
+    # у подошвы), знак не меняется и второй корень не находится. Ищем точку
+    # наибольшего сближения правее первого корня и принимаем её за выход.
+    if len(roots) == 1:
+        # сканируем справа налево: выход — самая правая точка, где круг ещё в грунте
+        x_max = cx + R
+        x = x_max
+        while x > roots[0] + 1.0:
+            cy = circle_rl(spec, cx, cz, R, x)
+            if cy is not None and abs(cy - spec.surface_rl(x)) < 0.05:
+                roots.append(x)
+                break
+            x -= 0.05
     return roots
 
 
@@ -94,11 +119,17 @@ def bishop_fellenius_on_circle(
             W = spec.gamma * b * h
             driving += W * math.sin(alpha)
             if method == "fellenius":
-                resisting += spec.c_kpa * ell + W * math.tan(phi)
+                # Fellenius (ordinary): N = W·cos α, T = W·sin α
+                resisting += spec.c_kpa * ell + W * math.cos(alpha) * math.tan(phi)
             else:
-                resisting += (spec.c_kpa * ell + W * math.tan(phi)) / (
-                    1.0 + math.tan(alpha) * math.tan(phi) / fs
-                )
+                # Simplified Bishop: FS = Σ[(c·b + W·tanφ)/m_α] / Σ W·sin α,
+                # m_α = cos α + sin α·tanφ/FS
+                m_alpha = math.cos(alpha) + math.sin(alpha) * math.tan(phi) / fs
+                resisting += (spec.c_kpa * b + W * math.tan(phi)) / m_alpha
+        if driving <= 0:
+            raise ValueError(
+                "circle gives zero driving force (arc does not cut a soil mass); "
+                "check geometry or pass x_hi_override")
         new_fs = resisting / driving
         if method == "fellenius":
             return {"fs": round(new_fs, 4), "x_entry": round(x_lo, 2), "x_exit": round(x_hi, 2)}
@@ -108,5 +139,3 @@ def bishop_fellenius_on_circle(
         fs = new_fs
     return {"fs": round(fs, 4), "x_entry": round(x_lo, 2), "x_exit": round(x_hi, 2)}
 
-
-import math  # noqa: E402  (kept at bottom to mirror import layout of the original script)
