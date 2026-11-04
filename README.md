@@ -54,8 +54,11 @@ workspace-geotech_surok/          the agent workspace (mirrors the live one)
 ├── methods/        modules, verification levels, acceptance rules
 ├── workflows/      P-1 investigation, P-2 slopes, P-3 piles, P-4 reports, jobs protocol
 ├── tools/          67 OSS tools + 13-class coverage map + licence policy
-├── calc/           calculation code: D1 foundation (R, settlement), D2 lateral pile
-├── scenarios/      scenario cards in YAML with limits and assumptions
+├── calc/           calculation code: d1_foundation (R, settlement, tilt), b1_slope,
+│                   sp24_piles, sp24_group, sp24_csp
+├── scenarios/      YAML scenarios for calculation without coding
+├── examples/       quickstart_d1.py — calculation with a "your data" block
+├── tests/          150 tests: golden, property-based, dimensional, negative, SP 24
 ├── procedures/     calculation status policy and acceptance checklist
 ├── envs/           contour freezes + packages.csv (105 packages, licences, links)
 ├── reports/        protocols and traceability tables per revision
@@ -88,20 +91,39 @@ index.html          bilingual landing page (GitHub Pages root)
 
 ## Status
 
-Spec **v1.6** · compute contour: 105 packages, import test 21/21, freeze recorded · async runner **v3** (contour preflight + health monitoring) ·
-live agent passed **6/6** acceptance checks including the anti-fallback trap.
+Spec **v1.6** · compute contour: 105 packages, import test 21/21, freeze recorded ·
+runner **v3** (contour preflight + health monitoring) · agent passed **6/6** acceptance checks.
 
-**D1** — shallow foundation (coefficients re-verified against the official text of СП 22.13330.2016):
-`p = 286.0 kPa` vs `R = 215.62 kPa` → check **fails** (+32.6 %);
-settlement `s = 4.232 cm` vs `su = 10 cm` → **passes** (Hc = 3.6 m, п.5.6.41). A resized 2.4×2.8 m
-footing passes bearing with a 1.9 % margin (`R = 218.82`, `p = 214.57` kPa).
-**D2** — lateral pile (openpile 1.0.3): at H = 500 kN, y = 6.3 / 19.3 mm and Mmax = 890.5 / 1389 kNm
-for the two stiffness calibrations; the СП 24.13330 route remains “not determined”.
-Settlement for `d ≥ 5 m` is now computed in full: the second term of (5.16) with `σzγ` from (5.18)
-and the pit plan dimensions (clause 5.6.33). Table 5.5 cells that the printed original does not
-confirm (Mγ at φ=38° and 43°) are never substituted — the calculation returns "not determined".
-Verification: manual reference (`docs/manual-check-d1.md`), **78 tests**, traceability validator
-(15 clauses, 47 tests) — CI green (verify + docker).
+**What is computed today** (all pinned by tests — 150 tests, traceability 26 clauses / 120 tests):
+
+| Block | Norm | Implemented | Key numbers |
+|---|---|---|---|
+| **D1 — shallow foundation** | SP 22.13330.2016 | R by (5.7); settlement by (5.16) with both terms including `d ≥ 5 m`; formula (5.19) for `p ≤ σzg,0`; compressible-thickness extension for a layer with `E ≤ 7 MPa` (5.6.41); **tilt** by (5.24)–(5.26) with tables 5.9/5.10 | p = 286.0 vs R = 215.62 kPa → fails (+32.6 %); s = 4.232 cm ≤ 10 cm; Hc = 3.6 m; 2.4×2.8 m footing: R = 218.82, p = 214.57, s = 3.595 |
+| **D2 — laterally loaded pile** | openpile 1.0.3 (p-y) | two-layer model, two stiffness calibrations | H = 500 kN: y = 6.3 / 19.3 mm, Mmax = 890.5 / 1389 kNm |
+| **SP 24 — bearing capacity** | SP 24.13330.2021 | end-bearing piles (7.5–7.8); driven piles (7.9) with **table 7.2 in full** (sands and clays IL 0.1…0.6) plus tables 7.3/7.4; pull-out (7.11); bored piles (7.13) with table 7.6 | example: medium sand at d = 10 m → R = 5000 kPa; clay IL = 0.1 at d = 10 m → R = 7300 kPa |
+| **SP 24 — pile settlement** | SP 24.13330.2021 | single pile (7.34–7.39, table 7.18, both κ branches); interaction (7.40–7.42); group n ≤ 25 with flexible and rigid cap | δ = 0.17·ln(x)/x — maximum at x = e (a property of the norm) |
+| **SP 24 — pile field** | SP 24.13330.2021 | fictitious footing (7.45–7.49): `sef` via SP 22 + punch Δsp + shaft compression Δsc; boundaries per 7.4.9 | — |
+| **SP 24 — combined pile-raft (CSP)** | SP 24.13330.2021 | combined stiffness per 7.4.18/7.4.8; nonlinear pile stiffness (7.44); plate subgrade reaction (7.4.20); load split with three checks | 25 piles, Nd = 20 MN → settlement ≈ 5 mm, 96 % carried by piles |
+
+**Cross-tool benchmarks:** B1 slope (Fellenius/Bishop vs pyslope — 2.2 % difference),
+B2 table 5.8 vs exact Boussinesq (table is conservative by 3–32 %),
+B3 axial pile (API unit formulas vs hand calculation — 0.0 %).
+
+**Deliberately not computed** (returns "not determined", never a guess): edge pressures under moment;
+piles in soils where the printed norm shows a dash in the table; CSP edge effects; numerical methods
+7.4.13 and 7.5; negative friction.
+
+Verification: manual reference (`docs/manual-check-d1.md`), **150 tests**, traceability validator
+(26 clauses, 120 tests) — CI green (verify + docker). Full SP 24 coverage matrix:
+[`docs/sp24-coverage.md`](docs/sp24-coverage.md).
+
+### Quick start
+
+```bash
+make verify      # traceability + tests
+make quickstart  # D1 calculation with default data
+make scenario    # calculation from a YAML scenario (no coding)
+```
 
 ## License
 

@@ -62,7 +62,7 @@ td.s{white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:.0
 <p class="kv"><b>Basis:</b> SP 542.1325800.2024 with amendment 1; SP 22.13330.2016<br><b>Evidence:</b> geoeq (Rankine/Coulomb), anaStruct for the wall; the registry confirms editions</p></div>
 <div class="cap"><span class="num">04</span><h4>Piles under axial and lateral load</h4>
 <p>Builds a beam-pile model with soil springs, computes forces and displacements, compares with an independent solution. Axial capacity from CPT via De Beer.</p>
-<p class="kv"><b>Basis:</b> SP 24.13330.2021 with amendments 1 and 2 — registry confirmed; there is no direct OSS module for SP 24, so the result carries a limitation<br><b>Evidence:</b> OpenPile 1.0.3, groundhog / methodedebeer; scenario D2 — pile D = 1.2 m, L = 24 m</p></div>
+<p class="kv"><b>Basis:</b> SP 24.13330.2021: 7.2.1 (7.5)–(7.8), table 7.1; 7.2.4 (7.9), tables 7.2/7.3/7.4; 7.2.7 (7.11); 7.2.10 (7.13), table 7.6; section 7.4 (settlement 7.34–7.49), CSP 7.4.14–7.4.20<br><b>Evidence:</b> In-house SP 24 module (calc/sp24_piles.py, sp24_group.py, sp24_csp.py): capacity, single-pile and group settlement, pile field via fictitious footing, CSP; cross-checked against openpile 1.0.3 — unit formulas match to 0.0 %</p></div>
 <div class="cap"><span class="num">05</span><h4>Site investigation and soil parameters</h4>
 <p>Reads GEF/CPT and AGS4, parses boreholes and SPT, runs statistics per GOST 20522 and assembles a parameter passport: value, soil unit, sample, test, processing method.</p>
 <p class="kv"><b>Basis:</b> GOST 20522-2012 with amendment 1; GOST 25100 is queued, classification is flagged<br><b>Evidence:</b> pygef, groundhog, python-ags4, geolysis; contour import test 21/21</p></div>
@@ -85,13 +85,13 @@ td.s{white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:.0
 <h3>Slope stability</h3><table><tr><th>GEO5 module</th><th>Ours</th><th>Comment</th></tr><tr><td>Slope stability</td><td class="s partial">partial</td><td>7 LEM methods and cross-check; no Shakhunyants method or reinforcement.</td></tr>
 <tr><td>Slope stability – seepage</td><td class="s partial">partial</td><td>Seepage via ogs/Kratos, without a geotechnical preprocessor.</td></tr>
 <tr><td>Rock slope</td><td class="s partial">partial</td><td>Kinematic analysis via mplstereonet; rock-mass strength is missing.</td></tr></table>
-<h3>Foundations</h3><table><tr><th>GEO5 module</th><th>Ours</th><th>Comment</th></tr><tr><td>Spread footing</td><td class="s partial">partial</td><td>R and settlement implemented and checked; moment, tilt and edge pressure — not determined.</td></tr>
+<h3>Foundations</h3><table><tr><th>GEO5 module</th><th>Ours</th><th>Comment</th></tr><tr><td>Spread footing</td><td class="s partial">partial</td><td>R, settlement (including d ≥ 5 m and (5.19)) and tilt by (5.24)–(5.26) implemented and checked; edge pressures — not determined.</td></tr>
 <tr><td>Spread footing from CPT</td><td class="s partial">partial</td><td>CPT is read, but the CPT-based footing route is not implemented.</td></tr>
 <tr><td>Settlement</td><td class="s full">yes</td><td>Layer-by-layer summation per SP 22 Appendix G implemented and checked in D1.</td></tr>
 <tr><td>Slab</td><td class="s partial">partial</td><td>Slab is computed, but not on soil with SP checks.</td></tr>
 <tr><td>Beam</td><td class="s partial">partial</td><td>Beam exists; soil support via manual subgrade moduli.</td></tr>
 <tr><td>Abutment</td><td class="s none">no</td><td>No abutment module.</td></tr>
-<tr><td>Piles</td><td class="s partial">partial</td><td>Beam-pile models and springs; no SP 24 normative route in OSS.</td></tr>
+<tr><td>Piles</td><td class="s partial">partial</td><td>SP 24 normative route implemented (capacity, settlement, group, field, CSP) plus openpile beam-pile models for lateral load.</td></tr>
 <tr><td>Micropile</td><td class="s none">no</td><td>Micropiles are absent.</td></tr>
 <tr><td>Pile group</td><td class="s none">no</td><td>Pile group and efficiency are not implemented.</td></tr>
 <tr><td>Pile from CPT</td><td class="s partial">partial</td><td>De Beer from CPT as a method, not as an SP route.</td></tr></table>
