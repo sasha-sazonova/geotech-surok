@@ -358,6 +358,46 @@ clauses:
       - tests/test_sp24_csp.py::test_csp_more_piles_share_load_better
       - tests/test_sp24_csp.py::test_csp_without_plate_R_refuses_plate_check
       - tests/test_sp24_csp.py::test_csp_refuses_non_convergence
+  - id: lem-7-methods
+    document: SP22-2016
+    clause: п.5.6 (расчёт устойчивости) — LEM-метод нормой не зафиксирован
+    formula: 7 методов предельного равновесия (OMS/Bishop/Janbu/Corps/Lowe/Spencer/M-Price)
+    status: partial
+    note: "реализовано через xslope 1.0.6 (Apache-2.0); методы инженерные, не пункт нормы; контроль — совпадение с собственной реализацией ≤1%"
+    code:
+      - {file: calc/lem_slope.py, symbol: factor_of_safety}
+      - {file: calc/lem_slope.py, symbol: critical_circle}
+      - {file: calc/lem_slope.py, symbol: to_status}
+    tests:
+      - tests/test_lem_and_earth_pressure.py::test_all_seven_methods_run_and_agree
+      - tests/test_lem_and_earth_pressure.py::test_lem_matches_our_hand_methods
+  - id: earth-pressure-wall
+    document: SP22-2016
+    clause: п.5.6 (давление грунта), СП 542.1325800.2024 (подпорные стены)
+    formula: K_a/K_p Ранкин, K_a Кулон, эпюра, трещина отрыва; FS сдвига/опрокидывания; краевые давления
+    status: partial
+    note: "проверки сдвига/опрокидывания/давлений реализованы; нормативные коэффициенты запаса задаются проектом (по умолчанию 1.5)"
+    code:
+      - {file: calc/earth_pressure.py, symbol: active_pressure_profile}
+      - {file: calc/earth_pressure.py, symbol: sliding_check}
+      - {file: calc/earth_pressure.py, symbol: overturning_check}
+      - {file: calc/earth_pressure.py, symbol: bearing_check}
+      - {file: calc/earth_pressure.py, symbol: ka_coulomb}
+    tests:
+      - tests/test_lem_and_earth_pressure.py::test_rankine_coefficients_analytic
+      - tests/test_lem_and_earth_pressure.py::test_ka_times_kp_is_one
+      - tests/test_lem_and_earth_pressure.py::test_k0_jaky
+      - tests/test_lem_and_earth_pressure.py::test_coulomb_below_rankine_with_friction
+      - tests/test_lem_and_earth_pressure.py::test_active_pressure_resultant_matches_hand_calc
+      - tests/test_lem_and_earth_pressure.py::test_tension_crack_depth_for_cohesive_soil
+      - tests/test_lem_and_earth_pressure.py::test_water_increases_pressure
+      - tests/test_lem_and_earth_pressure.py::test_sliding_check
+      - tests/test_lem_and_earth_pressure.py::test_sliding_passive_resistance_helps
+      - tests/test_lem_and_earth_pressure.py::test_overturning_check
+      - tests/test_lem_and_earth_pressure.py::test_bearing_within_kern
+      - tests/test_lem_and_earth_pressure.py::test_bearing_outside_kern_triangular
+      - tests/test_lem_and_earth_pressure.py::test_geoeq_crosscheck_matches
+      - tests/test_lem_and_earth_pressure.py::test_sheet_pile_blum
   - id: input-validation
     document: SP22-2016
     clause: входные данные (координаты, знак УГВ)
