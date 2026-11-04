@@ -371,6 +371,9 @@ clauses:
     tests:
       - tests/test_lem_and_earth_pressure.py::test_all_seven_methods_run_and_agree
       - tests/test_lem_and_earth_pressure.py::test_lem_matches_our_hand_methods
+      - tests/test_lem_and_earth_pressure.py::test_critical_circle_search_runs
+      - tests/test_lem_and_earth_pressure.py::test_to_status_pass_fail
+      - tests/test_lem_and_earth_pressure.py::test_to_status_falls_back_to_min_when_bishop_missing
   - id: earth-pressure-wall
     document: SP22-2016
     clause: п.5.6 (давление грунта), СП 542.1325800.2024 (подпорные стены)

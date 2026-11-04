@@ -147,3 +147,33 @@ def test_lem_matches_our_hand_methods():
                                         x_hi_override=60.0)["fs"]
     assert r["fs"]["oms"] == pytest.approx(ours_f, rel=0.01)
     assert r["fs"]["bishop"] == pytest.approx(ours_b, rel=0.01)
+
+
+# ---------------- критический круг и статус проверки ----------------
+
+@requires_xslope
+def test_critical_circle_search_runs():
+    """Автопоиск круга: движок предлагает круги, критический даёт FS ниже стартового."""
+    from calc.lem_slope import critical_circle
+    m = SlopeModel(crest_x=40, crest_y=10, toe_x=60, toe_y=0, base_depth=0.5)
+    r = critical_circle(m, workdir="/tmp")
+    assert r["status"] == "рассчитано"
+    assert r["circles_offered"] >= 1
+    assert "bishop" in r["fs"]
+    assert 0.5 < r["fs"]["bishop"] < 5.0
+
+
+def test_to_status_pass_fail():
+    from calc.lem_slope import to_status
+    ok = to_status({"fs": {"bishop": 1.62, "oms": 1.55}}, fs_required=1.5)
+    assert ok["status"] == "выполняется" and ok["value"] == 1.62
+    bad = to_status({"fs": {"bishop": 1.22}}, fs_required=1.5)
+    assert bad["status"] == "не выполняется"
+    none = to_status({"fs": {}}, fs_required=1.5)
+    assert none["status"] == "не определено"
+
+
+def test_to_status_falls_back_to_min_when_bishop_missing():
+    from calc.lem_slope import to_status
+    r = to_status({"fs": {"oms": 1.40, "corps": 1.71}}, fs_required=1.5)
+    assert r["value"] == 1.40 and r["method"] == "min"
