@@ -12,6 +12,31 @@ jobs:
         run: pip install -r requirements.lock
       - name: Verify (traceability + tests)
         run: make verify
+  optional:
+    # Ядро проверяется и БЕЗ опциональных пакетов (verify), но интеграция с движками
+    # (xslope, geoeq) иначе молча скипалась бы — это тот же «ложный зелёный», против
+    # которого построен проект. Здесь ставим requirements-optional и требуем ноль скипов.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core + optional dependencies
+        run: |
+          pip install -r requirements.lock
+          pip install -r requirements-optional.txt
+      - name: Full suite with engines (no silent skips)
+        run: |
+          python tools/validate_traceability.py
+          python -m pytest -q -rs
+      - name: Fail if any test was skipped
+        run: |
+          python -m pytest -q -rs | tee /tmp/pytest.out
+          if grep -q "skipped" /tmp/pytest.out; then
+            echo "::error::optional-dependency tests were skipped — CI must exercise them"
+            exit 1
+          fi
   docker:
     runs-on: ubuntu-latest
     steps:

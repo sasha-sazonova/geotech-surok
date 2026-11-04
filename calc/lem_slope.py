@@ -24,6 +24,8 @@ xslope 1.0.6 (Apache-2.0) — зрелый публикуемый движок, 
 """
 from __future__ import annotations
 
+import os
+import tempfile
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Sequence, Tuple
 
@@ -31,6 +33,7 @@ try:  # необязательная зависимость
     import xslope  # noqa: F401
     from xslope.fileio import (default_template_path, load_slope_data,
                                save_slope_data_to_xlsx)
+    from xslope.preflight import preflight as _preflight
     from xslope.search import generate_starting_circles
     import xslope.slice as _xslice
     import xslope.solve as _xsolve
@@ -127,6 +130,14 @@ def _roundtrip(data: dict, path: str) -> dict:
     return load_slope_data(path)
 
 
+def _workfile(workdir: str, name: str) -> str:
+    """Уникальный путь: параллельные вызовы не должны перезаписывать файл друг друга."""
+    os.makedirs(workdir, exist_ok=True)
+    fd, path = tempfile.mkstemp(prefix=f"{name}_", suffix=".xlsx", dir=workdir)
+    os.close(fd)
+    return path
+
+
 def factor_of_safety(model: SlopeModel, circle: Circle,
                      methods: Sequence[str] = LEM_METHODS,
                      num_slices: int = 40,
@@ -138,8 +149,14 @@ def factor_of_safety(model: SlopeModel, circle: Circle,
     сошёлся, он попадает в failures и НЕ участвует в spread.
     """
     data = _build_slope_data(model, [circle])
-    path = f"{workdir}/lem_model.xlsx"
+    path = _workfile(workdir, "lem_model")
     loaded = _roundtrip(data, path)
+
+    # Проверка модели движком ДО расчёта: недопустимая геометрия/круг должны давать
+    # внятную ошибку, а не «странный FS».
+    report = _preflight(loaded, "lem", {"surface": "circular", "method": "bishop"})
+    if not report.ok:
+        raise ValueError("модель не прошла preflight движка:\n" + report.format())
     ok, packed = _xslice.generate_slices(loaded, circle=loaded["circles"][0],
                                          num_slices=num_slices, debug=False)
     if not ok:
@@ -181,7 +198,7 @@ def critical_circle(model: SlopeModel, num_slices: int = 40,
                     workdir: str = "/tmp") -> Dict[str, object]:
     """Автоподбор стартовых кругов движком и выбор критического по Bishop."""
     data = _build_slope_data(model, [])
-    path = f"{workdir}/lem_search.xlsx"
+    path = _workfile(workdir, "lem_search")
     loaded = _roundtrip(data, path)
     circles = generate_starting_circles(loaded)
     if not circles:

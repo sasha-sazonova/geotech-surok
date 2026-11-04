@@ -104,8 +104,10 @@ runner **v3** (contour preflight + health monitoring) · agent passed **6/6** ac
 | **SP 24 — pile settlement** | SP 24.13330.2021 | single pile (7.34–7.39, table 7.18, both κ branches); interaction (7.40–7.42); group n ≤ 25 with flexible and rigid cap | δ = 0.17·ln(x)/x — maximum at x = e (a property of the norm) |
 | **SP 24 — pile field** | SP 24.13330.2021 | fictitious footing (7.45–7.49): `sef` via SP 22 + punch Δsp + shaft compression Δsc; boundaries per 7.4.9 | — |
 | **SP 24 — combined pile-raft (CSP)** | SP 24.13330.2021 | combined stiffness per 7.4.18/7.4.8; nonlinear pile stiffness (7.44); plate subgrade reaction (7.4.20); load split with three checks | 25 piles, Nd = 20 MN → settlement ≈ 5 mm, 96 % carried by piles |
+| **Slope stability — LEM** | limit equilibrium methods (not a norm clause) | 7 methods: OMS/Fellenius, Bishop, Janbu, Corps, Lowe–Karafiath, Spencer, Morgenstern–Price; automatic critical-circle search (xslope 1.0.7 engine, Apache-2.0) | on the B1 circle: OMS 1.590, Bishop 1.692, spread across 7 methods 0.147 |
+| **Earth pressure and retaining walls** | SP 22.13330.2016 / SP 542.1325800.2024 (partial) | K_a/K_p Rankine, Coulomb K_a, diagram with water table and surcharge, tension crack, sliding/overturning factors, edge pressures, Blum sheet pile | Ka and Ea cross-checked against geoeq: ΔKa 0.001 %, ΔEa 0.0 % |
 
-**Cross-tool benchmarks:** B1 slope (Fellenius/Bishop vs pyslope — 2.2 % difference),
+**Cross-tool benchmarks:** B1 slope (our Fellenius/Bishop vs the xslope engine — agreement ≤0.02 %; the earlier pyslope "2.2 %" claim is withdrawn as a false green status),
 B2 table 5.8 vs exact Boussinesq (table is conservative by 3–32 %),
 B3 axial pile (API unit formulas vs hand calculation — 0.0 %).
 
