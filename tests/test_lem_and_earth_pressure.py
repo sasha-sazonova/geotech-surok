@@ -177,3 +177,49 @@ def test_to_status_falls_back_to_min_when_bishop_missing():
     from calc.lem_slope import to_status
     r = to_status({"fs": {"oms": 1.40, "corps": 1.71}}, fs_required=1.5)
     assert r["value"] == 1.40 and r["method"] == "min"
+
+
+# ---------------- СП 381.1325800.2018: проверки по (6.7) и (6.11) ----------------
+
+def test_sp381_sliding_uses_gamma_d_and_gamma_n():
+    """Условие (6.7): F_sa ≤ (γd/γn)·F_sr; для песков γd=1, категория 2 → γn=1.15."""
+    from calc.earth_pressure import sliding_check_sp381
+    r = sliding_check_sp381(shear_forces_kN=120, vertical_kN=300, phi_I_deg=28,
+                            geotech_category=2, passive_kN=40)
+    t_r = 300 * math.tan(math.radians(28))
+    f_sr = t_r + 40
+    assert r["F_sr_kN"] == pytest.approx(f_sr, abs=0.05)
+    assert r["capacity_kN"] == pytest.approx(f_sr / 1.15, abs=0.05)
+    assert r["status"] == "выполняется"
+
+
+def test_sp381_sliding_fails_when_shear_exceeds_capacity():
+    from calc.earth_pressure import sliding_check_sp381
+    r = sliding_check_sp381(shear_forces_kN=400, vertical_kN=300, phi_I_deg=28)
+    assert r["status"] == "не выполняется"
+    assert r["utilization"] > 1
+
+
+def test_sp381_gamma_d_by_soil_kind():
+    """Пылеватые пески и глинистые: γd = 0.9 → допускаемая сдвигающая сила ниже."""
+    from calc.earth_pressure import sliding_check_sp381
+    sand = sliding_check_sp381(100, 300, 28, "пески, кроме пылеватых")
+    clay = sliding_check_sp381(100, 300, 28, "пески пылеватые и глинистые (стабилизированное)")
+    assert clay["capacity_kN"] < sand["capacity_kN"]
+
+
+def test_sp381_sliding_rejects_unknown_soil_or_category():
+    from calc.earth_pressure import sliding_check_sp381
+    with pytest.raises(ValueError):
+        sliding_check_sp381(100, 300, 28, "торф")
+    with pytest.raises(ValueError):
+        sliding_check_sp381(100, 300, 28, geotech_category=4)
+
+
+def test_sp381_bearing_capacity_condition():
+    """Условие (6.11): N ≤ (γd/γn)·N_u."""
+    from calc.earth_pressure import bearing_check_sp381
+    r = bearing_check_sp381(N_u_kN=900, vertical_kN=300, geotech_category=3)
+    assert r["gamma_n"] == pytest.approx(1.2)
+    assert r["capacity_kN"] == pytest.approx(900 / 1.2, abs=0.05)
+    assert r["status"] == "выполняется"

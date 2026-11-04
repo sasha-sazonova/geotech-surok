@@ -216,3 +216,78 @@ def crosscheck_geoeq(H_m: float, soil: WallSoil) -> Dict[str, object]:
         "delta_Ea_pct": round(abs(ours["Ea_kN_per_m"] - float(ep["P_soil"]))
                               / float(ep["P_soil"]) * 100.0, 3),
     }
+
+# ---------------- СП 381.1325800.2018: проверки по предельным состояниям ----------------
+# Источник: официальное издание (109 с.), п.6.3.19–6.3.22. Введён приказом Минстроя
+# № 444/пр от 23.07.2018; Изм. № 1 (реквизиты приказа требуют сверки).
+
+GAMMA_D_BY_SOIL = {
+    # п.6.3.19: коэффициент условий работы γd
+    "пески, кроме пылеватых": 1.0,
+    "пески пылеватые и глинистые (стабилизированное)": 0.9,
+    "глинистые (нестабилизированное)": 0.85,
+    "скальные невыветрелые": 1.0,
+    "скальные выветрелые": 0.9,
+    "скальные сильновыветрелые": 0.8,
+}
+
+GAMMA_N_BY_CATEGORY = {3: 1.2, 2: 1.15, 1: 1.1}
+
+
+def sliding_check_sp381(shear_forces_kN: float, vertical_kN: float,
+                        phi_I_deg: float, soil_kind: str = "пески, кроме пылеватых",
+                        geotech_category: int = 2,
+                        passive_kN: float = 0.0,
+                        gamma_dk: float = 1.0,
+                        rho_deg: float = 0.0) -> Dict[str, object]:
+    """Устойчивость стены против сдвига по п.6.3.19, условие (6.7)–(6.9).
+
+        F_sa ≤ (γd / γn) · F_sr
+        F_sa = T0 + Ea + Eq + Ew  (передаётся суммой shear_forces_kN)
+        F_sr = T_R + E_p,  T_R = R · tg(φ_I · γ_dk − ρ)
+
+    gamma_dk — коэффициент условий работы на контакте (приложение Д), по умолчанию 1.0;
+    ρ — угол наклона поверхности скольжения (0 — плоский сдвиг; φ_I — глубинный).
+    """
+    if soil_kind not in GAMMA_D_BY_SOIL:
+        raise ValueError(f"вид грунта {soil_kind!r} вне п.6.3.19")
+    if geotech_category not in GAMMA_N_BY_CATEGORY:
+        raise ValueError("геотехническая категория должна быть 1, 2 или 3")
+    gamma_d = GAMMA_D_BY_SOIL[soil_kind]
+    gamma_n = GAMMA_N_BY_CATEGORY[geotech_category]
+
+    phi_I = math.radians(phi_I_deg)
+    rho = math.radians(rho_deg)
+    t_r = vertical_kN * math.tan(phi_I * gamma_dk - rho)
+    f_sr = t_r + passive_kN
+    capacity = (gamma_d / gamma_n) * f_sr
+    ok = shear_forces_kN <= capacity
+    return {
+        "clause": "СП 381.1325800.2018, п.6.3.19, ф.(6.7)–(6.9)",
+        "F_sa_kN": round(shear_forces_kN, 2),
+        "F_sr_kN": round(f_sr, 2),
+        "gamma_d": gamma_d, "gamma_n": gamma_n,
+        "capacity_kN": round(capacity, 2),
+        "utilization": round(shear_forces_kN / capacity, 3) if capacity > 0 else None,
+        "status": "выполняется" if ok else "не выполняется",
+    }
+
+
+def bearing_check_sp381(N_u_kN: float, vertical_kN: float,
+                        soil_kind: str = "пески, кроме пылеватых",
+                        geotech_category: int = 2) -> Dict[str, object]:
+    """Несущая способность основания под подошвой по п.6.3.21, условие (6.11):
+
+        N ≤ (γd / γn) · N_u,  N_u — по СП 22.13330 (см. calc/d1_foundation.py).
+    """
+    gamma_d = GAMMA_D_BY_SOIL[soil_kind]
+    gamma_n = GAMMA_N_BY_CATEGORY[geotech_category]
+    capacity = (gamma_d / gamma_n) * N_u_kN
+    return {
+        "clause": "СП 381.1325800.2018, п.6.3.21, ф.(6.11)",
+        "N_kN": round(vertical_kN, 2), "N_u_kN": round(N_u_kN, 2),
+        "gamma_d": gamma_d, "gamma_n": gamma_n,
+        "capacity_kN": round(capacity, 2),
+        "utilization": round(vertical_kN / capacity, 3) if capacity > 0 else None,
+        "status": "выполняется" if vertical_kN <= capacity else "не выполняется",
+    }

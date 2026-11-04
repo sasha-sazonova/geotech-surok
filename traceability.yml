@@ -21,6 +21,16 @@ documents:
           retrieved: 2026-11-03
           trust_class: normative
           covers: [7.2.1, 7.2.4, 7.2.7, 7.2.10, ф.7.5-7.13, табл.7.1, табл.7.2(пески), табл.7.3(глины), табл.7.4, табл.7.6]
+  - id: SP381-2018
+    title: СП 381.1325800.2018 «Сооружения подпорные. Правила проектирования»
+    verification:
+      status: verified
+      edition_note: официальное издание (109 с., Стандартинформ, 2018); введён приказом Минстроя № 444/пр от 23.07.2018; Изм. № 1 существует (реквизиты приказа требуют сверки)
+      sources:
+        - url: https://anker.ru/wp-content/uploads/2024/10/СП-381.1325800.2018.pdf
+          retrieved: 2026-11-05
+          trust_class: normative
+          covers: [п.6.1.12, п.6.3.14–6.3.22, ф.(6.7)–(6.11)]
   - id: ETB
     title: The Engineering ToolBox — справочник свойств материалов и физических величин
     verification:
@@ -401,6 +411,27 @@ clauses:
       - tests/test_lem_and_earth_pressure.py::test_bearing_outside_kern_triangular
       - tests/test_lem_and_earth_pressure.py::test_geoeq_crosscheck_matches
       - tests/test_lem_and_earth_pressure.py::test_sheet_pile_blum
+  - id: SP381-6.3.19-sliding
+    document: SP381-2018
+    clause: п.6.3.19, ф.(6.7)–(6.9)
+    formula: F_sa ≤ (γd/γn)·F_sr; F_sr = R·tg(φI·γdk − ρ) + Ep; γd по виду грунта, γn по категории
+    status: verified
+    code:
+      - {file: calc/earth_pressure.py, symbol: sliding_check_sp381}
+    tests:
+      - tests/test_lem_and_earth_pressure.py::test_sp381_sliding_uses_gamma_d_and_gamma_n
+      - tests/test_lem_and_earth_pressure.py::test_sp381_sliding_fails_when_shear_exceeds_capacity
+      - tests/test_lem_and_earth_pressure.py::test_sp381_gamma_d_by_soil_kind
+      - tests/test_lem_and_earth_pressure.py::test_sp381_sliding_rejects_unknown_soil_or_category
+  - id: SP381-6.3.21-bearing
+    document: SP381-2018
+    clause: п.6.3.21, ф.(6.11)
+    formula: N ≤ (γd/γn)·N_u; N_u — по СП 22.13330
+    status: verified
+    code:
+      - {file: calc/earth_pressure.py, symbol: bearing_check_sp381}
+    tests:
+      - tests/test_lem_and_earth_pressure.py::test_sp381_bearing_capacity_condition
   - id: input-validation
     document: SP22-2016
     clause: входные данные (координаты, знак УГВ)
