@@ -442,6 +442,8 @@ clauses:
     tests:
       - tests/test_input_guards.py::test_invalid_inputs_are_rejected_loudly
       - tests/test_input_guards.py::test_baseline_unchanged_after_guards
+      - tests/test_input_guards.py::test_h_min_follows_amendment_1
+      - tests/test_input_guards.py::test_wide_footing_uses_4_plus_0_1b
   - id: SP22-appG-su
     document: SP22-2016
     clause: прил. Г, табл. Г.1, п.1

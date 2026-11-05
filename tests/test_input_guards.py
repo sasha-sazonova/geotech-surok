@@ -61,3 +61,24 @@ def test_baseline_unchanged_after_guards():
     result = analyze(D1Params())
     assert result["R_kPa"] == pytest.approx(215.62, abs=0.01)
     assert result["settlement"]["s_cm"] == pytest.approx(4.232, abs=0.002)
+
+
+def test_h_min_follows_amendment_1():
+    """П.5.6.41 в ред. Изм. № 1: H_min = b/2 (b ≤ 10), 4+0.1b (10 < b ≤ 60), 10 м (b > 60)."""
+    from calc.d1_foundation import h_min
+    assert h_min(2.0) == pytest.approx(1.0)
+    assert h_min(10.0) == pytest.approx(5.0)
+    assert h_min(20.0) == pytest.approx(6.0)
+    assert h_min(60.0) == pytest.approx(10.0)
+    assert h_min(80.0) == pytest.approx(10.0)
+
+
+def test_wide_footing_uses_4_plus_0_1b():
+    """Для b = 20 м минимальная толща 6 м, а не b/2 = 10 м."""
+    params = D1Params(b=20.0, l=20.0, d=3.0, N=4000.0, data_bottom=-30.0,
+                      layers=[Layer(top=0.0, bottom=-3.0, gamma=17.5, E_kpa=9000.0),
+                              Layer(top=-3.0, bottom=-30.0, gamma=18.5, E_kpa=9000.0)])
+    from calc.d1_foundation import settlement
+    res = settlement(params)
+    assert res["Hc_m"] >= 6.0
+    assert res["Hc_m"] < 10.0  # не подменяется на b/2

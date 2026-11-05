@@ -11,8 +11,8 @@ see docs/norm-sources/sp22-2016.md for pages and retrieval date):
 * п.5.6.31, formula (5.16) — settlement by layer summation, β = 0.8,
   layer thickness ≤ 0.4·b (second term σzγ may be omitted for d < 5 m, п.5.6.34);
 * п.5.6.32, formula (5.17), табл. 5.8 — σzp = α·p;
-* п.5.6.41 — lower boundary of the compressible thickness σzp ≈ 0.5·σzg,
-  Hc ≥ b/2 for b < 10 m;
+* п.5.6.41 (ред. Изм. № 1, приказ 736/пр) — lower boundary σzp ≈ 0.5·σzg,
+  H_min = b/2 при b ≤ 10 м, 4 + 0.1·b при 10 < b ≤ 60 м, 10 м при b > 60 м;
 * прил. Г, табл. Г.1, п.1 — su = 10 cm for industrial/civil buildings
   with a full reinforced-concrete frame.
 
@@ -446,7 +446,7 @@ def settlement(params: D1Params, h: Optional[float] = None,
                     "s_cm": s * 100.0, "Hc_m": None, "truncated": True}
     if weak_bottom is not None:
         Hc = min(Hc, weak_bottom)
-    Hc = max(Hc, params.b / 2.0)
+    Hc = max(Hc, h_min(params.b))
     # осадка считается только до Hc: сумма по шагам, попавшим в толщу
     s = next((val for z_end, val in history if z_end >= Hc - 1e-9), s)
     s_cm = s * 100.0
@@ -455,6 +455,18 @@ def settlement(params: D1Params, h: Optional[float] = None,
             "unloading_included": include_unloading,
             "formula": "5.16" if unloading_from_excavation else "5.19 (p ≤ σzg,0)",
             "sigma_zg0_kPa": sg0}
+
+
+def h_min(b_m: float) -> float:
+    """Минимальная глубина сжимаемой толщи по п.5.6.41 (ред. Изм. № 1, приказ 736/пр).
+
+    H_min = b/2 при b ≤ 10 м; 4 + 0.1·b при 10 < b ≤ 60 м; 10 м при b > 60 м.
+    """
+    if b_m <= 10.0:
+        return b_m / 2.0
+    if b_m <= 60.0:
+        return 4.0 + 0.1 * b_m
+    return 10.0
 
 
 def _layer_bottom_depth(params: D1Params, depth: float) -> float:
