@@ -22,6 +22,20 @@ as a first-class result.
 
 The agent prepares, calculates and checks. A specialist signs and releases.
 
+## What it looks like in use
+
+Three real requests to the agent — the question in chat, the answer, and the files backing it:
+[**DEMO.md**](DEMO.md) (Russian). No commands: what was asked, what was answered, what proves it.
+
+One-command install (creates the environment, installs dependencies, runs the checks):
+
+```bash
+./install.sh                  # core: SP 22 + SP 24
+./install.sh --with-engines   # plus engines: 7 slope-stability methods, retaining walls
+```
+
+Step-by-step reproducibility check: [docs/verify-step-by-step.md](docs/verify-step-by-step.md).
+
 ## Install in four commands
 
 ```bash
