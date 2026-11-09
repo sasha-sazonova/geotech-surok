@@ -140,3 +140,15 @@ shasum -a 256 -c docs/norms-manifest.sha256      # на Linux: sha256sum -c
 | `make: command not found` | нет make | команды из шага 4 напрямую |
 | тесты `skipped` | не поставлены движки | `pip install -r requirements-optional.txt` |
 | `ensurepip is not available` | Debian без `python3-venv` | `sudo apt install python3-venv` |
+
+---
+
+## Отметка о проверке установщика (2026-11-10)
+
+`./install.sh --with-engines` прогнан целиком на macOS (Python 3.9.6):
+создание `.venv`, установка ядра и движков, валидатор трассируемости, тесты —
+**177 passed, 0 skipped**. Окружение занимает 749 МБ, первый расчёт совпал с демо
+(R = 215.62 кПа, p = 286.00 кПа, s = 4.23 см).
+
+Отдельно проверено на Ubuntu 24.04 (Python 3.12) без пакета `python3-venv`:
+установщик не падает молча, а печатает причину и три варианта решения.
