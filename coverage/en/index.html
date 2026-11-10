@@ -44,31 +44,32 @@ td.s{white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:.0
   <h1>What we can do</h1>
   <p class="lead">Seven areas where the agent takes a calculation all the way to a report that can be checked: from pressure under a footing to a traceability table for a reviewer.</p>
   <p class="sub">Each area states the code it rests on and the evidence behind it: a benchmark run, a second implementation or an acceptance check. Below, in the comparison section, is an honest map against GEO5 as the industry reference.</p>
+  <p class="sub" style="border-left:2px solid var(--accent);padding-left:12px">This page describes a tool built on Russian national standards (СП — свод правил). It is intended for Russian designers and for anyone reviewing calculations made to Russian codes. The abbreviation «СП» is kept untranslated, as in the original documents.</p>
   <div class="metrics">
     <div class="metric"><b>7</b><span>areas</span></div>
-    <div class="metric"><b>9</b><span>codes confirmed</span></div>
-    <div class="metric"><b>2</b><span>benchmark runs</span></div>
+    <div class="metric"><b>20</b><span>codes confirmed</span></div>
+    <div class="metric"><b>3</b><span>benchmark runs</span></div>
     <div class="metric"><b>39</b><span>modules compared</span></div>
   </div>
  </header>
  <section><h2>Areas of work</h2><div class="cap"><span class="num">01</span><h4>Bearing resistance and settlement</h4>
 <p>Computes average pressure under the footing, bearing resistance R and settlement by layer-by-layer summation. Returns a status per check, not a single number.</p>
-<p class="kv"><b>Basis:</b> SP 22.13330.2016: clause 5.6.7 (5.7), tables 5.4/5.5; 5.6.10; 5.6.31 (5.16); 5.6.32 (5.17), table 5.8; 5.6.41; appendix G, table G.1<br><b>Evidence:</b> Benchmark D1: p = 286.0 kPa vs R = 215.62 kPa — fails (+32.6%); settlement s = 4.232 cm ≤ su = 10 cm — passes (Hc = 3.6 m); pinned by a manual reference test</p></div>
+<p class="kv"><b>Basis:</b> СП 22.13330.2016: clause 5.6.7 (5.7), tables 5.4/5.5; 5.6.10; 5.6.31 (5.16); 5.6.32 (5.17), table 5.8; 5.6.41; appendix G, table G.1<br><b>Evidence:</b> Benchmark D1: p = 286.0 kPa vs R = 215.62 kPa — fails (+32.6%); settlement s = 4.232 cm ≤ su = 10 cm — passes (Hc = 3.6 m); pinned by a manual reference test</p></div>
 <div class="cap"><span class="num">02</span><h4>Slope stability</h4>
 <p>Computes the factor of safety with seven LEM methods, builds slip surfaces and cross-checks with a second tool. For rock slopes — kinematic analysis.</p>
-<p class="kv"><b>Basis:</b> SP 22.13330.2016; SP 381.1325800.2018 (retaining structures — confirmed 2026-11-05); SP 116.13330 is queued<br><b>Evidence:</b> xslope 1.0.5 (7 methods) + pyslope 1.4.0; a discrepancy beyond tolerance stops the run</p></div>
+<p class="kv"><b>Basis:</b> СП 22.13330.2016; СП 381.1325800.2018 (retaining structures — confirmed 2026-11-05); СП 116.13330 is queued<br><b>Evidence:</b> xslope 1.0.5 (7 methods) + pyslope 1.4.0; a discrepancy beyond tolerance stops the run</p></div>
 <div class="cap"><span class="num">03</span><h4>Earth pressure and retaining walls</h4>
 <p>Computes active and passive pressure by Rankine and Coulomb, checks sliding, overturning and overall stability.</p>
-<p class="kv"><b>Basis:</b> SP 542.1325800.2024 with amendment 1; SP 22.13330.2016<br><b>Evidence:</b> geoeq (Rankine/Coulomb), anaStruct for the wall; the registry confirms editions</p></div>
+<p class="kv"><b>Basis:</b> СП 542.1325800.2024 with amendment 1; СП 22.13330.2016<br><b>Evidence:</b> geoeq (Rankine/Coulomb), anaStruct for the wall; the registry confirms editions</p></div>
 <div class="cap"><span class="num">04</span><h4>Piles under axial and lateral load</h4>
 <p>Builds a beam-pile model with soil springs, computes forces and displacements, compares with an independent solution. Axial capacity from CPT via De Beer.</p>
-<p class="kv"><b>Basis:</b> SP 24.13330.2021: 7.2.1 (7.5)–(7.8), table 7.1; 7.2.4 (7.9), tables 7.2/7.3/7.4; 7.2.7 (7.11); 7.2.10 (7.13), table 7.6; section 7.4 (settlement 7.34–7.49), CSP 7.4.14–7.4.20<br><b>Evidence:</b> In-house SP 24 module (calc/sp24_piles.py, sp24_group.py, sp24_csp.py): capacity, single-pile and group settlement, pile field via fictitious footing, CSP; cross-checked against openpile 1.0.3 — unit formulas match to 0.0 %</p></div>
+<p class="kv"><b>Basis:</b> СП 24.13330.2021: 7.2.1 (7.5)–(7.8), table 7.1; 7.2.4 (7.9), tables 7.2/7.3/7.4; 7.2.7 (7.11); 7.2.10 (7.13), table 7.6; section 7.4 (settlement 7.34–7.49), CSP 7.4.14–7.4.20<br><b>Evidence:</b> In-house СП 24 module (calc/sp24_piles.py, sp24_group.py, sp24_csp.py): capacity, single-pile and group settlement, pile field via fictitious footing, CSP; cross-checked against openpile 1.0.3 — unit formulas match to 0.0 %</p></div>
 <div class="cap"><span class="num">05</span><h4>Site investigation and soil parameters</h4>
 <p>Reads GEF/CPT and AGS4, parses boreholes and SPT, runs statistics per GOST 20522 and assembles a parameter passport: value, soil unit, sample, test, processing method.</p>
 <p class="kv"><b>Basis:</b> GOST 20522-2012 with amendment 1; GOST 25100 is queued, classification is flagged<br><b>Evidence:</b> pygef, groundhog, python-ags4, geolysis; contour import test 21/21</p></div>
 <div class="cap"><span class="num">06</span><h4>Report and traceability</h4>
 <p>Builds a report where every number carries a clause, an edition, a formula with substituted values and a check status. A separate traceability table for the reviewer.</p>
-<p class="kv"><b>Basis:</b> SP 22, SP 24, SP 542, SP 248, SP 47, SP 446, GOST 20522, GOST R 21.101-2026, RF Government Decree 87<br><b>Evidence:</b> reports/d1-foundation-v2: report and traceability table clause by clause</p></div>
+<p class="kv"><b>Basis:</b> СП 22, СП 24, СП 542, СП 248, СП 47, СП 446, GOST 20522, GOST R 21.101-2026, RF Government Decree 87<br><b>Evidence:</b> reports/d1-foundation-v2: report and traceability table clause by clause</p></div>
 <div class="cap"><span class="num">07</span><h4>Reproducibility</h4>
 <p>Runs in a frozen environment on a compute node: job, status, result, checksums. Three retries, then an honest “no result”.</p>
 <p class="kv"><b>Basis:</b> Contour freeze: 105 packages, Python 3.12.3; the pile contour is separate<br><b>Evidence:</b> 6/6 acceptance checks of the live agent, including the anti-fallback trap</p></div></section>
@@ -87,11 +88,11 @@ td.s{white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:.0
 <tr><td>Rock slope</td><td class="s partial">partial</td><td>Kinematic analysis via mplstereonet; rock-mass strength is missing.</td></tr></table>
 <h3>Foundations</h3><table><tr><th>GEO5 module</th><th>Ours</th><th>Comment</th></tr><tr><td>Spread footing</td><td class="s partial">partial</td><td>R, settlement (including d ≥ 5 m and (5.19)) and tilt by (5.24)–(5.26) implemented and checked; edge pressures — not determined.</td></tr>
 <tr><td>Spread footing from CPT</td><td class="s partial">partial</td><td>CPT is read, but the CPT-based footing route is not implemented.</td></tr>
-<tr><td>Settlement</td><td class="s full">yes</td><td>Layer-by-layer summation per SP 22 Appendix G implemented and checked in D1.</td></tr>
+<tr><td>Settlement</td><td class="s full">yes</td><td>Layer-by-layer summation per СП 22 Appendix G implemented and checked in D1.</td></tr>
 <tr><td>Slab</td><td class="s partial">partial</td><td>Slab is computed, but not on soil with SP checks.</td></tr>
 <tr><td>Beam</td><td class="s partial">partial</td><td>Beam exists; soil support via manual subgrade moduli.</td></tr>
 <tr><td>Abutment</td><td class="s none">no</td><td>No abutment module.</td></tr>
-<tr><td>Piles</td><td class="s partial">partial</td><td>SP 24 normative route implemented (capacity, settlement, group, field, CSP) plus openpile beam-pile models for lateral load.</td></tr>
+<tr><td>Piles</td><td class="s partial">partial</td><td>СП 24 normative route implemented (capacity, settlement, group, field, CSP) plus openpile beam-pile models for lateral load.</td></tr>
 <tr><td>Micropile</td><td class="s none">no</td><td>Micropiles are absent.</td></tr>
 <tr><td>Pile group</td><td class="s none">no</td><td>Pile group and efficiency are not implemented.</td></tr>
 <tr><td>Pile from CPT</td><td class="s partial">partial</td><td>De Beer from CPT as a method, not as an SP route.</td></tr></table>
@@ -99,7 +100,7 @@ td.s{white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:.0
 <tr><td>FEM – tunnel</td><td class="s none">no</td><td>No tunnel templates or stages.</td></tr>
 <tr><td>FEM – consolidation</td><td class="s partial">partial</td><td>Consolidation in a general formulation, no ready module.</td></tr>
 <tr><td>FEM – seepage</td><td class="s partial">partial</td><td>Seepage is computed; no preprocessing or standard BCs.</td></tr>
-<tr><td>FEM – earthquake</td><td class="s partial">partial</td><td>Dynamics exist; no SP 14.13330 checks.</td></tr></table>
+<tr><td>FEM – earthquake</td><td class="s partial">partial</td><td>Dynamics exist; no СП 14.13330 checks.</td></tr></table>
 <h3>Excavation support</h3><table><tr><th>GEO5 module</th><th>Ours</th><th>Comment</th></tr><tr><td>Excavation analysis</td><td class="s none">no</td><td>No full staged excavation scenario with anchors and struts.</td></tr>
 <tr><td>Excavation design</td><td class="s none">no</td><td>No support-system design.</td></tr></table>
 <h3>Tunnels</h3><table><tr><th>GEO5 module</th><th>Ours</th><th>Comment</th></tr><tr><td>Shaft</td><td class="s none">no</td><td>Shaft and lining are not implemented.</td></tr>
@@ -115,7 +116,7 @@ td.s{white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:.0
         <div class="card"><h4>Bureaux already using GEO5</h4><p>GEO5 stays the main tool; Surok adds the justification layer: edition registry, traceability and a report an expert will accept.</p></div>
         <div class="card"><h4>Bureaux without a commercial suite</h4><p>An open contour for foundations, settlement and slopes — where a verifiable result matters more than module count.</p></div>
         <div class="card"><h4>Expert review</h4><p>Checking third-party calculations: is the clause cited, is the edition current, does an independent implementation reproduce the number.</p></div></div>
-   <p class="sub" style="margin-top:12px"><a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/norms/registry.csv">Normative registry</a> · <a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/tools">OSS coverage map</a> · <a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/status.md">Status</a></p>
+   <p class="sub" style="margin-top:12px"><a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/norms/registry.csv">Normative registry</a> · <a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/tools">OSS coverage map</a> · <a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/docs/status.md">Status</a></p>
  </section>
  <div class="foot"><span>Surok · geotechnical agent · 2026</span></div>
 </div></body></html>

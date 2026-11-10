@@ -53,6 +53,7 @@ a:hover{border-color:currentColor}
 
 <section class="slide dark active">
   <p class="kicker">Geotechnics · normative layer · human in the loop</p>
+  <img src="../../assets/logo-480.png" alt="Surok" style="height:96px;width:auto;border-radius:8px;margin:0 0 14px">
   <h1>Surok</h1>
   <p class="lead">A geotechnical agent that prepares calculations so every number can be traced back to a clause.</p>
   <p class="sub">Not a solver, not a one-formula calculator. An engineering co-pilot: data → clause → formula → implementation → test → report.</p>
@@ -146,7 +147,7 @@ a:hover{border-color:currentColor}
     <tr><td>SP 47.13330.2016 · SP 446.1325800.2019</td><td>with am. 1</td><td>confirmed</td></tr>
     <tr><td>GOST 20522-2012</td><td>am. 1 (from 01.01.2024)</td><td>confirmed</td></tr>
   </table>
-  <p class="sub" style="margin-top:12px">10 documents confirmed, 10 in the verification queue. A queued document does not enter a calculation: the answer carries “requires verification”.</p>
+  <p class="sub" style="margin-top:12px"><b>20 documents confirmed, none in the queue.</b> All PDFs are collected and verified by SHA-256 (<span class="mono">docs/norms-manifest.sha256</span>).</p>
 </section>
 
 <section class="slide">
@@ -211,7 +212,7 @@ a:hover{border-color:currentColor}
     <li>License audit of 105 packages: GPL/LGPL classified, no blockers for internal use.</li>
     <li>Calculation code: D1 foundation (R, settlement) and D2 lateral pile; D1 v2 reference protocol with a traceability table.</li>
   </ul>
-  <p class="sub" style="margin-top:14px">D1: p = 286.0 kPa vs R = 215.62 kPa — check fails (+32.6%); settlement s = 4.232 cm ≤ su = 10 cm — passes (Hc = 3.6 m). Resized 2.4×2.8 m: bearing passes with 1.9% margin. Manual reference + 16 tests + CI.</p>
+  <p class="sub" style="margin-top:14px">D1: p = 286.0 kPa vs R = 215.62 kPa — check fails (+32.6%); settlement s = 4.232 cm ≤ su = 10 cm — passes (Hc = 3.6 m). Resized 2.4×2.8 m: bearing passes with 1.9% margin. Manual reference + <b>177 tests</b> + traceability 30 clauses / 147 tests + CI (verify, optional, docker).</p>
 </section>
 
 <section class="slide">
@@ -246,7 +247,7 @@ a:hover{border-color:currentColor}
   <table>
     <tr><th>Section</th><th>Content</th></tr>
     <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok">workspace-geotech_surok/</a></td><td>agent workspace: persona, operating contract, documents</td></tr>
-    <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/norms">norms/</a></td><td>normative registry: 9 confirmed, 10 queued, CSV</td></tr>
+    <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/norms">norms/</a></td><td>normative registry: 20 confirmed, none queued, CSV</td></tr>
     <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/methods">methods/</a></td><td>modules, verification, four acceptance levels</td></tr>
     <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/workflows">workflows/</a></td><td>P-1…P-4 and the compute job protocol</td></tr>
     <tr><td><a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/tools">tools/</a></td><td>67 OSS tools and the 13-class coverage map</td></tr>

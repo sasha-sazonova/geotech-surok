@@ -9,30 +9,30 @@ CAPS = [
   "Считает среднее давление под подошвой, несущую способность R и осадку послойным суммированием. Возвращает статус каждой проверки, а не одно число.",
   "Computes average pressure under the footing, bearing resistance R and settlement by layer-by-layer summation. Returns a status per check, not a single number.",
   "СП 22.13330.2016: п.5.6.7 ф.(5.7), табл.5.4/5.5; п.5.6.10; п.5.6.31 ф.(5.16); п.5.6.32 ф.(5.17), табл.5.8; п.5.6.41; прил. Г табл. Г.1",
-  "SP 22.13330.2016: clause 5.6.7 (5.7), tables 5.4/5.5; 5.6.10; 5.6.31 (5.16); 5.6.32 (5.17), table 5.8; 5.6.41; appendix G, table G.1",
+  "СП 22.13330.2016: clause 5.6.7 (5.7), tables 5.4/5.5; 5.6.10; 5.6.31 (5.16); 5.6.32 (5.17), table 5.8; 5.6.41; appendix G, table G.1",
   "Эталон D1: p = 286.0 кПа против R = 215.62 кПа — «не выполняется» (+32.6%); осадка s = 4.232 см ≤ su = 10 см — «выполняется» (Hc = 3.6 м); ручной пересчёт закреплён тестом",
   "Benchmark D1: p = 286.0 kPa vs R = 215.62 kPa — fails (+32.6%); settlement s = 4.232 cm ≤ su = 10 cm — passes (Hc = 3.6 m); pinned by a manual reference test"),
  ("02","Устойчивость откосов","Slope stability",
   "Считает коэффициент запаса семью методами LEM, строит поверхности скольжения и сверяет результат вторым инструментом. Для скальных откосов — кинематический анализ.",
   "Computes the factor of safety with seven LEM methods, builds slip surfaces and cross-checks with a second tool. For rock slopes — kinematic analysis.",
   "СП 22.13330.2016; СП 381.1325800.2018 (подпорные сооружения — подтверждён 05.11.2026); СП 116.13330 — в очереди",
-  "SP 22.13330.2016; SP 381.1325800.2018 (retaining structures — confirmed 2026-11-05); SP 116.13330 is queued",
+  "СП 22.13330.2016; СП 381.1325800.2018 (retaining structures — confirmed 2026-11-05); СП 116.13330 is queued",
   "xslope 1.0.5 (7 методов) + pyslope 1.4.0; расхождение сверх допуска останавливает расчёт",
   "xslope 1.0.5 (7 methods) + pyslope 1.4.0; a discrepancy beyond tolerance stops the run"),
  ("03","Давление грунта и подпорные стены","Earth pressure and retaining walls",
   "Считает активное и пассивное давление по Ренкину и Кулону, проверяет сдвиг, опрокидывание и общую устойчивость стены.",
   "Computes active and passive pressure by Rankine and Coulomb, checks sliding, overturning and overall stability.",
   "СП 542.1325800.2024 с Изм. 1; СП 22.13330.2016",
-  "SP 542.1325800.2024 with amendment 1; SP 22.13330.2016",
+  "СП 542.1325800.2024 with amendment 1; СП 22.13330.2016",
   "geoeq (Ренкин/Кулон), anaStruct для стены; реестр норм подтверждает редакции",
   "geoeq (Rankine/Coulomb), anaStruct for the wall; the registry confirms editions"),
  ("04","Сваи под вертикальной и горизонтальной нагрузкой","Piles under axial and lateral load",
   "Строит балочно-свайную модель с грунтовыми пружинами, считает усилия и перемещения, сравнивает с независимым решением. Осевую способность по CPT оценивает через De Beer.",
   "Builds a beam-pile model with soil springs, computes forces and displacements, compares with an independent solution. Axial capacity from CPT via De Beer.",
   "СП 24.13330.2021: п.7.2.1 ф.(7.5)–(7.8), табл.7.1; п.7.2.4 ф.(7.9), табл.7.2/7.3/7.4; п.7.2.7 ф.(7.11); п.7.2.10 ф.(7.13), табл.7.6; раздел 7.4 (осадки: 7.34–7.49), КСП 7.4.14–7.4.20",
-  "SP 24.13330.2021: 7.2.1 (7.5)–(7.8), table 7.1; 7.2.4 (7.9), tables 7.2/7.3/7.4; 7.2.7 (7.11); 7.2.10 (7.13), table 7.6; section 7.4 (settlement 7.34–7.49), CSP 7.4.14–7.4.20",
+  "СП 24.13330.2021: 7.2.1 (7.5)–(7.8), table 7.1; 7.2.4 (7.9), tables 7.2/7.3/7.4; 7.2.7 (7.11); 7.2.10 (7.13), table 7.6; section 7.4 (settlement 7.34–7.49), CSP 7.4.14–7.4.20",
   "Собственный модуль СП 24 (calc/sp24_piles.py, sp24_group.py, sp24_csp.py): несущая способность, осадки одиночной сваи и куста, поле через условный фундамент, КСП; сверка с openpile 1.0.3 — unit-формулы совпадают на 0.0 %",
-  "In-house SP 24 module (calc/sp24_piles.py, sp24_group.py, sp24_csp.py): capacity, single-pile and group settlement, pile field via fictitious footing, CSP; cross-checked against openpile 1.0.3 — unit formulas match to 0.0 %"),
+  "In-house СП 24 module (calc/sp24_piles.py, sp24_group.py, sp24_csp.py): capacity, single-pile and group settlement, pile field via fictitious footing, CSP; cross-checked against openpile 1.0.3 — unit formulas match to 0.0 %"),
  ("05","Изыскания и параметры грунта","Site investigation and soil parameters",
   "Читает GEF/CPT и AGS4, разбирает скважины и SPT, считает статистику по ГОСТ 20522 и собирает паспорт параметра: значение, ИГЭ, проба, протокол, метод обработки.",
   "Reads GEF/CPT and AGS4, parses boreholes and SPT, runs statistics per GOST 20522 and assembles a parameter passport: value, soil unit, sample, test, processing method.",
@@ -44,7 +44,7 @@ CAPS = [
   "Собирает протокол, в котором у каждого числа есть пункт нормы, редакция, формула с подстановкой и статус проверки. Отдельно — таблица трассируемости для эксперта.",
   "Builds a report where every number carries a clause, an edition, a formula with substituted values and a check status. A separate traceability table for the reviewer.",
   "СП 22, СП 24, СП 542, СП 248, СП 47, СП 446, ГОСТ 20522, ГОСТ Р 21.101-2026, ПП РФ № 87",
-  "SP 22, SP 24, SP 542, SP 248, SP 47, SP 446, GOST 20522, GOST R 21.101-2026, RF Government Decree 87",
+  "СП 22, СП 24, СП 542, СП 248, СП 47, СП 446, GOST 20522, GOST R 21.101-2026, RF Government Decree 87",
   "reports/d1-foundation-v2: протокол и таблица трассируемости по каждому пункту",
   "reports/d1-foundation-v2: report and traceability table clause by clause"),
  ("07","Воспроизводимость расчёта","Reproducibility",
@@ -105,7 +105,7 @@ ROWS = [
   "CPT is read, but the CPT-based footing route is not implemented."),
  ("Фундаменты","Foundations","Осадка","Settlement","full",
   "Послойное суммирование по СП 22 прил. Г реализовано и проверено в D1.",
-  "Layer-by-layer summation per SP 22 Appendix G implemented and checked in D1."),
+  "Layer-by-layer summation per СП 22 Appendix G implemented and checked in D1."),
  ("Фундаменты","Foundations","Плита","Slab","partial",
   "Плита считается, но не на грунтовом основании с СП-проверками.",
   "Slab is computed, but not on soil with SP checks."),
@@ -117,7 +117,7 @@ ROWS = [
   "No abutment module."),
  ("Фундаменты","Foundations","Сваи","Piles","partial",
   "Нормативный маршрут СП 24 реализован (несущая способность, осадки, куст, поле, КСП) + балочно-свайные модели openpile для горизонтальной нагрузки.",
-  "SP 24 normative route implemented (capacity, settlement, group, field, CSP) plus openpile beam-pile models for lateral load."),
+  "СП 24 normative route implemented (capacity, settlement, group, field, CSP) plus openpile beam-pile models for lateral load."),
  ("Фундаменты","Foundations","Микросвая","Micropile","none",
   "Микросвай нет.",
   "Micropiles are absent."),
@@ -141,7 +141,7 @@ ROWS = [
   "Seepage is computed; no preprocessing or standard BCs."),
  ("МКЭ","FEM","МКЭ – Землетрясение","FEM – earthquake","partial",
   "Динамика есть; проверок по СП 14.13330 нет.",
-  "Dynamics exist; no SP 14.13330 checks."),
+  "Dynamics exist; no СП 14.13330 checks."),
  ("Ограждения котлованов","Excavation support","Ограждение котлованов – анализ","Excavation analysis","none",
   "Полного сценария «выемка по стадиям → анкеры → распорки» нет.",
   "No full staged excavation scenario with anchors and struts."),
@@ -265,6 +265,10 @@ def page(lang):
         m2 = ("норм подтверждено" if ru else "codes confirmed"),
         m3 = ("эталонных расчёта" if ru else "benchmark runs"),
         m4 = ("модулей в сравнении" if ru else "modules compared"),
+        note = ("" if ru else
+                "This page describes a tool built on Russian national standards (СП — свод правил). "
+                "It is intended for Russian designers and for anyone reviewing calculations made to Russian codes. "
+                "The abbreviation «СП» is kept untranslated, as in the original documents."),
         h2a = "Направления работы" if ru else "Areas of work",
         h2b = "Сравнение с топовым продуктом отрасли" if ru else "Comparison with the industry reference",
         b_intro = ("GEO5 — зрелый коммерческий комплекс, и по широте модулей мы с ним не конкурируем. "
@@ -302,17 +306,18 @@ def page(lang):
   <h1>{t['h1']}</h1>
   <p class="lead">{t['lead']}</p>
   <p class="sub">{t['sub']}</p>
+  {('<p class="sub" style="border-left:2px solid var(--accent);padding-left:12px">' + t['note'] + '</p>') if t.get('note') else ''}
   <div class="metrics">
     <div class="metric"><b>{len(CAPS)}</b><span>{t['m1']}</span></div>
-    <div class="metric"><b>9</b><span>{t['m2']}</span></div>
-    <div class="metric"><b>2</b><span>{t['m3']}</span></div>
+    <div class="metric"><b>20</b><span>{t['m2']}</span></div>
+    <div class="metric"><b>3</b><span>{t['m3']}</span></div>
     <div class="metric"><b>{len(ROWS)}</b><span>{t['m4']}</span></div>
   </div>
  </header>
  <section><h2>{t['h2a']}</h2>{caps_html(lang)}</section>
  <section><h2>{t['h2b']}</h2><p class="sub">{t['b_intro']}</p>{cats}</section>
  <section><h2>{t['h2c']}</h2><div class="cols">{cards}</div>
-   <p class="sub" style="margin-top:12px"><a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/norms/registry.csv">{"Реестр норм" if ru else "Normative registry"}</a> · <a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/tools">{"Карта OSS-покрытия" if ru else "OSS coverage map"}</a> · <a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/docs/status.md">{"Статус" if ru else "Status"}</a></p>
+   <p class="sub" style="margin-top:12px"><a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/norms/registry.csv">{"Реестр норм" if ru else "Normative registry"}</a> · <a href="https://github.com/sasha-sazonova/geotech-surok/tree/main/workspace-geotech_surok/tools">{"Карта OSS-покрытия" if ru else "OSS coverage map"}</a> · <a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/docs/status.md">{"Статус" if ru else "Status"}</a></p>
  </section>
  <div class="foot"><span>{t['foot']}</span></div>
 </div></body></html>"""
