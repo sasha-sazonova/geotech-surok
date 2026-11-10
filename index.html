@@ -46,7 +46,7 @@ td a{color:var(--accent);border-bottom:1px solid rgba(18,54,184,.3)}
 <div class="wrap">
   <div class="top">
     <span style="display:flex;align-items:center;gap:10px"><img src="assets/logo-480.png" alt="Surok" style="height:44px;width:auto;border-radius:6px"><span><b>Surok</b> · geotechnical agent</span></span>
-    <span><a href="https://sasha-sazonova.github.io/geotech-surok/coverage/">What we can do</a> · <a href="https://sasha-sazonova.github.io/geotech-surok/presentation/en/">EN deck</a> · <a href="https://sasha-sazonova.github.io/geotech-surok/presentation/ru/">RU</a> · <a href="https://github.com/sasha-sazonova/geotech-surok">GitHub</a></span>
+    <span><a href="https://sasha-sazonova.github.io/geotech-surok/coverage/">What we can do</a> · <a href="https://sasha-sazonova.github.io/geotech-surok/presentation/en/">EN deck</a> · <a href="https://sasha-sazonova.github.io/geotech-surok/presentation/ru/">RU</a> · <a href="https://github.com/sasha-sazonova/geotech-surok/blob/main/DEMO.md">Demo</a> · <a href="https://github.com/sasha-sazonova/geotech-surok">GitHub</a></span>
   </div>
 
   <header class="hero">
@@ -58,6 +58,7 @@ td a{color:var(--accent);border-bottom:1px solid rgba(18,54,184,.3)}
     <div class="actions">
       <a class="btn primary" href="https://sasha-sazonova.github.io/geotech-surok/presentation/en/">Open presentation · EN</a>
       <a class="btn" href="https://sasha-sazonova.github.io/geotech-surok/presentation/ru/">Презентация · RU</a>
+      <a class="btn" href="https://github.com/sasha-sazonova/geotech-surok/blob/main/DEMO.md">See it in use · DEMO</a>
       <a class="btn" href="https://github.com/sasha-sazonova/geotech-surok">Source</a>
     </div>
   </header>
@@ -123,7 +124,7 @@ td a{color:var(--accent);border-bottom:1px solid rgba(18,54,184,.3)}
     <p class="big">Spec v1.6 · compute contour: 105 packages, import test 21/21, freeze recorded · async runner v3 with contour preflight · live agent passed 6/6 acceptance checks, including the anti-fallback trap.</p>
     <p class="big"><b>D1 (verified against the official СП text):</b> p = 286.0 kPa vs R = 215.62 kPa → check fails (+32.6%); settlement s = 4.232 cm ≤ su = 10 cm → passes (Hc = 3.6 m). A resized 2.4×2.8 m footing passes bearing with a 1.9% margin. <b>D2:</b> lateral pile at H = 500 kN — y = 6.3/19.3 mm, Mmax = 890.5/1389 kNm.</p>
     <p class="big"><b>СП 24.13330.2021 in-house module:</b> pile capacity (end-bearing on rock, driven piles with the full table 7.2 — sands and clays, pull-out, bored piles), settlement of a single pile and of a group up to 25 piles with flexible or rigid cap, a pile field via the fictitious footing, and a combined pile-raft. Tilt of a shallow foundation is computed by (5.24)–(5.26) with tables 5.9/5.10.</p>
-    <p class="big">Verification: manual reference for D1, <b>150 tests</b>, traceability validator (26 clauses, 120 tests), cross-tool benchmarks against pyslope and openpile — CI green (verify + docker).</p>
+    <p class="big">Verification: manual reference for D1, <b>177 tests</b>, traceability validator (30 clauses, 147 tests), cross-tool benchmarks against pyslope and openpile — CI green (verify + docker).</p>
     <div class="actions" style="margin-top:18px">
       <a class="btn" href="https://github.com/sasha-sazonova/geotech-surok/blob/main/docs/status.md">Status document</a>
       <a class="btn" href="https://github.com/sasha-sazonova/geotech-surok/blob/main/docs/sp24-coverage.md">СП 24 coverage matrix</a>

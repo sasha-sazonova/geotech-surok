@@ -72,7 +72,7 @@ workspace-geotech_surok/          the agent workspace (mirrors the live one)
 │                   sp24_piles, sp24_group, sp24_csp
 ├── scenarios/      YAML scenarios for calculation without coding
 ├── examples/       quickstart_d1.py — calculation with a "your data" block
-├── tests/          150 tests: golden, property-based, dimensional, negative, SP 24
+├── tests/          177 tests: golden, property-based, dimensional, negative, SP 24
 ├── procedures/     calculation status policy and acceptance checklist
 ├── envs/           contour freezes + packages.csv (105 packages, licences, links)
 ├── reports/        protocols and traceability tables per revision
@@ -108,7 +108,7 @@ index.html          bilingual landing page (GitHub Pages root)
 Spec **v1.6** · compute contour: 105 packages, import test 21/21, freeze recorded ·
 runner **v3** (contour preflight + health monitoring) · agent passed **6/6** acceptance checks.
 
-**What is computed today** (all pinned by tests — 150 tests, traceability 26 clauses / 120 tests):
+**What is computed today** (all pinned by tests — 177 tests, traceability 30 clauses / 147 tests):
 
 | Block | Norm | Implemented | Key numbers |
 |---|---|---|---|
@@ -129,8 +129,8 @@ B3 axial pile (API unit formulas vs hand calculation — 0.0 %).
 piles in soils where the printed norm shows a dash in the table; CSP edge effects; numerical methods
 7.4.13 and 7.5; negative friction.
 
-Verification: manual reference (`docs/manual-check-d1.md`), **150 tests**, traceability validator
-(26 clauses, 120 tests) — CI green (verify + docker). Full SP 24 coverage matrix:
+Verification: manual reference (`docs/manual-check-d1.md`), **177 tests**, traceability validator
+(30 clauses, 147 tests) — CI green (verify + docker). Full SP 24 coverage matrix:
 [`docs/sp24-coverage.md`](docs/sp24-coverage.md).
 
 ### Quick start
