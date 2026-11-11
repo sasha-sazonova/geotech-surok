@@ -53,12 +53,12 @@ git clone https://github.com/sasha-sazonova/geotech-surok.git
 cd geotech-surok
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.lock
-make verify        # ожидаемо: TRACEABILITY: OK + 78 passed
+make verify        # ожидаемо: TRACEABILITY: OK + 179 passed
 make quickstart    # первый расчёт по СП 22.13330.2016
 ```
 
 Нужен только Python ≥ 3.9 и git. Подробности, вариант с Docker, Windows и разбор типовых ошибок —
-[INSTALL.md](INSTALL.md). Проверено на чистой машине: установка 27 секунд, 78 теста проходят.
+[INSTALL.md](INSTALL.md). Проверено на чистой машине: установка 27 секунд, 179 тестов проходят.
 
 ## Как использовать
 
@@ -82,7 +82,7 @@ workspace-geotech_surok/          воркспейс агента (зеркал�
 │                   sp24_group, sp24_csp
 ├── scenarios/      сценарии YAML для запуска без программирования
 ├── examples/       quickstart_d1.py — расчёт с блоком «ВАШИ ДАННЫЕ»
-├── tests/          177 тестов: golden, property-based, размерности, негативные, СП 24
+├── tests/          179 тестов: golden, property-based, размерности, негативные, СП 24
 ├── procedures/     политика статусов расчёта и чек-лист приёмки
 ├── envs/           freeze контуров + packages.csv (105 пакетов, лицензии, ссылки)
 ├── reports/        протоколы и таблицы трассируемости по ревизиям
@@ -120,7 +120,7 @@ index.html          двуязычный лендинг (корень GitHub Pag
 ТЗ **v1.6** · расчётный контур: 105 пакетов, импорт-тест 21/21, freeze записан ·
 runner **v3** (preflight контуров и health-мониторинг) · агент прошёл **6/6** приёмочных проверок.
 
-**Что считается сейчас** (всё закреплено тестами, 177 тестов, трассируемость 30 пунктов / 147 тестов):
+**Что считается сейчас** (всё закреплено тестами, 179 тестов, трассируемость 30 пунктов / 154 тестов):
 
 | Блок | Норма | Что реализовано | Ключевые числа |
 |---|---|---|---|
@@ -141,8 +141,8 @@ B3 осевая свая (unit-формулы API против ручного р
 моменте; сваи в грунтах, для которых издание нормы печатает прочерк в таблице; КСП с краевыми
 эффектами; численные методы 7.4.13 и 7.5; отрицательное трение.
 
-Проверка: ручной эталон (`docs/manual-check-d1.md`), **177 тестов**, валидатор трассируемости
-(30 пунктов, 147 тестов) — CI зелёный (verify + docker). Полная матрица покрытия СП 24 —
+Проверка: ручной эталон (`docs/manual-check-d1.md`), **179 тестов**, валидатор трассируемости
+(30 пунктов, 154 тестов) — CI зелёный (verify + docker). Полная матрица покрытия СП 24 —
 [`docs/sp24-coverage.md`](docs/sp24-coverage.md).
 
 ### Быстрый старт
@@ -231,12 +231,12 @@ git clone https://github.com/sasha-sazonova/geotech-surok.git
 cd geotech-surok
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.lock
-make verify        # expect: TRACEABILITY: OK + 78 passed
+make verify        # expect: TRACEABILITY: OK + 179 passed
 make quickstart    # first calculation (SP 22.13330.2016)
 ```
 
 Only Python >= 3.9 and git are required. Docker, Windows notes and troubleshooting —
-[INSTALL.en.md](INSTALL.en.md). Verified on a clean machine: 27 s install, 78 tests pass.
+[INSTALL.en.md](INSTALL.en.md). Verified on a clean machine: 27 s install, 179 tests pass.
 
 ## How to use
 
@@ -260,7 +260,7 @@ workspace-geotech_surok/          the agent workspace (mirrors the live one)
 │                   sp24_piles, sp24_group, sp24_csp
 ├── scenarios/      YAML scenarios for calculation without coding
 ├── examples/       quickstart_d1.py — calculation with a "your data" block
-├── tests/          177 tests: golden, property-based, dimensional, negative, SP 24
+├── tests/          179 tests: golden, property-based, dimensional, negative, SP 24
 ├── procedures/     calculation status policy and acceptance checklist
 ├── envs/           contour freezes + packages.csv (105 packages, licences, links)
 ├── reports/        protocols and traceability tables per revision
@@ -296,7 +296,7 @@ index.html          bilingual landing page (GitHub Pages root)
 Spec **v1.6** · compute contour: 105 packages, import test 21/21, freeze recorded ·
 runner **v3** (contour preflight + health monitoring) · agent passed **6/6** acceptance checks.
 
-**What is computed today** (all pinned by tests — 177 tests, traceability 30 clauses / 147 tests):
+**What is computed today** (all pinned by tests — 179 tests, traceability 30 clauses / 154 tests):
 
 | Block | Norm | Implemented | Key numbers |
 |---|---|---|---|
@@ -317,8 +317,8 @@ B3 axial pile (API unit formulas vs hand calculation — 0.0 %).
 piles in soils where the printed norm shows a dash in the table; CSP edge effects; numerical methods
 7.4.13 and 7.5; negative friction.
 
-Verification: manual reference (`docs/manual-check-d1.md`), **177 tests**, traceability validator
-(30 clauses, 147 tests) — CI green (verify + docker). Full SP 24 coverage matrix:
+Verification: manual reference (`docs/manual-check-d1.md`), **179 tests**, traceability validator
+(30 clauses, 154 tests) — CI green (verify + docker). Full SP 24 coverage matrix:
 [`docs/sp24-coverage.md`](docs/sp24-coverage.md).
 
 ### Quick start
