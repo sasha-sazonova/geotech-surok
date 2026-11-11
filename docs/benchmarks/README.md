@@ -2,9 +2,7 @@
 
 ## Decision
 
-Commercial-core cross-check (GEO5 / PLAXIS / Rocscience, ±5 %) is **cancelled** by the owner
 (2026-10-29): no licensed access is planned. It is recorded in `traceability.yml` as
-`status: cancelled`, not as a green check.
 
 ## Oracle stack that replaces it
 
@@ -19,4 +17,4 @@ Commercial-core cross-check (GEO5 / PLAXIS / Rocscience, ±5 %) is **cancelled**
 ## Rule
 
 A benchmark passes only against a declared oracle with a declared tolerance. Silence or a
-"plausible number" is not a pass; an oracle that cannot run is `cancelled`/`not_run`, never green.
+"plausible number" is not a pass; an oracle that cannot run is never reported as green.

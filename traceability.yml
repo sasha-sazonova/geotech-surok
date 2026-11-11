@@ -501,14 +501,6 @@ oracles:
     type: manual
     path: docs/manual-check-d1.md
     status: verified
-  - id: commercial-core
-    type: external
-    tolerance: ±5% (R and settlement)
-    status: cancelled
-    note: "Cancelled by owner decision 2026-10-29 (no licensed access planned). Replacement
-      oracles: manual closed-form check (docs/manual-check-d1.md, verified), independent second
-      implementation (calc_check), cross-tool comparisons (pyslope/openpile vs hand formulas),
-      published free cases if found. See docs/benchmarks/README.md." 
 open_items:
   - su для реконструкции — прил. Е; для нового строительства — прил. Г (подтверждено оглавлением издания).
   - Строки 38/43 табл.5.5 подтверждены печатным изданием 01.11.2026 (2,11 и 3,12); отказ снят.

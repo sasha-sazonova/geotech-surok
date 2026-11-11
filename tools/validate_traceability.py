@@ -8,7 +8,7 @@ Fails (exit 1) on:
 * a test reference that does not exist;
 * an orphan test (not referenced by any clause);
 * a clause marked verified whose document is not verified or has no dated source;
-* a source without a trust class (normative / reference / computed / cancelled);
+* a source without a trust class (normative / reference / computed / out_of_scope);
 * a clause that leans on a `reference` source as if it were normative.
 """
 import ast
@@ -45,7 +45,7 @@ def main():
     tests = scan_tests()
     referenced = set()
 
-    TRUST_CLASSES = {"normative", "reference", "computed", "cancelled"}
+    TRUST_CLASSES = {"normative", "reference", "computed", "out_of_scope"}
     for doc in data.get("documents", []):
         did = doc.get("id", "?")
         sources = (doc.get("verification") or {}).get("sources") or []

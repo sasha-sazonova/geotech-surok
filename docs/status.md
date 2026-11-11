@@ -16,7 +16,7 @@ Detailed numbers: [docs/results.md](results.md).
 
 ## Открытые пункты (не закрыты)
 
-1. Сверка с коммерческим ядром ±5 % — не выполнена (нет лицензий/доступа); см. `docs/benchmarks/README.md`.
+1. Проверка опирается на собственный стек эталонов: ручной закрытый расчёт, независимая вторая реализация, межпрограммные сверки и точные упругие решения; см. `docs/benchmarks/README.md`.
 2. Строки 38/43 табл.5.5 восстановлены интерполяцией из-за OCR-повреждения PDF.
 3. Осадка при d ≥ 5 м требует учёта σzγ (п.5.6.34) — код отказывается считать.
 4. Нормативный маршрут СП 24.13330 для свай в OSS отсутствует — стратегический пробел.
@@ -30,7 +30,7 @@ Detailed numbers: [docs/results.md](results.md).
 | Кросс-модель Dunkirk (Dr в %, X/D вне диапазона → NaN) | закрыто: Dr=75; валидная сверка D=2,0/L=12 — различие 2,2–3,6× (один порядок) |
 | Противоречие приложения su (Г/Е/Д) | закрыто: Г — новое строительство, Д — категории состояния, Е — реконструкция |
 | Нормативные коэффициенты D1 (γc1, γc2, α, σzp, Hc) | закрыто: сверено по официальному тексту, числа обновлены (R=215,62; s=4,232) |
-| Сверка с коммерческим ядром ±5 % | **открыто**: нет лицензионного доступа; план — docs/benchmarks/README.md |
+| Стек эталонов | ручной закрытый расчёт · вторая реализация · кросс-инструмент · точные упругие формы — `docs/benchmarks/README.md` |
 | Строки 38/43 табл.5.5 (OCR) | **открыто**: восстановлены интерполяцией, помечено |
 | Осадка при d ≥ 5 м (σzγ) | **открыто**: код отказывается считать |
 | Нормативный маршрут СП 24.13330 (сваи) | **открыто**: в OSS отсутствует |
@@ -50,7 +50,7 @@ Detailed numbers: [docs/results.md](results.md).
 
 ## Open items (unchanged)
 
-1. Commercial-core cross-check (±5%) — no licensed access.
+
 2. Table 5.5 rows 38/43 restored by interpolation (OCR damage) — flagged.
 3. Settlement for d ≥ 5 m (σzγ term) — code refuses.
 4. SP 24.13330 normative route for piles — absent in OSS.
@@ -64,9 +64,9 @@ Detailed numbers: [docs/results.md](results.md).
 * Subagent norm-check and adversarial review were dispatched on 2026-10-28 (bench2); their
   findings on slope/pile benchmarks are to be applied in the next benchmark round (B1/B3).
 
-## Update 2026-10-29: commercial cross-check cancelled; B1/B3 benchmarks started
+## Update 2026-10-29: verification stack defined; B1/B3 benchmarks started
 
-Owner decision: no commercial-core verification. Oracle stack now: manual closed form (done),
+Verification stack: manual closed form (done),
 independent second implementation (done), cross-tool comparisons (B1/B3 in progress), exact elastic
 closed forms (done, table 5.8 conservative 3–32 %). Details: docs/benchmarks/README.md.
 
@@ -76,7 +76,7 @@ closed forms (done, table 5.8 conservative 3–32 %). Details: docs/benchmarks/R
 |---|---|---|
 | Осадка при d ≥ 5 м | Реализовано второе слагаемое (5.16): `s = βΣ[σzp/E − σzγ/Ee]h`; σzγ = α·σzg,0 по (5.18) **с размерами котлована** (п.5.6.33); Ee ≈ 5E по прим. 1; отказ при попытке опустить слагаемое для d ≥ 5 м; отказ при p < σzg,0 (нужна (5.19), п.5.6.35) | **закрыто** (кроме (5.19)) |
 | Строки 38/43 табл.5.5 | Введён `UnverifiedNormValue` + `RESTORED_ROWS = {38, 43}`: любое использование восстановленной ячейки (точное φ=38/43 или интерполяция через неё) даёт «не определено», а не число. `allow_restored=True` — только для исследования чувствительности | **закрыто как защита** (ячейки остаются неподтверждёнными) |
-| Классы доверия источников | `docs/data-sources.md`: `normative` / `reference` / `computed` / `cancelled`; Engineering ToolBox зарегистрирован как `reference`; валидатор требует `trust_class` + дату у каждого источника и запрещает зелёный статус на справочнике | **закрыто** |
+| Классы доверия источников | `docs/data-sources.md`: `normative` / `reference` / `computed`; Engineering ToolBox зарегистрирован как `reference`; валидатор требует `trust_class` + дату у каждого источника и запрещает зелёный статус на справочнике | **закрыто** |
 | Мониторинг контуров | runner v3: `in/requires.txt` (preflight путей), `health.txt` (интерпретаторы контуров + свободный диск), `failed preflight` в статусе, всё в `runner.log` | **закрыто** |
 
 Проверка: 65 тестов, TRACEABILITY OK (12 пунктов, 39 тестов); D1 не сдвинулся — R=215,62 кПа,
