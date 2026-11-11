@@ -5,7 +5,7 @@ PYTHON ?= python3
 verify: validate test
 
 validate:
-	$(PYTHON) tools/validate_traceability.py
+	$(PYTHON) workspace-geotech_surok/tools/validate_traceability.py
 
 test:
 	$(PYTHON) -m pytest -q
@@ -19,4 +19,4 @@ quickstart:
 SCENARIO ?= scenarios/d1-foundation.yaml
 
 scenario:
-	$(PYTHON) tools/run_scenario.py $(SCENARIO)
+	$(PYTHON) workspace-geotech_surok/tools/run_scenario.py $(SCENARIO)

@@ -35,9 +35,9 @@
 
 | Файл | Что в нём |
 |---|---|
-| [examples/demo/01-d1-fail.txt](https://github.com/sasha-sazonova/geotech-surok/blob/main/examples/demo/01-d1-fail.txt) | полный вывод расчёта (этот ответ дословно) |
-| [scenarios/d1-foundation.yaml](https://github.com/sasha-sazonova/geotech-surok/blob/main/scenarios/d1-foundation.yaml) | входные данные, которые бот принял |
-| [calc/d1_foundation.py](https://github.com/sasha-sazonova/geotech-surok/blob/main/calc/d1_foundation.py) | формулы: R по п.5.6.7 ф.(5.7), осадка по ф.(5.16) |
+| [examples/demo/01-d1-fail.txt](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/examples/demo/01-d1-fail.txt) | полный вывод расчёта (этот ответ дословно) |
+| [scenarios/d1-foundation.yaml](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/scenarios/d1-foundation.yaml) | входные данные, которые бот принял |
+| [calc/d1_foundation.py](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/calc/d1_foundation.py) | формулы: R по п.5.6.7 ф.(5.7), осадка по ф.(5.16) |
 | [traceability.yml](https://github.com/sasha-sazonova/geotech-surok/blob/main/traceability.yml) | привязка: пункт нормы → формула → код → тест |
 | [docs/norm-sources/sp22-2016.md](https://github.com/sasha-sazonova/geotech-surok/blob/main/docs/norm-sources/sp22-2016.md) | сверка коэффициентов с официальным текстом СП |
 | [docs/manual-check-d1.md](https://github.com/sasha-sazonova/geotech-surok/blob/main/docs/manual-check-d1.md) | независимый ручной пересчёт тех же чисел |
@@ -59,8 +59,8 @@
 > лучше заложить 2,7 × 3,0 м.
 
 **Чем подкреплено:**
-[examples/demo/02-d1-pass.txt](https://github.com/sasha-sazonova/geotech-surok/blob/main/examples/demo/02-d1-pass.txt),
-[scenarios/d1-foundation-r2.yaml](https://github.com/sasha-sazonova/geotech-surok/blob/main/scenarios/d1-foundation-r2.yaml) —
+[examples/demo/02-d1-pass.txt](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/examples/demo/02-d1-pass.txt),
+[scenarios/d1-foundation-r2.yaml](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/scenarios/d1-foundation-r2.yaml) —
 та же цепочка норма → формула → код → тест, что и в первом ответе.
 
 ### 3. «Данных о грунте мало — только до 2 метров. Посчитаешь?»
@@ -79,8 +79,8 @@
 > либо отчёт изысканий с ИГЭ до этой глубины.
 
 **Чем подкреплено:**
-[examples/demo/03-insufficient-data.txt](https://github.com/sasha-sazonova/geotech-surok/blob/main/examples/demo/03-insufficient-data.txt),
-[calc/d1_foundation.py](https://github.com/sasha-sazonova/geotech-surok/blob/main/calc/d1_foundation.py) —
+[examples/demo/03-insufficient-data.txt](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/examples/demo/03-insufficient-data.txt),
+[calc/d1_foundation.py](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/calc/d1_foundation.py) —
 исключение `InsufficientData` и запись отказа в `refusals`; тест
 [test_missing_soil_over_averaging_depth_is_refused](https://github.com/sasha-sazonova/geotech-surok/blob/main/tests/test_input_guards.py).
 
@@ -104,8 +104,8 @@
 > (`requirements-optional.txt`).
 
 **Чем подкреплено:**
-[examples/demo/04-slope.txt](https://github.com/sasha-sazonova/geotech-surok/blob/main/examples/demo/04-slope.txt),
-[calc/b1_slope.py](https://github.com/sasha-sazonova/geotech-surok/blob/main/calc/b1_slope.py), сверка с внешним движком —
+[examples/demo/04-slope.txt](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/examples/demo/04-slope.txt),
+[calc/b1_slope.py](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/calc/b1_slope.py), сверка с внешним движком —
 [docs/benchmarks/b1-slope.md](https://github.com/sasha-sazonova/geotech-surok/blob/main/docs/benchmarks/b1-slope.md)
 (совпадение с xslope ≤ 0,02 %).
 
@@ -147,9 +147,9 @@ a clean clone and saved under
 
 | File | Contents |
 |---|---|
-| [examples/demo/01-d1-fail.txt](https://github.com/sasha-sazonova/geotech-surok/blob/main/examples/demo/01-d1-fail.txt) | full run output (this answer verbatim) |
-| [scenarios/d1-foundation.yaml](https://github.com/sasha-sazonova/geotech-surok/blob/main/scenarios/d1-foundation.yaml) | input data the agent accepted |
-| [calc/d1_foundation.py](https://github.com/sasha-sazonova/geotech-surok/blob/main/calc/d1_foundation.py) | formulas: R by 5.6.7 (5.7), settlement by (5.16) |
+| [examples/demo/01-d1-fail.txt](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/examples/demo/01-d1-fail.txt) | full run output (this answer verbatim) |
+| [scenarios/d1-foundation.yaml](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/scenarios/d1-foundation.yaml) | input data the agent accepted |
+| [calc/d1_foundation.py](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/calc/d1_foundation.py) | formulas: R by 5.6.7 (5.7), settlement by (5.16) |
 | [traceability.yml](https://github.com/sasha-sazonova/geotech-surok/blob/main/traceability.yml) | clause → formula → code → test |
 | [docs/norm-sources/sp22-2016.md](https://github.com/sasha-sazonova/geotech-surok/blob/main/docs/norm-sources/sp22-2016.md) | coefficients checked against the official code text |
 | [docs/manual-check-d1.md](https://github.com/sasha-sazonova/geotech-surok/blob/main/docs/manual-check-d1.md) | independent manual recomputation of the same numbers |
@@ -170,8 +170,8 @@ a clean clone and saved under
 > Both conditions are met. The pressure margin is small — 1.9 %; if the load may grow, use 2.7 × 3.0 m.
 
 **Backed by:**
-[examples/demo/02-d1-pass.txt](https://github.com/sasha-sazonova/geotech-surok/blob/main/examples/demo/02-d1-pass.txt),
-[scenarios/d1-foundation-r2.yaml](https://github.com/sasha-sazonova/geotech-surok/blob/main/scenarios/d1-foundation-r2.yaml) —
+[examples/demo/02-d1-pass.txt](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/examples/demo/02-d1-pass.txt),
+[scenarios/d1-foundation-r2.yaml](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/scenarios/d1-foundation-r2.yaml) —
 the same clause → formula → code → test chain as in the first answer.
 
 ### 3. "Soil data goes only to 2 m depth. Will you compute it?"
@@ -190,8 +190,8 @@ the same clause → formula → code → test chain as in the first answer.
 > or a investigation report with soil units to that depth.
 
 **Backed by:**
-[examples/demo/03-insufficient-data.txt](https://github.com/sasha-sazonova/geotech-surok/blob/main/examples/demo/03-insufficient-data.txt),
-[calc/d1_foundation.py](https://github.com/sasha-sazonova/geotech-surok/blob/main/calc/d1_foundation.py) —
+[examples/demo/03-insufficient-data.txt](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/examples/demo/03-insufficient-data.txt),
+[calc/d1_foundation.py](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/calc/d1_foundation.py) —
 the `InsufficientData` exception and the refusal recorded in `refusals`; test
 [test_missing_soil_over_averaging_depth_is_refused](https://github.com/sasha-sazonova/geotech-surok/blob/main/tests/test_input_guards.py).
 
@@ -214,8 +214,8 @@ Such a refusal is a normal result, not a failure.
 > is available as well, but requires the optional solver package (`requirements-optional.txt`).
 
 **Backed by:**
-[examples/demo/04-slope.txt](https://github.com/sasha-sazonova/geotech-surok/blob/main/examples/demo/04-slope.txt),
-[calc/b1_slope.py](https://github.com/sasha-sazonova/geotech-surok/blob/main/calc/b1_slope.py), cross-checked against an external engine —
+[examples/demo/04-slope.txt](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/examples/demo/04-slope.txt),
+[calc/b1_slope.py](https://github.com/sasha-sazonova/geotech-surok/blob/main/workspace-geotech_surok/calc/b1_slope.py), cross-checked against an external engine —
 [docs/benchmarks/b1-slope.md](https://github.com/sasha-sazonova/geotech-surok/blob/main/docs/benchmarks/b1-slope.md)
 (agreement with xslope ≤ 0.02 %).
 

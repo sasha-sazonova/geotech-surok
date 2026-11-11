@@ -168,7 +168,7 @@ make scenario    # расчёт из YAML-сценария (без програ�
 ```bash
 make verify      # валидатор трассируемости + pytest (Python ≥ 3.9)
 make regen       # перегенерация golden-файлов (только при осознанном изменении результатов)
-make quickstart  # первый расчёт: examples/quickstart_d1.py
+make quickstart  # первый расчёт: workspace-geotech_surok/examples/quickstart_d1.py
 docker build -t geotech-surok . && docker run --rm geotech-surok   # те же проверки на чистой машине
 ```
 
