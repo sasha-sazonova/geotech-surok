@@ -1,4 +1,0 @@
-# file: /Users/alex3alex/.openclaw-autoclaw/workspace/geotech-surok-repo/workspace-geotech_surok/calc/d2_pile.py
-# hypothesis_version: 6.141.1
-
-[-12.0, -6.0, -4.0, -2.0, 0.0, 1e-09, 1e-08, 1e-06, 0.0001, 0.25, 0.3224, 0.5, 0.8, 0.9, 1.0, 2.0, 3.0, 3.8, 4.0, 6.0, 8.19, 10.0, 12.0, 18.0, 30.0, 35.0, 40.0, 50.0, 64.0, 1000.0, 5400.0, 16300.0, 34000.0, 10000000.0, 210000000.0, 'M', 'Mmax_kNm', 'ignore', 'lambda_1_per_m', 'note', 'status', 'y', 'y0_m', 'y0_mm', 'z', 'рассчитано']

@@ -1,4 +1,0 @@
-# file: /Users/alex3alex/.openclaw-autoclaw/workspace/geotech-surok-repo/workspace-geotech_surok/tools/run_scenario.py
-# hypothesis_version: 6.141.1
-
-[0.0, 1e-09, 0.5, 1.0, 1.2, 1.8, 2.0, 2.4, 5.8, 9.0, 16.0, 17.5, 18.0, 20.0, 1000.0, 9000.0, '\nНе посчитано:', '  !', '  -', '--json', 'E_MPa', 'Hc_m', 'N', 'R_kPa', 'UGV_m', '__main__', 'assumptions', 'b', 'c_kPa', 'calculation_policy', 'checks', 'd', 'data_bottom_m', 'gamma_c1', 'gamma_c2', 'gamma_kNm3', 'geometry', 'gst_boundary_coef', 'l', 'loads', 'name', 'p', 'p0', 'p_kPa', 'phi_deg', 'refusals', 's_cm', 'scenario', 'settlement', 'settlement_from', 'soil', 'store_true', 'utf-8', 'value', 'warnings', 'кПа', 'м', 'см', '—']

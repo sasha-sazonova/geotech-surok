@@ -1,4 +1,0 @@
-# file: /Users/alex3alex/.openclaw-autoclaw/workspace/geotech-surok-repo/workspace-geotech_surok/calc/sp24_group.py
-# hypothesis_version: 6.141.1
-
-[0.0, 1e-12, 1e-06, 0.05, 0.1, 0.15, 0.17, 0.2, 0.25, 0.274, 0.297, 0.3, 0.319, 0.34, 0.35, 0.361, 0.38, 0.4, 0.419, 0.437, 0.45, 0.455, 0.5, 0.75, 0.8, 1.0, 1.345, 1.373, 1.405, 1.446, 1.475, 1.491, 1.5, 1.54, 1.56, 1.607, 1.657, 1.685, 1.764, 1.786, 1.882, 1.916, 2.0, 2.01, 2.011, 2.12, 2.151, 2.312, 2.464, 2.636, 2.82, 3.0, 4.0, 7.5, 1000.0, 200, 'B_m', 'L_m', 'N_MN', 'alpha_prime', 'beta', 'beta_prime', 'branch', 'chi', 'delta_ij_max', 'delta_sc_mm', 'delta_sp0_mm', 'delta_sp1_mm', 'delta_sp_mm', 'depth_m', 'iterations', 'kappa', 'lambda1', 'm_nu', 'note', 'offset_m', 's_mm', 'zeta0', 'zeta_prime', 'а) длинные (κ ≥ 7.5)']
