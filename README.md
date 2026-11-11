@@ -344,7 +344,7 @@ build on orphan clauses, unreferenced tests, or a "verified" status without a da
 ```bash
 make verify      # traceability validator + pytest (Python >= 3.9)
 make regen       # regenerate golden files (only when results intentionally change)
-make quickstart  # first calculation: examples/quickstart_d1.py
+make quickstart  # first calculation: workspace-geotech_surok/examples/quickstart_d1.py
 docker build -t geotech-surok . && docker run --rm geotech-surok   # clean-machine run of the same checks
 ```
 

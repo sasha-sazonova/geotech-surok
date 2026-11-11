@@ -14,7 +14,7 @@ regen:
 	$(PYTHON) -m pytest -q --force-regen
 
 quickstart:
-	$(PYTHON) examples/quickstart_d1.py
+	$(PYTHON) workspace-geotech_surok/examples/quickstart_d1.py
 
 SCENARIO ?= scenarios/d1-foundation.yaml
 
