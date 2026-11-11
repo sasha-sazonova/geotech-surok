@@ -1,0 +1,24 @@
+{
+ "R_kPa": {
+  "main": 190.33,
+  "check": 190.33,
+  "dev_percent": 0.0,
+  "within_5pct": true
+ },
+ "s_cm": {
+  "main": 4.979,
+  "check": 4.979,
+  "dev_percent": 0.0,
+  "within_5pct": true
+ },
+ "p_le_R": {
+  "main": false,
+  "check": false,
+  "agree": true
+ },
+ "s_le_su": {
+  "main": true,
+  "check": true,
+  "agree": true
+ }
+}

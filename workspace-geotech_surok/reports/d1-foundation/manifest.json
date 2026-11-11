@@ -1,0 +1,19 @@
+{
+  "job_id": "d1-foundation-001",
+  "scenario": "scenarios/d1-foundation.yaml",
+  "contour": "geotech-base",
+  "host": "compute-node (bot@internal-ip)",
+  "job_status": "done rc=0",
+  "job_start": "2026-10-23T19:59:12+03:00",
+  "job_end": "2026-10-23T19:59:12+03:00",
+  "freeze": "envs/20261023-1542-server-geotech-base-freeze.txt",
+  "freeze_sha256": "e72257cb0215630f29163f062d9184fd6a81cc73f0bcdf3a18a15ab04480d56f",
+  "inputs_sha256": "see server-checksums.sha256",
+  "outputs_sha256": "see server-checksums.sha256",
+  "artifacts": {
+    "protocol": "reports/d1-foundation/protocol.md",
+    "traceability": "reports/d1-foundation/traceability.md",
+    "manifest": "reports/d1-foundation/manifest.json",
+    "results": "reports/d1-foundation/out/"
+  }
+}

@@ -1,0 +1,20 @@
+{
+ "Mg": 0.36,
+ "Mq": 2.43,
+ "Mc": 5.0,
+ "gamma_c1": 1.1,
+ "gamma_c2": 1.1,
+ "k": 1.1,
+ "kz": 1.0,
+ "gamma_II": 9.0,
+ "gamma_IIp": 17.5,
+ "R_kPa": 190.33,
+ "p_kPa": 286.0,
+ "p_le_R": false,
+ "Hc_m": null,
+ "s_m": 0.04979,
+ "s_cm": 4.979,
+ "su_cm": 10.0,
+ "s_le_su": true,
+ "nu": 0.3
+}
