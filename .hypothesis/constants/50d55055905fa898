@@ -1,0 +1,4 @@
+# file: /Users/alex3alex/.openclaw-autoclaw/workspace/geotech-surok-repo/workspace-geotech_surok/calc/sp24_csp.py
+# hypothesis_version: 6.141.1
+
+[-1.0, 0.0, 1e-09, 0.005, 1.0, 2.0, 4.0, 100.0, 1000.0, 200, 'N_pile_MN', 'N_pile_le_allowed', 'N_piles_total_MN', 'N_plate_MN', 'branch', 'checks', 'clause', 'criterion', 'id', 'k_s_MPa_per_m', 'k_w0_MN_per_m', 'k_w_MN_per_m', 'p_plate_kPa', 'p_plate_le_R', 'refusals', 's_at_1MN_mm', 's_le_su', 's_mm', 'share_piles', 'status', 'value', 'выполняется', 'не выполняется', 'не определено', 'рассчитано']

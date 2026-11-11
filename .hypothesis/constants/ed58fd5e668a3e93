@@ -1,0 +1,4 @@
+# file: /Users/alex3alex/.openclaw-autoclaw/workspace/geotech-surok-repo/workspace-geotech_surok/calc/earth_pressure.py
+# hypothesis_version: 6.141.1
+
+[0.0, 1e-09, 0.5, 0.8, 0.85, 0.9, 1.0, 1.1, 1.15, 1.2, 1.5, 2.0, 3.0, 6.0, 9.81, 18.0, 30.0, 45.0, 90.0, 100.0, 'Blum', 'D_design', 'D_design_m', 'D_theory', 'D_theory_m', 'Ea_geoeq_kN_per_m', 'Ea_kN_per_m', 'Ea_ours_kN_per_m', 'F_sa_kN', 'F_sr_kN', 'K', 'Ka', 'Ka_geoeq', 'Ka_ours', 'Kp', 'N_kN', 'N_u_kN', 'P_soil', 'active', 'arm_m', 'capacity_kN', 'clause', 'coulomb_Ka', 'criterion', 'delta_Ea_pct', 'delta_Ka_pct', 'driving_kN', 'eccentricity_m', 'fs', 'gamma_d', 'gamma_n', 'method', 'nodes', 'q_max_kPa', 'q_mean_kPa', 'q_min_kPa', 'resisting_kN', 'sigma_a_kPa', 'status', 'tension_crack_m', 'u_kPa', 'utilization', 'within_kern', 'z_m', 'выполняется', 'не выполняется', 'рассчитано', 'сверено', 'скальные выветрелые']

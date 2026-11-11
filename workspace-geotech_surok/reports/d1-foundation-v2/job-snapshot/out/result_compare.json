@@ -1,0 +1,24 @@
+{
+ "R_kPa": {
+  "main": 217.42,
+  "check": 217.42,
+  "dev_percent": 0.0,
+  "within_5pct": true
+ },
+ "s_cm": {
+  "main": 4.43,
+  "check": 4.43,
+  "dev_percent": 0.0,
+  "within_5pct": true
+ },
+ "truncated_flag": {
+  "main": true,
+  "check": true,
+  "match": true
+ },
+ "p_kPa": {
+  "main": 286.0,
+  "check": 286.0,
+  "match": true
+ }
+}
