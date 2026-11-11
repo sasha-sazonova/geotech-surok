@@ -454,6 +454,20 @@ clauses:
     tests:
       - tests/test_golden.py::test_d1_base_golden
 oracles:
+  - id: d2-lateral-pile
+    type: cross-tool
+    path: calc/d2_pile.py
+    tests:
+      - tests/test_d2_pile.py::test_fem_matches_closed_form_elastic
+      - tests/test_d2_pile.py::test_api_case_matches_openpile_within_declared_tolerance
+      - tests/test_d2_pile.py::test_closed_form_scales_linearly
+      - tests/test_d2_pile.py::test_stiffer_soil_gives_smaller_deflection
+      - tests/test_d2_pile.py::test_api_py_curve_shape
+      - tests/test_d2_pile.py::test_zero_load_gives_zero_deflection
+      - tests/test_d2_pile.py::test_section_properties
+    tolerance: "решатель vs точная форма 0.1 %; независимая реализация vs openpile +4.5 % (y), +10.1 % (M) при допуске ±8 %/±12 %"
+    status: verified
+    note: "закрывает пробел D2, найденный аудитом: раньше расчёт был только в openpile, второй реализации не было. Нормативный маршрут СП 24 для горизонтальной нагрузки отсутствует по определению (СП 24 не задаёт p-y) — это граница области, а не недоделка."
   - id: scenario-runner
     type: integration
     path: tools/run_scenario.py

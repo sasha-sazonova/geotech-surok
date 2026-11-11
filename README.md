@@ -125,7 +125,7 @@ runner **v3** (preflight контуров и health-мониторинг) · а�
 | Блок | Норма | Что реализовано | Ключевые числа |
 |---|---|---|---|
 | **D1 — фундамент мелкого заложения** | СП 22.13330.2016 | R по ф.(5.7); осадка по (5.16) с двумя слагаемыми, включая `d ≥ 5 м`; формула (5.19) при `p ≤ σzg,0`; расширение толщи при слое `E ≤ 7 МПа` (п.5.6.41); **крен** по (5.24)–(5.26) с табл. 5.9/5.10 | p = 286.0 против R = 215.62 кПа → не выполняется (+32.6 %); s = 4.232 см ≤ 10 см; Hc = 3.6 м; плита 2.4×2.8: R = 218.82, p = 214.57, s = 3.595 |
-| **D2 — свая под горизонтальной нагрузкой** | openpile 1.0.3 (p-y) | двухслойная модель, калибровки k | H = 500 кН: y = 6.3 / 19.3 мм, Mmax = 890.5 / 1389 кНм |
+| **D2 — свая под горизонтальной нагрузкой** | API/Reese p-y (СП 24 этот расчёт не регламентирует) | openpile 1.0.3 + независимый МКЭ-решатель (`calc/d2_pile.py`): сверка с точной формой 0.1 %, с openpile +4.5 % / +10.1 % | H = 500 кН: y = 6.28 / 6.56 мм, Mmax = 890.5 / 980.4 кНм |
 | **СП 24 — несущая способность** | СП 24.13330.2021 | сваи-стойки (7.5–7.8); забивные/вдавливаемые ф.(7.9) с **табл. 7.2 полностью** (пески и глины IL 0.1…0.6) и табл. 7.3/7.4; выдёргивание (7.11); буровые (7.13) с табл. 7.6 | пример: песок ср. крупности d = 10 м → R = 5000 кПа; глина IL = 0.1, d = 10 м → R = 7300 кПа |
 | **СП 24 — осадки свай** | СП 24.13330.2021 | одиночная свая (7.34–7.39, табл. 7.18, обе ветви κ); взаимное влияние (7.40–7.42); куст n ≤ 25 с гибким и жёстким ростверком | δ = 0.17·ln(x)/x — максимум при x = e (свойство нормы) |
 | **СП 24 — поле свай** | СП 24.13330.2021 | условный фундамент (7.45–7.49): `sef` по СП 22 + продавливание Δsp + сжатие ствола Δsc; границы по 7.4.9 | — |
@@ -301,7 +301,7 @@ runner **v3** (contour preflight + health monitoring) · agent passed **6/6** ac
 | Block | Norm | Implemented | Key numbers |
 |---|---|---|---|
 | **D1 — shallow foundation** | SP 22.13330.2016 | R by (5.7); settlement by (5.16) with both terms including `d ≥ 5 m`; formula (5.19) for `p ≤ σzg,0`; compressible-thickness extension for a layer with `E ≤ 7 MPa` (5.6.41); **tilt** by (5.24)–(5.26) with tables 5.9/5.10 | p = 286.0 vs R = 215.62 kPa → fails (+32.6 %); s = 4.232 cm ≤ 10 cm; Hc = 3.6 m; 2.4×2.8 m footing: R = 218.82, p = 214.57, s = 3.595 |
-| **D2 — laterally loaded pile** | openpile 1.0.3 (p-y) | two-layer model, two stiffness calibrations | H = 500 kN: y = 6.3 / 19.3 mm, Mmax = 890.5 / 1389 kNm |
+| **D2 — laterally loaded pile** | API/Reese p-y (СП 24 does not regulate this analysis) | openpile 1.0.3 + independent FEM solver (`calc/d2_pile.py`): 0.1 % vs exact closed form, +4.5 % / +10.1 % vs openpile | H = 500 kN: y = 6.28 / 6.56 mm, Mmax = 890.5 / 980.4 kNm |
 | **SP 24 — bearing capacity** | SP 24.13330.2021 | end-bearing piles (7.5–7.8); driven piles (7.9) with **table 7.2 in full** (sands and clays IL 0.1…0.6) plus tables 7.3/7.4; pull-out (7.11); bored piles (7.13) with table 7.6 | example: medium sand at d = 10 m → R = 5000 kPa; clay IL = 0.1 at d = 10 m → R = 7300 kPa |
 | **SP 24 — pile settlement** | SP 24.13330.2021 | single pile (7.34–7.39, table 7.18, both κ branches); interaction (7.40–7.42); group n ≤ 25 with flexible and rigid cap | δ = 0.17·ln(x)/x — maximum at x = e (a property of the norm) |
 | **SP 24 — pile field** | SP 24.13330.2021 | fictitious footing (7.45–7.49): `sef` via SP 22 + punch Δsp + shaft compression Δsc; boundaries per 7.4.9 | — |

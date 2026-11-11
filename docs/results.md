@@ -20,21 +20,42 @@ Resized footing 2.4×2.8 m: R = 218.82 kPa, p = 214.57 kPa (passes, 1.9 % margin
 Independent hand calculation: `docs/manual-check-d1.md`; pinned by
 `tests/test_manual_reference.py::test_manual_reference_matches`.
 
-## D2 — lateral pile (openpile 1.0.3, synthetic benchmark)
+## D2 — lateral pile (openpile 1.0.3 + independent FEM)
 
-Steel pipe D = 1.2 m, t = 22 mm, L = 24 m; sand φ = 35°, water table −3 m; free head.
+Steel pipe D = 1.2 m, t = 22 mm, L = 24 m; sand φ = 35°, water table −3 m; free head, H = 500 kN.
 
-| Model | H = 500 kN: y, mm | Mmax, kN·m |
+| Model | y at head, mm | Mmax, kN·m |
 |---|---|---|
-| API sand, default stiffness | 6.275 | −890.5 |
-| API sand, k = 5000 kN/m³ | 19.335 | −1389.0 |
-| Dunkirk (Dr = 75 %, G0 = 80 MPa), valid range D = 2.0 m / L = 12 m | 1.961 | −1009.9 |
+| openpile, API sand, default stiffness | 6.275 | −890.5 |
+| openpile, API sand, k = 5000 kN/m³ | 19.335 | −1389.0 |
+| **Independent FEM, same API p-y** (this repo, `calc/d2_pile.py`) | **6.556** | **980.4** |
+| Dunkirk model (Dr = 75 %, G0 = 80 MPa), valid range D = 2.0 m / L = 12 m | 1.961 | −1009.9 |
 
-Status: calculation done; linearity 5.00–5.21 at 5× load; Broms upper bound ≈ 12 000 kN;
-СП 24.13330 normative route — **not determined** (no OSS implementation);
-cross-model Dunkirk differs by 2.2–3.6× (different calibrations, one order of magnitude).
+### Cross-check (closed 2026-11-11)
+
+Two-level verification, both levels reproducible:
+
+1. **Solver vs exact theory.** For a constant subgrade modulus the finite-element solution
+   reproduces the closed-form semi-infinite beam: `y0 = 2Hλ/K`, `Mmax = 0.3224·H/λ` —
+   agreement **0.09 %** on deflection and **0.1 %** on moment at n = 160.
+2. **Independent implementation vs openpile.** Same API sand p-y curve, different solver:
+   **+4.5 %** on head deflection (6.556 vs 6.275 mm) and **+10.1 %** on moment
+   (980.4 vs 890.5 kN·m). Declared tolerance: ±8 % / ±12 %; difference traced to the details
+   of the p-y implementation (A-factor and initial stiffness), not to a modelling error.
+
+Dunkirk differs by 2.2–3.6× — that is a **different soil model with its own calibration**,
+not a contradiction; it is used only as an order-of-magnitude reference and only inside its
+stated validity range (D ≈ 2 m, L = 12 m).
+
+### Statuses, stated explicitly
+
+| Status | What it means here |
+|---|---|
+| calculation done | openpile run and independent FEM run, both reproducible |
+| cross-check done | solver validated against exact theory (0.1 %) and against openpile (+4.5 % / +10.1 %) |
+| normative route | **not determined, by design** — СП 24.13330.2021 regulates axial capacity and settlement of piles and does not define a p-y procedure for lateral load. Lateral analysis rests on the API/Reese engineering method, which is not a СП clause. This is a scope statement, not an unfinished item: a number labelled «по СП 24» here would be a false attribution. |
 
 ## Verification
 
-`make verify` — traceability validator + 16 tests; `docker build` runs the same checks.
+`make verify` — traceability validator + 179 tests; `docker build` runs the same checks.
 Any "verified" clause without a dated normative source fails the validator.
