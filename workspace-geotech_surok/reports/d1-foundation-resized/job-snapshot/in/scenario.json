@@ -1,5 +1,0 @@
-{"scenario_id": "d1-foundation-r2", "b": 2.4, "l": 2.8, "A": 6.72, "d": 1.8, "N": 1200.0,
- "gamma_f": 20.0, "gamma1": 18.5, "gamma_above": 17.5, "gamma_sb": 9.0,
- "phi": 16.0, "c": 18.0, "E_kPa": 9000.0, "WL": 3.2, "data_bottom": 5.8,
- "su_cm": 10.0, "params_source": "tests", "gst_coef": 0.2,
- "Mg": 0.36, "Mq": 2.43, "Mc": 4.99, "gc1": 1.1, "gc2": 1.1, "kz": 1.0}

@@ -1,8 +1,0 @@
-Converged at iteration no. 2
-{"tag": "api_k5000", "H_kN": 100.0, "y_head_mm": 3.864, "Mmax_kNm": -277.6, "z_Mmax_m": -5.0, "ok": true}
-Converged at iteration no. 2
-{"tag": "api_k5000", "H_kN": 500.0, "y_head_mm": 19.335, "Mmax_kNm": -1389.0, "z_Mmax_m": -5.0, "ok": true}
-Converged at iteration no. 2
-{"tag": "api_default", "H_kN": 100.0, "y_head_mm": 1.205, "Mmax_kNm": -173.4, "z_Mmax_m": -3.0, "ok": true}
-Converged at iteration no. 3
-{"tag": "api_default", "H_kN": 500.0, "y_head_mm": 6.275, "Mmax_kNm": -890.5, "z_Mmax_m": -3.0, "ok": true}
