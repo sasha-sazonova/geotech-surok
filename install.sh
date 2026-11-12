@@ -93,7 +93,7 @@ fi
 
 if [ "$RUN_VERIFY" -eq 1 ]; then
   say "4/5 Проверяю, что всё работает"
-  python workspace-geotech_surok/tools/validate_traceability.py || die "Валидатор трассируемости не прошёл."
+  python tools/validate_traceability.py || die "Валидатор трассируемости не прошёл."
   PATTERN=""
   [ "$WITH_ENGINES" -eq 1 ] && PATTERN="-rs"
   python -m pytest -q $PATTERN | tail -3
@@ -108,7 +108,7 @@ cat <<'TXT'
   Первый расчёт:
 
       source .venv/bin/activate
-      python workspace-geotech_surok/tools/run_scenario.py workspace-geotech_surok/scenarios/d1-foundation.yaml
+      python tools/run_scenario.py scenarios/d1-foundation.yaml
 
   Ожидаемый результат:
       R = 215.62 кПа,  p = 286.00 кПа,  s = 4.23 см
